@@ -1,0 +1,11 @@
+div {
+  background-color: lightcyan;
+  color: #402020;
+  font-size: 82px;
+  text-align: left;
+  font-weight: bold;
+}
+
+li {
+  list-style-type: none;
+}
