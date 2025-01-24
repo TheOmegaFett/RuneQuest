@@ -4,4 +4,4 @@ build/
 .env
 
 # Ignore the TestFiles directory
-TestFiles/
+# TestFiles/
