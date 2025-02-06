@@ -213,3 +213,23 @@ Reading = {
 #### **Challenge**: Balancing Learning with Engagement
 
 **Solution**: Combine educational content with interactive elements like puzzles and quizzes to keep users engaged.
+
+---
+
+### Ethical Development
+
+As part of our efforts to adher to ethical web development practices over the course of this project, the development team will endeavour to do the following:
+
+- RuneQuest will be designed to run on all major modern browsers, and the design of the website will be tested throughly to ensure that it looks and operates well on a range of devices.
+  - Presently the above devices will include most smart phones, tablets and desktop and laptop screens.
+  - Any browser that supports JavaScript and ExpressJs will be compatible. The latest versions of any package or program in the project will be used.
+- All user interface components will made easily accesible for any user, and any forms will be clearly defined and inclusive.
+- RuneQuest will not require any personal information from a user and as such will not cause any concerns for a user's security or privacy.
+  - User data such as progress and settings preferences will be easy to export by the user for their own interest.
+  - Any sensitive data, which should only include a user's password will be encrypted and be unavailable for direct reading from any other user.
+- All links will be clearly defined and human-readable.
+- All code will be optimised for performance, and follow DRY principles.
+- Code comments will be used frequently to help any developer understand the purpose of code and files.
+- Code will be tested and any errors will be handled appropriately.
+- GitHub will be used for source control and all commits will have appropriate comments attached.
+- Open source will be used first.
