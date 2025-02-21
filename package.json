@@ -20,5 +20,10 @@
     "url": "https://github.com/TheOmegaFett/RuneQuest/issues"
   },
   "homepage": "https://github.com/TheOmegaFett/RuneQuest#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.10.1"
+  }
 }
