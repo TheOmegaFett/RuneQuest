@@ -1,14 +1,16 @@
 const express = require("express");
+const connectDB = require("./config/db");
+const mainRouter = require("./routes/mainRouter");
+
+// Connect to MongoDB
+connectDB();
+
 const app = express();
 const port = 3000;
-
-// Import the main router
-const mainRouter = require("./routes/mainRouter");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Use the router with a prefix
 app.use("/api", mainRouter);
 
 app.listen(port, () => {

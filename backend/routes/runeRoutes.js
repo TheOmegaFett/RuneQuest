@@ -1,25 +1,23 @@
 const express = require("express");
 const router = express.Router();
+const {
+  getAllRunes,
+  addRune,
+  deleteRune,
+} = require("../controllers/runeController");
 
-// Get all runes
+/**
+ * Router for handling rune-related endpoints
+ * Base path: /runes
+ * Manages CRUD operations for runes including their relationships and categories
+ */
+
+// GET /runes - Retrieve all runes with populated relationships
 router.get("/", getAllRunes);
 
-// Create new rune
-router.post("/", createRune);
+// POST /runes/add - Create a new rune with full details
+router.post("/add", addRune);
 
-// Get rune by ID
-router.get("/:id", getRuneById);
-
-// Update rune
-router.put("/:id", updateRune);
-
-// Delete rune
+// DELETE /runes/:id - Remove specific rune and its relationships
 router.delete("/:id", deleteRune);
-
-// Get runes by category
-router.get("/category/:categoryId", getRunesByCategory);
-
-// Get rune pronunciation
-router.get("/:id/pronunciation", getRunePronunciation);
-
 module.exports = router;

@@ -3,5 +3,5 @@ build/
 # Ignore the .env file
 .env
 
-# Ignore the TestFiles directory
-# TestFiles/
+# Ignore node modules
+node_modules/

@@ -1,18 +1,23 @@
 const express = require("express");
 const router = express.Router();
 
-// Learning Module Routes
+/**
+ * Main application router
+ * Centralizes all route mounting and API organization
+ *
+ * Route Structure:
+ * - /runes: Rune management endpoints
+ * - /categories: Rune category endpoints
+ * - /audio: Audio file management endpoints
+ */
+
+// Mount rune-related routes - handles core rune operations
 router.use("/runes", require("./runeRoutes"));
-router.use("/quizzes", require("./quizRoutes"));
 
-// Puzzle Module Routes
-router.use("/puzzles", require("./puzzleRoutes"));
+// Mount category-related routes - manages rune classifications
+router.use("/categories", require("./runeCategoryRoutes"));
 
-// Divination Module Routes
-router.use("/readings", require("./divinationRoutes"));
-
-// User Dashboard Routes
-router.use("/users", require("./userRoutes"));
-router.use("/progress", require("./progressRoutes"));
+// Mount audio-related routes - handles pronunciation recordings
+router.use("/audio", require("./audioRoutes"));
 
 module.exports = router;
