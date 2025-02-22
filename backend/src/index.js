@@ -1,13 +1,14 @@
 const express = require("express");
+
 const { connectDB } = require("./config/db");
-const mainRouter = require("./src/routes/mainRouter");
-const dotenv = require("dotenv")
+const mainRouter = require("./routes/mainRouter");
+const initializeDatabase = require("./config/initDB");
 
 // Connect to MongoDB
 connectDB();
 
-// Configure dotenv
-dotenv.config()
+// Call after MongoDB connection is established
+initializeDatabase();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
