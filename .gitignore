@@ -8,3 +8,6 @@ build/
 
 # Ignore node modules
 node_modules/
+
+# Ignore bruno API tester
+bruno_runequestAPI/
