@@ -97,7 +97,7 @@ exports.getOneUser = async (req, res) => {
  * @function updateUser
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
- * @returns {Object} JSON response of user file and delete confirmation
+ * @returns {Object} JSON response of user file and update confirmation
  */
 
 
@@ -110,3 +110,22 @@ exports.getOneUser = async (req, res) => {
  * @param {Object} res - Express response object
  * @returns {Object} JSON response of user file and delete confirmation
  */
+
+exports.deleteUser = async (req, res) => {
+    try {
+        // Fetch and delete user data
+        const userData = await User.findByIdAndDelete(req.params.userId);
+
+        // Return success response with deleted data
+        res.status(200).json({
+            success: true,
+            data: userData,
+        })
+    } catch (error) {
+        // Return error response if deletion fails
+        res.status(400).json({
+          success: false,
+          error: error.message,
+        });
+    }
+};

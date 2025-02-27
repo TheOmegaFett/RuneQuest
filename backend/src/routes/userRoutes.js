@@ -3,6 +3,7 @@ const {
     registerUser,
     getAllUsers,
     getOneUser,
+    deleteUser,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -32,7 +33,7 @@ router.post("/register", registerUser);
 
 
 // DELETE /users/delete/:id - Remove specific user
-
+router.delete("/delete/:userId", deleteUser);
 
 
 module.exports = router;
