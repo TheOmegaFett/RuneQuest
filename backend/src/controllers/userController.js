@@ -47,7 +47,7 @@ exports.getAllUsers = async (req, res) => {
         const usersData = await User.find();
         
         // Return success response with user files and count
-        res(200).json({
+        res.status(200).json({
             success: true,
             count: usersData.length,
             data: usersData,
