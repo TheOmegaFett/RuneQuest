@@ -1,4 +1,6 @@
+const { response } = require("express");
 const User = require("../models/User");
+
 
 /**
  * Creates a new user record in the database
@@ -30,9 +32,8 @@ exports.registerUser = async (req, res) => {
 };
 
 
-
 /**
- * Retrieves all user records from the database
+ * Retrieves all user records from the database // MAY REMOVE LATER
  * @async
  * @function getAllUsers
  * @param {Object} req - Express request object
@@ -40,8 +41,25 @@ exports.registerUser = async (req, res) => {
  * @returns {Object} JSON response with array of user files and count
  */
 
-
-
+exports.getAllUsers = async (req, res) => {
+    try {
+        // Fetch all user documents from database
+        const usersData = await User.find();
+        
+        // Return success response with user files and count
+        res(200).json({
+            success: true,
+            count: usersData.length,
+            data: usersData,
+        });
+    } catch (error) {
+        // Return error response if retrieval fails
+        res.status(400).json({
+            success: false,
+            error: error.message,
+        });
+    }
+};
 
 
 /**
@@ -53,11 +71,39 @@ exports.registerUser = async (req, res) => {
  * @returns {Object} JSON response of user file
  */
 
+exports.getOneUser = async (req, res) => {
+    try {
+        // Fetch all user documents from database
+        const userData = await User.findById(req.params.userId);
+        
+        // Return success response with user files and count
+        res.status(200).json({
+            success: true,
+            data: userData,
+        });
+    } catch (error) {
+        // Return error response if retrieval fails
+        res.status(400).json({
+            success: false,
+            error: error.message,
+        });
+    }
+};
+
+
+/**
+ * Updates one user record in the database, separate routes, separate data
+ * @async
+ * @function updateUser
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} JSON response of user file and delete confirmation
+ */
 
 
 
 /**
- * Deltetes one user record from the database
+ * Deletes one user record from the database
  * @async
  * @function deleteUser
  * @param {Object} req - Express request object
