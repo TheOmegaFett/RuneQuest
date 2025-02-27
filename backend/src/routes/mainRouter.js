@@ -24,7 +24,7 @@ router.use("/audio", require("./audioRoutes"));
 // router.use("/search", require("./searchRoutes"));
 
 // // Add user management
-// router.use("/users", require("./userRoutes"));
+router.use("/users", require("./userRoutes"));
 
 // Add health check endpoint
 router.get("/health", (req, res) => {
