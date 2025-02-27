@@ -1,8 +1,9 @@
 const express = require("express");
 const {
-    registerUser,
     getAllUsers,
     getOneUser,
+    registerUser,
+    updateUser,
     deleteUser,
 } = require("../controllers/userController");
 
@@ -23,14 +24,8 @@ router.get("/one/:userId", getOneUser);
 // POST /users/create - Create a new user with username and password
 router.post("/register", registerUser);
 
-// PATCH /users/preferences - Update user preferences
-
-
-// PATCH /users/progress - Update user progression
-
-
-// PATCH /users/details - Update user username and password
-
+// PATCH /users/settings/:userId - Update user data
+router.patch("/update/:userId", updateUser)
 
 // DELETE /users/delete/:id - Remove specific user
 router.delete("/delete/:userId", deleteUser);
