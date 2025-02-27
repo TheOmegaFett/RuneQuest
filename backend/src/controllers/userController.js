@@ -116,6 +116,15 @@ exports.updateUser = async (req, res) => {
         //         achievements: req.body.preferences.achievements,
         //     },
         // };
+
+        // CURRENT ISSUE - on update password is not encrypted, consider
+        // middleware in conjuction with User model pre to keep code DRY,
+        // another solution is a separate operation specifically for a
+        // password update
+
+        // CURRENT ISSUE - can not directly update progress, type issue is
+        // suspected but maybe a dependency issue
+
         // Fetch and update user data using body
         const updatedUser = await User.findByIdAndUpdate(
             req.params.userId, 
