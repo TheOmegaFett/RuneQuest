@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const crypto = require("node:crypto")
 
+const { encryptPassword } = require("../middleware/encryptPassword")
+
 /**
  * Mongoose schema for Users
  * Tracks user information, preferences, and progress in the RuneQuest application
@@ -32,10 +34,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: false,
       unique: false,
-      default: function () {
-        // Generate and return random salt
-        return crypto.randomBytes(64).toString("hex");
-      },
+      default: ""
     },
     // User customization settings
     preferences: {
@@ -85,18 +84,6 @@ const UserSchema = new mongoose.Schema(
 );
 
 // Encrypt password
-UserSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    return next();
-  }
-
-  if (!this.salt) {
-    this.salt = crypto.randomBytes(64).toString("hex");
-  }
-
-  this.password = crypto.scryptSync(this.password, this.salt, 64).toString("hex");
-
-  next();
-});
+UserSchema.pre("save", encryptPassword);
 
 module.exports = mongoose.model("User", UserSchema);
