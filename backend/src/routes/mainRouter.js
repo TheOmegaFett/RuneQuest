@@ -18,8 +18,16 @@ router.use("/runes", require("./runeRoutes"));
 
 // Mount category-related routes
 router.use("/categories", require("./runeCategoryRoutes"));
+
 // Mount audio-related routes
 router.use("/audio", require("./audioRoutes"));
+
+// Mount divination-related routes
+router.use("/divination", require("./divinationRoutes"));
+
+// Mount reading-related routes
+router.use("/readings", require("./readingRoutes"));
+
 // // Add search functionality
 // router.use("/search", require("./searchRoutes"));
 

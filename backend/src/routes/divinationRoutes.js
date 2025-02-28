@@ -1,19 +1,20 @@
 const express = require("express");
 const router = express.Router();
+const divinationController = require("../controllers/divinationController");
 
 // Get single rune reading
-router.post("/single", getSingleRuneReading);
+router.post("/single", divinationController.getSingleRuneReading);
 
 // Get three rune spread
-router.post("/three", getThreeRuneSpread);
+router.post("/three", divinationController.getThreeRuneSpread);
 
 // Get five rune spread
-router.post("/five", getFiveRuneSpread);
+router.post("/five", divinationController.getFiveRuneSpread);
 
 // Save reading
-router.post("/save", saveReading);
+router.post("/save", divinationController.saveReading);
 
 // Get user's past readings
-router.get("/history/:userId", getReadingHistory);
+router.get("/history/:userId", divinationController.getReadingHistory);
 
 module.exports = router;
