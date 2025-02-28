@@ -32,7 +32,7 @@ router.use("/readings", require("./readingRoutes"));
 // router.use("/search", require("./searchRoutes"));
 
 // // Add user management
-// router.use("/users", require("./userRoutes"));
+router.use("/users", require("./userRoutes"));
 
 // Add health check endpoint
 router.get("/health", (req, res) => {
