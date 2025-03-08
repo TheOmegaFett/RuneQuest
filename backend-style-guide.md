@@ -128,9 +128,3 @@ interface User {
 ## Maintenance
 
 This style guide should be reviewed and updated quarterly. All team members can propose changes through pull requests.
-
-## Additional Resources
-
-- [Project Documentation](./docs)
-- [API Documentation](./api-docs)
-- [Testing Guide](./testing-guide)
