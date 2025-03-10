@@ -1,11 +1,36 @@
 const Reading = require("../models/Reading");
 
 const readingController = {
-  // Create new reading
+  // Get readings for specific user
+  async getReadingsForUser(req, res) {
+    try {
+      const readings = await Reading.find({ user: req.params.userId }).populate(
+        "user",
+        "username"
+      );
+
+      res.status(200).json({
+        success: true,
+        count: readings.length,
+        data: readings,
+      });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+
+  // Modified createReading to include user
   async createReading(req, res) {
     try {
-      const reading = await Reading.create(req.body);
-      res.status(201).json(reading);
+      const reading = await Reading.create({
+        ...req.body,
+        user: req.params.userId,
+      });
+
+      res.status(201).json({
+        success: true,
+        data: reading,
+      });
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
