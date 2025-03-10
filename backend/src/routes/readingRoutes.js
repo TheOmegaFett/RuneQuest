@@ -3,10 +3,13 @@ const router = express.Router();
 const readingController = require("../controllers/readingController");
 
 // Create reading
-router.post("/readings", readingController.createReading);
+router.post("/create/:userId", readingController.createReading);
 
 // Get all readings
 router.get("/readings", readingController.getAllReadings);
+
+// Get readings for a specific user
+router.get("/user/:userId", readingController.getReadingsForUser);
 
 // Get reading by ID
 router.get("/readings/:id", readingController.getReadingById);

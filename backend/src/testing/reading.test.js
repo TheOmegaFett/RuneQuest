@@ -41,22 +41,25 @@ describe("Reading Controller Tests", () => {
   describe("createReading", () => {
     it("should create a new reading", async () => {
       // Setup mock reading data
+
       const mockReading = {
         runes: ["rune1", "rune2"],
         interpretation: "Test reading",
+        user: "mockUserId",
       };
-
       // Mock database operation
       Reading.create = jest.fn().mockResolvedValue(mockReading);
 
-      const req = mockRequest(mockReading);
+      const req = mockRequest(mockReading, { userId: "mockUserId" });
       const res = mockResponse();
-
       await readingController.createReading(req, res);
 
-      // Verify response
+      // Verify response matches controller format
       expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.json).toHaveBeenCalledWith(mockReading);
+      expect(res.json).toHaveBeenCalledWith({
+        success: true,
+        data: mockReading,
+      });
     });
   });
 
