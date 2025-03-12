@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const crypto = require("node:crypto")
 
-const { encryptPassword } = require("../middleware/encryptPassword")
+const { encryptPassword } = require("../functions/encryptPassword")
 
 /**
  * Mongoose schema for Users

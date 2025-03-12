@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const { encryptPassword } = require("../middleware/encryptPassword");
+const { encryptPassword } = require("../functions/encryptPassword");
 
 
 /**
