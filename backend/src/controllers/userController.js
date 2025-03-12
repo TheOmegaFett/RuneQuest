@@ -13,22 +13,22 @@ const User = require("../models/User");
  */
 
 exports.registerUser = async (req, res) => {
-    try {
-        // Create new user document from request body
-        const user = await User.create(req.body);
+  try {
+  // Create new user document from request body
+  const user = await User.create(req.body);
 
-        // Return success response with created user data
-        res.status(201).json({
-            success: true,
-            data: user,
-        });
-    } catch (error) {
-        // Return error response if creation fails
-        res.status(400).json({
-            success: false,
-            error: error.message,
-        });
-    }
+  // Return success response with created user data
+  res.status(201).json({
+  success: true,
+  data: user,
+  });
+  } catch (error) {
+  // Return error response if creation fails
+  res.status(400).json({
+  success: false,
+  error: error.message,
+  });
+  }
 };
 
 
@@ -42,23 +42,23 @@ exports.registerUser = async (req, res) => {
  */
 
 exports.getAllUsers = async (req, res) => {
-    try {
-        // Fetch all user documents from database
-        const usersData = await User.find();
-        
-        // Return success response with user files and count
-        res.status(200).json({
-            success: true,
-            count: usersData.length,
-            data: usersData,
-        });
-    } catch (error) {
-        // Return error response if retrieval fails
-        res.status(400).json({
-            success: false,
-            error: error.message,
-        });
-    }
+  try {
+  // Fetch all user documents from database
+  const usersData = await User.find();
+  
+  // Return success response with user files and count
+  res.status(200).json({
+  success: true,
+  count: usersData.length,
+  data: usersData,
+  });
+  } catch (error) {
+  // Return error response if retrieval fails
+  res.status(400).json({
+  success: false,
+  error: error.message,
+  });
+  }
 };
 
 
@@ -72,22 +72,22 @@ exports.getAllUsers = async (req, res) => {
  */
 
 exports.getOneUser = async (req, res) => {
-    try {
-        // Fetch all user documents from database
-        const userData = await User.findById(req.params.userId);
-        
-        // Return success response with user file
-        res.status(200).json({
-            success: true,
-            data: userData,
-        });
-    } catch (error) {
-        // Return error response if retrieval fails
-        res.status(400).json({
-            success: false,
-            error: error.message,
-        });
-    }
+  try {
+  // Fetch all user documents from database
+  const userData = await User.findById(req.params.userId);
+  
+  // Return success response with user file
+  res.status(200).json({
+  success: true,
+  data: userData,
+  });
+  } catch (error) {
+  // Return error response if retrieval fails
+  res.status(400).json({
+  success: false,
+  error: error.message,
+  });
+  }
 };
 
 
@@ -101,48 +101,48 @@ exports.getOneUser = async (req, res) => {
  */
 
 exports.updateUser = async (req, res) => {
-    try {
-        // // Retrieve update data from the body
-        // const bodyData = {
-        //     username: req.body.username,
-        //     password: req.body.password,
-        //     preferences: {
-        //         theme: req.body.preferences.theme,
-        //         notifications: req.body.preferences.notifications,
-        //     },
-        //     progress: {
-        //         completedQuizzes: req.body.preferences.completedQuizzes,
-        //         completedPuzzles: req.body.preferences.completedPuzzles,
-        //         achievements: req.body.preferences.achievements,
-        //     },
-        // };
+  try {
+  // // Retrieve update data from the body
+  // const bodyData = {
+  //   username: req.body.username,
+  //   password: req.body.password,
+  //   preferences: {
+  //   theme: req.body.preferences.theme,
+  //   notifications: req.body.preferences.notifications,
+  //   },
+  //   progress: {
+  //   completedQuizzes: req.body.preferences.completedQuizzes,
+  //   completedPuzzles: req.body.preferences.completedPuzzles,
+  //   achievements: req.body.preferences.achievements,
+  //   },
+  // };
 
-        // CURRENT ISSUE - on update password is not encrypted, consider
-        // middleware in conjuction with User model pre to keep code DRY,
-        // another solution is a separate operation specifically for a
-        // password update
+  // CURRENT ISSUE - on update password is not encrypted, consider
+  // middleware in conjuction with User model pre to keep code DRY,
+  // another solution is a separate operation specifically for a
+  // password update
 
-        // CURRENT ISSUE - can not directly update progress, type issue is
-        // suspected but maybe a dependency issue
+  // CURRENT ISSUE - can not directly update progress, type issue is
+  // suspected but maybe a dependency issue
 
-        // Fetch and update user data using body
-        const updatedUser = await User.findByIdAndUpdate(
-            req.params.userId, 
-            req.body, 
-            { new: true }
-        );
+  // Fetch and update user data using body
+  const updatedUser = await User.findByIdAndUpdate(
+  req.params.userId, 
+  req.body, 
+  { new: true }
+  );
 
-        // Return success response with user file
-        res.status(200).json({
-            success: true,
-            data: updatedUser,
-        });
-    } catch (error) {
-        res.status(400).json({
-            success: false,
-            error: error.message,
-        });
-    }
+  // Return success response with user file
+  res.status(200).json({
+  success: true,
+  data: updatedUser,
+  });
+  } catch (error) {
+  res.status(400).json({
+  success: false,
+  error: error.message,
+  });
+  }
 };
 
 
@@ -156,36 +156,36 @@ exports.updateUser = async (req, res) => {
  */
 
 exports.deleteUser = async (req, res) => {
-    try {
-        // Fetch and delete user data
-        const userData = await User.findByIdAndDelete(req.params.userId);
+  try {
+  // Fetch and delete user data
+  const userData = await User.findByIdAndDelete(req.params.userId);
 
-        // Return success response with deleted data
-        res.status(200).json({
-            success: true,
-            data: userData,
-        })
-    } catch (error) {
-        // Return error response if deletion fails
-        res.status(400).json({
-          success: false,
-          error: error.message,
-        });
-    }
+  // Return success response with deleted data
+  res.status(200).json({
+  success: true,
+  data: userData,
+  })
+  } catch (error) {
+  // Return error response if deletion fails
+  res.status(400).json({
+    success: false,
+    error: error.message,
+  });
+  }
 };
 
 exports.deleteAllUsers = async (req, res) => {
-    try{
-        await User.deleteMany()
+  try{
+  await User.deleteMany()
 
-        res.status(200).json({
-            success: true,
-            message: "All users deleted",
-        });
-    } catch (error) {
-        res.status(400).json({
-            success: false,
-            error: error.message,
-        });
-    }
+  res.status(200).json({
+  success: true,
+  message: "All users deleted",
+  });
+  } catch (error) {
+  res.status(400).json({
+  success: false,
+  error: error.message,
+  });
+  }
 };

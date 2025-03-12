@@ -1,11 +1,11 @@
 const express = require("express");
 const {
-    getAllUsers,
-    getOneUser,
-    registerUser,
-    updateUser,
-    deleteUser,
-    deleteAllUsers,
+  getAllUsers,
+  getOneUser,
+  registerUser,
+  updateUser,
+  deleteUser,
+  deleteAllUsers,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -26,7 +26,7 @@ router.get("/one/:userId", getOneUser);
 router.post("/register", registerUser);
 
 // PATCH /users/settings/:userId - Update user data
-router.patch("/update/:userId", updateUser)
+router.patch("/update/:userId", updateUser);
 
 // DELETE /users/delete/:id - Remove specific user
 router.delete("/delete/:userId", deleteUser);
