@@ -16,12 +16,6 @@ const UserSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    // User's email address for communications
-    // email: {
-    //   type: String,
-    //   required: true,
-    //   unique: true,
-    // }, REMOVED FOR NOW TO PROTECT USER'S PERSONAL DATA
     // User password
     password: {
       type: String,
@@ -32,8 +26,6 @@ const UserSchema = new mongoose.Schema(
     // User salt for encryption
     salt: {
       type: String,
-      required: false,
-      unique: false,
       default: ""
     },
     // User customization settings
@@ -70,12 +62,7 @@ const UserSchema = new mongoose.Schema(
           ref: "Achievement",
         },
       ],
-    },
-    // // Account creation timestamp
-    // createdAt: {
-    //   type: Date,
-    //   default: Date.now,
-    // }, Used automated built in feature instead.
+    }
   },
   {
     // Automatically manage createdAt and updatedAt timestamps
