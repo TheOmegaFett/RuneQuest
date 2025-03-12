@@ -1,4 +1,3 @@
-const { response } = require("express");
 const User = require("../models/User");
 const { encryptPassword } = require("../middleware/encryptPassword");
 
@@ -20,8 +19,8 @@ exports.registerUser = async (req, res) => {
 
     const bodyData = {
       username: req.body.username,
-      password: saltPass[0],
-      salt: saltPass[1],
+      password: saltPass["password"],
+      salt: saltPass["salt"],
     };
 
     // REGISTRATION WILL ONLY ACCEPT USERNAME AND PASSWORD
