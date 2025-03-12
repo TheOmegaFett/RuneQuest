@@ -5,11 +5,9 @@ const {
   registerUser,
   deleteUser,
   deleteAllUsers,
-} = require("../controllers/userController");
-const {
   updateUserSettings,
   updateUserProgress,
-} = require("../controllers/userUpdateController");
+} = require("../controllers/userController");
 
 const router = express.Router();
 
@@ -37,7 +35,7 @@ router.delete("/deleteAll", deleteAllUsers);
 // PATCH /users/settings/:userId - Update user settings data
 router.patch("/settings/login/:userId", updateUserSettings);
 
-// PATCH /users/settings/:userId - Update user progress data
-router.patch("/settings/progress/:userId", updateUserProgress);
+// // PATCH /users/settings/:userId - Update user progress data
+// router.patch("/settings/progress/:userId", updateUserProgress);
 
 module.exports = router;
