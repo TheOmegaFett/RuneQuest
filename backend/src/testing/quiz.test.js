@@ -67,7 +67,7 @@ describe("Quiz Feature Tests", () => {
       const difficultyMatch = pipeline.find((stage) => stage.$match)?.$match
         ?.difficulty;
 
-      // Return filtered mock data that matches what your controller expects
+      // Return filtered mock data that matches what our controller expects
       return Promise.resolve(
         mockQuizData.filter(
           (q) => q.difficulty === difficultyMatch || !difficultyMatch
