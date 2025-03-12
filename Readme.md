@@ -101,11 +101,77 @@ The API follows RESTful principles with standardized response formats:
 
 ### Endpoints
 
-- `/api/users` - User management
-- `/api/runes` - Rune information
-- `/api/readings` - Divination readings
-- `/api/quizzes` - Learning assessments
-- `/api/puzzles` - Interactive challenges
+#### User Management
+
+- `/api/users`
+  - `POST /register` - Create new user account
+    - Request: `{ "username": "string", "email": "string", "password": "string" }`
+  - `POST /login` - Authenticate user
+    - Request: `{ "email": "string", "password": "string" }`
+    - Response: `{ "token": "JWT", "user": {} }`
+  - `GET /profile` - Get current user profile (requires authentication)
+  - `PUT /profile` - Update user profile (requires authentication)
+  - `GET /progress` - Retrieve user learning progress (requires authentication)
+
+#### Runes Information
+
+- `/api/runes`
+  - `GET /` - List all runes (supports pagination with `?page=n&limit=m`)
+  - `GET /:id` - Get detailed information about specific rune
+  - `GET /category/:categoryName` - Filter runes by category
+  - `GET /search?name=term` - Search runes by name
+
+#### Learning Assessments
+
+- `/api/quizzes`
+  - `GET /easy` - Retrieves questions with 2 options (1 correct, 1 incorrect)
+  - `GET /medium` - Retrieves questions with 3 options (1 correct, 2 incorrect)
+  - `GET /hard` - Retrieves questions with 4 options (1 correct, 3 incorrect)
+  - `POST /check` - Verifies if selected answer is correct
+    - Request: `{ "questionId": "id", "selectedAnswer": "answer" }`
+    - Response: `{ "isCorrect": boolean, "correctAnswer": "string", "additionalInfo": "string" }`
+  - Supports optional query parameter `?count=n` to specify number of questions (default: 10)
+
+#### Divination Readings
+
+- `/api/readings`
+  - `POST /` - Create new reading
+    - Request: `{ "layout": "string", "question": "string" }`
+    - Response: Array of runes with positions and interpretations
+  - `GET /` - List user's past readings (requires authentication)
+  - `GET /:id` - Retrieve specific reading details
+  - `DELETE /:id` - Remove saved reading (requires authentication)
+
+#### Interactive Challenges
+
+- `/api/puzzles`
+  - `GET /` - List available puzzles (supports pagination)
+  - `GET /:id` - Get specific puzzle
+  - `GET /category/:categoryName` - Filter puzzles by category
+  - `GET /difficulty/:level` - Filter puzzles by difficulty (easy, medium, hard)
+  - `POST /:id/solve` - Submit puzzle solution
+    - Request: `{ "solution": "string" }`
+    - Response: `{ "correct": boolean, "hints": [], "points": number }`
+
+#### Audio Resources
+
+- `/api/audio`
+  - `GET /pronunciations/:runeName` - Get audio file for rune pronunciation
+  - `GET /meditations/:runeName` - Get meditation audio associated with specific rune
+
+#### Rune Categories
+
+- `/api/categories`
+  - `GET /` - List all available rune categories (Elder Futhark, Younger Futhark, etc.)
+  - `GET /:id` - Get detailed information about a specific category
+  - `GET /:id/runes` - List all runes belonging to a specific category
+
+#### Divination Layouts
+
+- `/api/divination`
+  - `GET /layouts` - List available divination layouts
+  - `GET /layouts/:name` - Get detailed information about a specific layout
+  - `GET /interpretations/:runeId` - Get divination interpretations for specific rune
 
 ## 🧪 Testing
 
