@@ -13,6 +13,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
+- [Testing](#testing),
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -105,6 +106,58 @@ The API follows RESTful principles with standardized response formats:
 - `/api/readings` - Divination readings
 - `/api/quizzes` - Learning assessments
 - `/api/puzzles` - Interactive challenges
+
+## 🧪 Testing
+
+RuneQuest includes comprehensive test coverage using Jest. Follow these steps to run the test suite:
+
+### Running Tests
+
+1. Navigate to the backend directory:
+
+   ```bash
+   cd backend
+   ```
+
+2. Run the test suite:
+   ```bash
+   npm test
+   ```
+
+This executes all tests in the `src/testing` directory and displays detailed results in the console, including test successes, failures, and execution time.
+
+### Test Structure
+
+The testing framework covers:
+
+- **Unit Tests**: Tests individual components in isolation
+- **Integration Tests**: Verifies interaction between components
+- **Controller Tests**: Validates API endpoint behavior
+- **Model Tests**: Ensures data validation and relationships work correctly
+- **Middleware Tests**: Confirms request processing functions properly
+
+Each component has its own test file following the pattern `componentName.test.js`, making it easy to locate specific tests.
+
+### Test Coverage
+
+For a detailed analysis of test coverage:
+
+```bash
+npm run test:coverage
+```
+
+This generates a report showing which parts of the codebase are well-tested and which might need additional coverage.
+
+### Adding New Tests
+
+When extending the application with new features, follow these testing principles:
+
+1. Write tests before implementing features (TDD approach)
+2. Ensure every endpoint has corresponding test cases
+3. Test both success and error scenarios
+4. Mock external dependencies
+
+The existing tests serve as excellent examples for creating new tests that follow the project's conventions.
 
 ## 🤝 Contributing
 
