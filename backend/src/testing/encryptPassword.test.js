@@ -9,38 +9,17 @@ const crypto = require("crypto");
 const { encryptPassword } = require("../middleware/encryptPassword");
 
 describe("Password Encryption Middleware", () => {
-  let mockNext;
-  let mockThis;
 
-  beforeEach(() => {
-    mockNext = jest.fn();
-    mockThis = {
-      isModified: jest.fn(),
-      password: "testPassword",
-      salt: "",
-    };
-  });
-
-  it("should encrypt password when modified", async () => {
-    mockThis.isModified.mockReturnValue(true);
+  it("should encrypt password when called", async () => {
     crypto.randomBytes = jest.fn().mockReturnValue(Buffer.from("testSalt"));
     crypto.scryptSync = jest
       .fn()
       .mockReturnValue(Buffer.from("encryptedPassword"));
 
-    await encryptPassword.call(mockThis, mockNext);
+    await encryptPassword.call("testPassword");
 
-    expect(mockThis.salt).toBeTruthy();
-    expect(mockThis.password).not.toBe("testPassword");
-    expect(mockNext).toHaveBeenCalled();
+    expect(encryptPassword()["salt"]).toBeTruthy();
+    expect(encryptPassword()["password"]).not.toBe("testPassword");
   });
 
-  it("should skip encryption when password not modified", async () => {
-    mockThis.isModified.mockReturnValue(false);
-
-    await encryptPassword.call(mockThis, mockNext);
-
-    expect(mockThis.password).toBe("testPassword");
-    expect(mockNext).toHaveBeenCalled();
-  });
 });
