@@ -70,7 +70,4 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-// Encrypt password
-UserSchema.pre("save", encryptPassword);
-
 module.exports = mongoose.model("User", UserSchema);
