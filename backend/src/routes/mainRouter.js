@@ -1,40 +1,43 @@
+/**
+ * Main API router module
+ * Aggregates all route modules and provides central routing configuration
+ * @module routes/mainRouter
+ */
+
 const express = require("express");
 const router = express.Router();
 
+// Import route modules
+const runeRoutes = require("./runeRoutes");
+const puzzleRoutes = require("./puzzleRoutes");
+const quizRoutes = require("./quizRoutes");
+const runeCategoryRoutes = require("./runeCategoryRoutes");
+const audioRoutes = require("./audioRoutes");
+const divinationRoutes = require("./divinationRoutes");
+const readingRoutes = require("./readingRoutes");
+const userRoutes = require("./userRoutes");
+
 /**
- * Main application router
- * Centralizes all route mounting and API organization
- *
- * Route Structure:
- * - /runes: Rune management endpoints
- * - /categories: Rune category endpoints
- * - /audio: Audio file management endpoints
- * - /search: Search functionality across runes
- * - /users: User management endpoints
+ * Register all application route modules with their respective base paths
+ * Each module handles its own sub-routes and middleware
  */
+router.use("/runes", runeRoutes);
+router.use("/puzzles", puzzleRoutes);
+router.use("/quizzes", quizRoutes);
+router.use("/categories", runeCategoryRoutes);
+router.use("/audio", audioRoutes);
+router.use("/divination", divinationRoutes);
+router.use("/readings", readingRoutes);
+router.use("/users", userRoutes);
 
-// Mount rune-related routes
-router.use("/runes", require("./runeRoutes"));
-
-// Mount category-related routes
-router.use("/categories", require("./runeCategoryRoutes"));
-
-// Mount audio-related routes
-router.use("/audio", require("./audioRoutes"));
-
-// Mount divination-related routes
-router.use("/divination", require("./divinationRoutes"));
-
-// Mount reading-related routes
-router.use("/readings", require("./readingRoutes"));
-
-// // Add search functionality
-// router.use("/search", require("./searchRoutes"));
-
-// // Add user management
-router.use("/users", require("./userRoutes"));
-
-// Add health check endpoint
+/**
+ * Health check endpoint
+ * Used for monitoring and service health verification
+ * @name GET/health
+ * @function
+ * @memberof module:routes/mainRouter
+ * @returns {Object} Status object with health indicator
+ */
 router.get("/health", (req, res) => {
   res.status(200).json({ status: "healthy" });
 });
