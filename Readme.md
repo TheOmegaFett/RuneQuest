@@ -13,7 +13,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
-- [Testing](#testing),
+- [Testing](#testing)
 - [Contributing](#contributing)
 - [License](#license)
 
