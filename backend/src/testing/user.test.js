@@ -95,10 +95,11 @@ describe("User Controller Tests", () => {
     });
   });
 
-  describe("updateUser", () => {
-    it("should update user data", async () => {
+  describe("updateUserSettings", () => {
+    it("should update user settings data", async () => {
       const updatedUser = {
         username: "updatedUser",
+        password: "testPassword",
         preferences: { theme: "dark" },
       };
 
@@ -107,7 +108,7 @@ describe("User Controller Tests", () => {
       const req = mockRequest(updatedUser, { userId: "testId" });
       const res = mockResponse();
 
-      await userController.updateUser(req, res);
+      await userController.updateUserSettings(req, res);
 
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
