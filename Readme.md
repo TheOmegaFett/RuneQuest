@@ -10,6 +10,7 @@
 
 - [Technologies](#technologies)
 - [Features](#features)
+- [Achievement System](#achievement-system)
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
@@ -54,6 +55,58 @@
 - **Divination Module**: Virtual rune readings with interpretations
 - **User Dashboard**: Progress tracking and personalization
 - **Authentication**: Secure user account management
+- **Achievement System**: Gamified progression with unlockable achievements
+
+## 🏆 Achievement System
+
+The RuneQuest achievement system provides users with goals to strive for while learning about Norse runes, enhancing engagement and motivation through gamification principles.
+
+### How Achievements Work
+
+Each achievement has specific requirements that users must meet to unlock it. When a user completes an action that fulfills these requirements, the achievement is automatically awarded. Achievements award points that contribute to the user's overall score and profile level.
+
+### Achievement Categories
+
+RuneQuest achievements are organized into the following categories:
+
+- **Quiz Achievements**: Awarded for completing quizzes with various difficulty levels
+- **Reading Achievements**: Unlocked by reading and completing educational articles
+- **Puzzle Achievements**: Earned by solving Norse rune puzzles
+- **Collection Achievements**: Granted for learning complete sets of runes
+- **Streak Achievements**: Rewarded for consistent daily activity
+
+### Available Achievements
+
+| Achievement                 | Description                                  | Requirement                             | Points |
+| --------------------------- | -------------------------------------------- | --------------------------------------- | ------ |
+| **Quiz Achievements**       |
+| Rune Novice                 | Complete your first quiz                     | Complete 1 quiz                         | 10     |
+| Rune Apprentice             | Complete 10 quizzes of any difficulty        | Complete 10 quizzes                     | 25     |
+| Rune Scholar                | Complete 5 hard quizzes with perfect scores  | Complete 5 hard quizzes with 100% score | 50     |
+| **Reading Achievements**    |
+| Curious Mind                | Read your first article                      | Complete 1 reading                      | 10     |
+| Rune Historian              | Complete 10 readings                         | Complete 10 readings                    | 30     |
+| **Puzzle Achievements**     |
+| Puzzle Solver               | Complete your first puzzle                   | Complete 1 puzzle                       | 15     |
+| Puzzle Master               | Complete 10 puzzles                          | Complete 10 puzzles                     | 35     |
+| **Streak Achievements**     |
+| Dedicated Student           | Achieve a 7-day streak                       | Log in for 7 consecutive days           | 20     |
+| Rune Devotee                | Achieve a 30-day streak                      | Log in for 30 consecutive days          | 100    |
+| **Collection Achievements** |
+| Elder Futhark Collector     | Learn all runes from the Elder Futhark set   | Learn all 24 Elder Futhark runes        | 75     |
+| Younger Futhark Collector   | Learn all runes from the Younger Futhark set | Learn all 16 Younger Futhark runes      | 75     |
+| Anglo-Saxon Collector       | Learn all runes from the Anglo-Saxon set     | Learn all 33 Anglo-Saxon runes          | 75     |
+
+### Technical Implementation
+
+Achievements are automatically checked and awarded through the progression system. When a user completes an action (quiz, reading, etc.), the system:
+
+1. Records the action in the user's progression record
+2. Checks if any achievement requirements are newly met
+3. Awards and displays new achievements to the user
+4. Updates the user's total points
+
+The achievement system is extensible, allowing new achievements to be added as the application evolves.
 
 ## 🚀 Installation
 
@@ -173,6 +226,28 @@ The API follows RESTful principles with standardized response formats:
   - `GET /layouts/:name` - Get detailed information about a specific layout
   - `GET /interpretations/:runeId` - Get divination interpretations for specific rune
 
+#### Achievement System
+
+- `/api/achievements`
+  - `GET /` - List all available achievements
+    - Supports optional filter with `?category=quiz|reading|puzzle|general`
+  - `GET /:id` - Get detailed information about specific achievement
+  - `GET /user` - Get current user's earned achievements (requires authentication)
+  - `GET /unearned` - Get achievements user hasn't earned yet (requires authentication)
+  - `GET /recent` - Get user's most recently earned achievements (requires authentication)
+    - Supports limiting results with `?limit=n` (default: 5)
+
+#### User Progression
+
+- `/api/progression`
+  - `GET /:userId` - Get user's progress data (achievements, quizzes, readings)
+  - `POST /quiz` - Update quiz progress
+    - Request: `{ "userId": "id", "quizId": "id", "score": number, "correctAnswers": number, "totalQuestions": number, "difficulty": "string" }`
+  - `POST /reading` - Update reading progress
+    - Request: `{ "userId": "id", "readingId": "id", "isCompleted": boolean }`
+  - `GET /stats/:userId` - Get user's achievement statistics
+    - Response: `{ "totalAchievements": number, "totalPoints": number, "categoryBreakdown": {}, "completionPercentage": number }`
+
 ## 🧪 Testing
 
 RuneQuest includes comprehensive test coverage using Jest. Follow these steps to run the test suite:
@@ -201,8 +276,25 @@ The testing framework covers:
 - **Controller Tests**: Validates API endpoint behavior
 - **Model Tests**: Ensures data validation and relationships work correctly
 - **Middleware Tests**: Confirms request processing functions properly
+- **Achievement Tests**: Validates achievement unlocking and user progression tracking
 
 Each component has its own test file following the pattern `componentName.test.js`, making it easy to locate specific tests.
+
+#### Achievement-Specific Tests
+
+The achievement testing suite (`achievement.test.js`) verifies:
+
+- Achievement model validation
+- Achievement API endpoints
+- Achievement retrieval by ID and category
+- Creation of new achievements
+
+The user progression testing suite (`progression.test.js`) validates:
+
+- Recording of user activities
+- Proper tracking of progress toward achievements
+- Automatic achievement unlocking when requirements are met
+- Correct user statistics calculations
 
 ### Test Coverage
 
