@@ -1,6 +1,19 @@
 const Divination = require("../models/Divination");
 const Rune = require("../models/Rune");
 
+const selectRandomRune = async () => {
+  const [rune] = await Rune.aggregate([{ $sample: { size: 1 } }]);
+  return rune;
+};
+
+const interpretRune = (rune) => {
+  return {
+    rune: rune.name,
+    meaning: rune.meaning,
+    interpretation: rune.history,
+  };
+};
+
 const selectMultipleRunes = async (count) => {
   const runes = await Rune.aggregate([{ $sample: { size: count } }]);
   return runes;
@@ -63,27 +76,69 @@ const divinationController = {
       res.status(500).json({ message: error.message });
     }
   },
-
   // Save a reading
   async saveReading(req, res) {
     try {
-      const reading = await Reading.create(req.body);
+      // Validate required fields first
+      const { userId, runes, interpretation, spread } = req.body;
+      if (!userId || !runes || !interpretation) {
+        return res.status(400).json({
+          success: false,
+          message: "Missing required fields",
+        });
+      }
+
+      const reading = await Divination.create({
+        userId,
+        runes,
+        interpretation,
+        spread,
+        date: new Date(),
+      });
+
       res.status(201).json(reading);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      res.status(400).json({ success: false, message: error.message });
     }
   },
-
   // Get user's reading history
   async getReadingHistory(req, res) {
     try {
       const { userId } = req.params;
-      const readings = await Reading.find({ userId }).sort({ date: -1 });
-      res.status(200).json(readings);
+      // Authorization check - allow access to own data
+      // req.userId comes from the token via the checkAuthority middleware
+      if (req.userId !== userId) {
+        // Make sure IDs are compared as strings to avoid object reference issues
+        if (String(req.userId) !== String(userId)) {
+          // Optional: Check if requesting user is an admin
+          const User = require("../models/User");
+          const user = await User.findById(req.userId);
+
+          if (!user || !user.isAdmin) {
+            return res.status(403).json({
+              success: false,
+              message: "Not authorized to access this history",
+            });
+          }
+        }
+      }
+      const readings = await Divination.find({ userId }).sort({ date: -1 });
+
+      // Handle case where no readings exist yet
+      if (!readings) {
+        return res.status(200).json([]);
+      }
+
+      return res.status(200).json(readings);
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      console.error("Error retrieving reading history:", error);
+      return res.status(500).json({ success: false, message: "Server error" });
     }
   },
 };
 
-module.exports = divinationController;
+module.exports = {
+  ...divinationController,
+  selectMultipleRunes,
+  interpretSpread,
+};

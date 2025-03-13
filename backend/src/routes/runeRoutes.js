@@ -16,8 +16,8 @@ const {
 router.get("/", getAllRunes);
 
 // POST /runes/add - Create a new rune with full details
-router.post("/add", addRune);
+router.post("/add", checkAuthority, runeController.addRune);
 
 // DELETE /runes/:id - Remove specific rune and its relationships
-router.delete("/:id", deleteRune);
+router.delete("/:id", checkAuthority, runeController.deleteRune);
 module.exports = router;

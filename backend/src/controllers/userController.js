@@ -1,7 +1,6 @@
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const { encryptPassword } = require("../functions/encryptPassword");
-
 
 /**
  * Creates a new user record in the database
@@ -29,7 +28,7 @@ exports.registerUser = async (req, res) => {
     const user = await User.create(bodyData);
 
     // Create user token
-    const token = jwt.sign({ id: user._id }, "secret")
+    const token = jwt.sign({ id: user._id }, "secret");
 
     if (token.error) {
       // If token creation produces an error, respond with 409
@@ -42,9 +41,9 @@ exports.registerUser = async (req, res) => {
       res.status(201).json({
         success: true,
         data: user,
-        token: token
+        token: token,
       });
-    };
+    }
   } catch (error) {
     // Return error response if creation fails
     res.status(400).json({
@@ -53,7 +52,6 @@ exports.registerUser = async (req, res) => {
     });
   }
 };
-
 
 /**
  * Logs in a user from the database, creating a token
@@ -77,7 +75,7 @@ exports.loginUser = async (req, res) => {
     }
 
     // Create user token
-    const token = jwt.sign({ id: user._id }, "secret")
+    const token = jwt.sign({ id: user._id }, "secret");
 
     if (token.error) {
       // If token creation produces an error, respond with 409
@@ -90,9 +88,9 @@ exports.loginUser = async (req, res) => {
       res.status(200).json({
         success: true,
         userId: user._id,
-        token: token
+        token: token,
       });
-    };
+    }
   } catch (error) {
     // Return error response if retrieval fails
     res.status(400).json({
@@ -101,7 +99,6 @@ exports.loginUser = async (req, res) => {
     });
   }
 };
-
 
 /**
  * Retrieves all user records from the database // MAY REMOVE LATER
@@ -132,7 +129,6 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-
 /**
  * Retrieves one user record from the database
  * @async
@@ -154,7 +150,7 @@ exports.getOneUser = async (req, res) => {
       });
     }
 
-    // Return success response with user file
+    // Return success response with user file and token
     res.status(200).json({
       success: true,
       data: user,
@@ -168,15 +164,14 @@ exports.getOneUser = async (req, res) => {
   }
 };
 
-
 /**
-* Updates one user record in the database, separate routes, separate data
-* @async
-* @function updateUser
-* @param {Object} req - Express request object
-* @param {Object} res - Express response object
-* @returns {Object} JSON response of user file and update confirmation
-*/
+ * Updates one user record in the database, separate routes, separate data
+ * @async
+ * @function updateUser
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} JSON response of user file and update confirmation
+ */
 
 exports.updateUserSettings = async (req, res) => {
   try {
@@ -193,18 +188,15 @@ exports.updateUserSettings = async (req, res) => {
       },
     };
 
-    const user = await User.findByIdAndUpdate(
-      req.params.userId,
-      bodyData,
-      { new: true }
-    );
+    const user = await User.findByIdAndUpdate(req.params.userId, bodyData, {
+      new: true,
+    });
 
-    // Return success response with user file
+    // Return success response with user file and token
     res.status(200).json({
       success: true,
       data: user,
     });
-
   } catch (error) {
     res.status(400).json({
       success: false,
@@ -212,7 +204,6 @@ exports.updateUserSettings = async (req, res) => {
     });
   }
 };
-
 
 // exports.updateUserProgress = async (req, res) => {
 //   try {
@@ -245,7 +236,6 @@ exports.updateUserSettings = async (req, res) => {
 //   }
 // };
 
-
 /**
  * Deletes one user record from the database
  * @async
@@ -257,26 +247,60 @@ exports.updateUserSettings = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    // Fetch and delete user data
-    const user = await User.findByIdAndDelete(req.params.userId);
+    // Get the authenticated user ID from the middleware
+    const authenticatedUserId = req.userId;
+    const requestedUserId = req.params.userId;
+
+    // Check if user is trying to delete someone else's account
+    if (authenticatedUserId !== requestedUserId) {
+      // If IDs don't match, check if user is an admin
+      const authenticatedUser = await User.findById(authenticatedUserId);
+
+      if (!authenticatedUser || !authenticatedUser.isAdmin) {
+        return res.status(403).json({
+          success: false,
+          error: "Not authorized to delete other user accounts",
+        });
+      }
+    }
+
+    // Authorized to delete - proceed with deletion
+    const user = await User.findByIdAndDelete(requestedUserId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found",
+      });
+    }
 
     // Return success response with deleted data
     res.status(200).json({
       success: true,
       data: user,
-    })
+    });
   } catch (error) {
-    // Return error response if deletion fails
     res.status(400).json({
       success: false,
       error: error.message,
     });
   }
 };
-
 exports.deleteAllUsers = async (req, res) => {
   try {
-    await User.deleteMany()
+    // Get the authenticated user
+    const authenticatedUser = await User.findById(req.userId);
+
+    // Check if user is an admin
+    if (!authenticatedUser || !authenticatedUser.isAdmin) {
+      return res.status(403).json({
+        success: false,
+        error: "Admin privileges required for this operation",
+      });
+    }
+
+    // Proceed with deletion if admin
+    await User.deleteMany();
 
     res.status(200).json({
       success: true,
