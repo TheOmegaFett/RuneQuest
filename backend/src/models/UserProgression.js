@@ -53,7 +53,7 @@ const UserProgressionSchema = new mongoose.Schema(
       {
         reading: {
           type: Schema.Types.ObjectId,
-          ref: "Reading", // Reference your existing Reading model
+          ref: "Reading",
         },
         savedAt: {
           type: Date,
