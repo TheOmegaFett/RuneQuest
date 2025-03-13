@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken")
 const User = require("../models/User");
 const { encryptPassword } = require("../functions/encryptPassword");
 
@@ -27,13 +28,73 @@ exports.registerUser = async (req, res) => {
 
     const user = await User.create(bodyData);
 
-    // Return success response with created user data
-    res.status(201).json({
-      success: true,
-      data: user,
-    });
+    // Create user token
+    const token = jwt.sign({ id: user._id }, "secret")
+
+    if (token.error) {
+      // If token creation produces an error, respond with 409
+      res.status(409).json({
+        success: false,
+        error: error.message,
+      });
+    } else {
+      // Return success response with created user data
+      res.status(201).json({
+        success: true,
+        data: user,
+        token: token
+      });
+    };
   } catch (error) {
     // Return error response if creation fails
+    res.status(400).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+
+/**
+ * Logs in a user from the database, creating a token
+ * @async
+ * @function loginUser
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} JSON response of user file and token
+ */
+
+exports.loginUser = async (req, res) => {
+  try {
+    // Fetch one user documents from database by username
+    const user = await User.findOne({ username: req.body.username });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "Username or password incorrect",
+      });
+    }
+
+    // Create user token
+    const token = jwt.sign({ id: user._id }, "secret")
+
+    if (token.error) {
+      // If token creation produces an error, respond with 409
+      res.status(409).json({
+        success: false,
+        error: error.message,
+      });
+    } else {
+      // Return success response with user file
+      res.status(200).json({
+        success: true,
+        userId: user._id,
+        token: token
+      });
+    };
+  } catch (error) {
+    // Return error response if retrieval fails
     res.status(400).json({
       success: false,
       error: error.message,
@@ -54,13 +115,13 @@ exports.registerUser = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
   try {
     // Fetch all user documents from database
-    const usersData = await User.find();
+    const users = await User.find();
 
     // Return success response with user files and count
     res.status(200).json({
       success: true,
-      count: usersData.length,
-      data: usersData,
+      count: users.length,
+      data: users,
     });
   } catch (error) {
     // Return error response if retrieval fails
@@ -83,13 +144,20 @@ exports.getAllUsers = async (req, res) => {
 
 exports.getOneUser = async (req, res) => {
   try {
-    // Fetch all user documents from database
-    const userData = await User.findById(req.params.userId);
+    // Fetch one user documents from database by id
+    const user = await User.findById(req.params.userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found",
+      });
+    }
 
     // Return success response with user file
     res.status(200).json({
       success: true,
-      data: userData,
+      data: user,
     });
   } catch (error) {
     // Return error response if retrieval fails
@@ -125,7 +193,7 @@ exports.updateUserSettings = async (req, res) => {
       },
     };
 
-    const updatedUser = await User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       req.params.userId,
       bodyData,
       { new: true }
@@ -134,7 +202,7 @@ exports.updateUserSettings = async (req, res) => {
     // Return success response with user file
     res.status(200).json({
       success: true,
-      data: updatedUser,
+      data: user,
     });
 
   } catch (error) {
@@ -157,7 +225,7 @@ exports.updateUserSettings = async (req, res) => {
 //       }
 //     };
 
-//     const updatedUser = await User.findByIdAndUpdate(
+//     const user = await User.findByIdAndUpdate(
 //       req.params.userId,
 //       bodyData,
 //       { new: true }
@@ -166,7 +234,7 @@ exports.updateUserSettings = async (req, res) => {
 //     // Return success response with user file
 //     res.status(200).json({
 //       success: true,
-//       data: updatedUser,
+//       data: user,
 //     });
 
 //   } catch (error) {
@@ -190,12 +258,12 @@ exports.updateUserSettings = async (req, res) => {
 exports.deleteUser = async (req, res) => {
   try {
     // Fetch and delete user data
-    const userData = await User.findByIdAndDelete(req.params.userId);
+    const user = await User.findByIdAndDelete(req.params.userId);
 
     // Return success response with deleted data
     res.status(200).json({
       success: true,
-      data: userData,
+      data: user,
     })
   } catch (error) {
     // Return error response if deletion fails
