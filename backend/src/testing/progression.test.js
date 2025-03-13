@@ -366,13 +366,7 @@ describe("User Progression Tests", () => {
     it("should check for achievements when progression is updated", async () => {
       // This test would verify achievement unlocking logic
       // Would need to mock achievement checking functionality
-      // Implementation depends on how achievement system works
-
-      // For example, if your system automatically checks achievements
-      // when progression is updated, you could test like this:
-
-      // Mock logic showing that an achievement is unlocked
-      // Verify the achievement is added to the user's progression
+      // Implementation depends on how the achievement system works
 
       // A placeholder test
       expect(true).toBe(true);
