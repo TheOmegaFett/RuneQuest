@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const crypto = require("node:crypto")
 
-const { encryptPassword } = require("../middleware/encryptPassword")
+const { encryptPassword } = require("../functions/encryptPassword")
 
 /**
  * Mongoose schema for Users
@@ -26,7 +26,12 @@ const UserSchema = new mongoose.Schema(
     // User salt for encryption
     salt: {
       type: String,
-      default: ""
+      default: "",
+    },
+    // Declaration of admin rights
+    isAdmin: {
+      type: Boolean,
+      default: false,
     },
     // User customization settings
     preferences: {
