@@ -4,6 +4,7 @@ const Achievement = require("../models/Achievement");
 exports.getUserProgress = async (req, res) => {
   try {
     const userId = req.params.userId;
+
     let userProgress = await UserProgression.findOne({ user: userId });
 
     if (!userProgress) {
@@ -13,7 +14,18 @@ exports.getUserProgress = async (req, res) => {
       });
     }
 
-    // If we need to populate related data
+    if (req.userId !== userId) {
+      const User = require("../models/User");
+      const user = await User.findById(req.userId);
+
+      if (!user || !user.isAdmin) {
+        return res.status(403).json({
+          success: false,
+          error: "You are unauthorized to access this user's progression data",
+        });
+      }
+    }
+
     if (userProgress.populate) {
       userProgress = await userProgress
         .populate("achievements.achievement")
@@ -32,7 +44,6 @@ exports.getUserProgress = async (req, res) => {
     });
   }
 };
-
 exports.updateQuizProgress = async (req, res) => {
   try {
     const {
@@ -74,6 +85,22 @@ exports.updateQuizProgress = async (req, res) => {
     // Update stats
     userProgress.stats.lastActive = new Date();
     userProgress.stats.totalPoints += score;
+
+    // Increment quiz streak if the quiz was completed within 24 hours of the last activity
+    const lastQuiz = userProgress.quizzes[userProgress.quizzes.length - 2];
+    if (lastQuiz) {
+      const lastQuizTime = new Date(lastQuiz.completedAt).getTime();
+      const currentTime = new Date().getTime();
+      const hoursBetween = (currentTime - lastQuizTime) / (1000 * 60 * 60);
+
+      if (hoursBetween < 24) {
+        userProgress.stats.quizStreak += 1;
+      } else {
+        userProgress.stats.quizStreak = 1; // Reset streak if more than 24 hours
+      }
+    } else {
+      userProgress.stats.quizStreak = 1; // First quiz sets streak to 1
+    }
 
     await userProgress.save();
 

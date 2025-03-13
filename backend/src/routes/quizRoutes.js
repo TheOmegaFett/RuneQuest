@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const quizController = require("../controllers/quizController");
+const { checkAuthority } = require("../middleware/checkAuthority");
 
-// Get quiz by difficulty
+// Public route - can be accessed without authentication for preview
 router.get("/:difficulty", quizController.getQuizByDifficulty);
 
-// Check answer
-router.post("/check", quizController.checkAnswer);
+// Protected route - requires authentication to verify answers and record progress
+router.post("/check", checkAuthority, quizController.checkAnswer);
 
 module.exports = router;

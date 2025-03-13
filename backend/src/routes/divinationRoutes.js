@@ -3,13 +3,13 @@ const router = express.Router();
 const divinationController = require("../controllers/divinationController");
 
 // Get single rune reading
-router.post("/single", divinationController.getSingleRuneReading);
+router.get("/single", divinationController.getSingleRuneReading);
 
 // Get three rune spread
-router.post("/three", divinationController.getThreeRuneSpread);
+router.get("/three", divinationController.getThreeRuneSpread);
 
 // Get five rune spread
-router.post("/five", divinationController.getFiveRuneSpread);
+router.get("/five", divinationController.getFiveRuneSpread);
 
 // Save reading
 router.post("/save", divinationController.saveReading);

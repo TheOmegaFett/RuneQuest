@@ -1,12 +1,13 @@
 const express = require("express");
+const { checkAuthority } = require("../middleware/checkAuthority");
 const {
   getAllUsers,
   getOneUser,
   registerUser,
+  loginUser,
   deleteUser,
   deleteAllUsers,
   updateUserSettings,
-  updateUserProgress,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -17,25 +18,15 @@ const router = express.Router();
  * Manages CRUD operations for users including their progression and preferences
  */
 
-// GET /users - Retrieve all users
-router.get("/", getAllUsers);
-
-// Get /users/one/:userId - Retrieve one user
-router.get("/one/:userId", getOneUser);
-
-// POST /users/create - Create a new user with username and password
+// Public routes (no authentication required)
 router.post("/register", registerUser);
+router.post("/login", loginUser);
 
-// DELETE /users/delete/:id - Remove specific user
-router.delete("/delete/:userId", deleteUser);
-
-// DELETE /users/deleteAll - Remove all users - dev only
-router.delete("/deleteAll", deleteAllUsers);
-
-// PATCH /users/settings/:userId - Update user settings data
-router.patch("/settings/login/:userId", updateUserSettings);
-
-// // PATCH /users/settings/:userId - Update user progress data
-// router.patch("/settings/progress/:userId", updateUserProgress);
+// Protected routes (authentication required)
+router.get("/", checkAuthority, getAllUsers);
+router.get("/one/:userId", checkAuthority, getOneUser);
+router.patch("/settings/login/:userId", checkAuthority, updateUserSettings);
+router.delete("/delete/:userId", checkAuthority, deleteUser);
+router.delete("/deleteAll", checkAuthority, deleteAllUsers);
 
 module.exports = router;

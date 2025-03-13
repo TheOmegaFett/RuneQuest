@@ -6,10 +6,9 @@
  */
 
 const crypto = require("crypto");
-const { encryptPassword } = require("../middleware/encryptPassword");
+const { encryptPassword } = require("../functions/encryptPassword");
 
 describe("Password Encryption Middleware", () => {
-
   it("should encrypt password when called", async () => {
     crypto.randomBytes = jest.fn().mockReturnValue(Buffer.from("testSalt"));
     crypto.scryptSync = jest
@@ -21,5 +20,4 @@ describe("Password Encryption Middleware", () => {
     expect(encryptPassword()["salt"]).toBeTruthy();
     expect(encryptPassword()["password"]).not.toBe("testPassword");
   });
-
 });
