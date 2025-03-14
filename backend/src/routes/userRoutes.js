@@ -20,7 +20,7 @@ const {
 
 // Public routes (no authentication required)
 router.post("/register", registerUser);
-router.post("/login", loginUser);
+router.get("/login", loginUser);
 
 // Protected routes (authentication required)
 router.get("/", checkAuthority, getAllUsers);

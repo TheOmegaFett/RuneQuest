@@ -6,7 +6,7 @@ exports.checkAuthority = function (req, res, next) {
   if (!token) {
     return res.status(401).json({
       success: false,
-      error: error.message,
+      error: "Unauthorised",
     });
   }
   try {
