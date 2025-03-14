@@ -1,13 +1,20 @@
-const prompt = require("prompt-sync")();
 const { encryptPassword } = require("../functions/encryptPassword");
 const User = require("../models/User");
-
+require("dotenv").config();
 
 const seedDefaultAdmin = async () => {
   try {
-    const passwordInput = prompt("Password for default user: ");
-  
-    saltPass = encryptPassword(passwordInput)
+    // Get password from environment variable instead of prompt
+    const passwordInput = process.env.ADMIN_PASSWORD;
+
+    if (!passwordInput) {
+      console.log(
+        "No ADMIN_PASSWORD environment variable found. Admin seeding skipped."
+      );
+      return;
+    }
+
+    const saltPass = encryptPassword(passwordInput);
 
     const systemAdmin = {
       username: "SystemAdmin",
@@ -17,16 +24,15 @@ const seedDefaultAdmin = async () => {
     };
 
     let existingAdmin = await User.findOneAndDelete({
-      username: systemAdmin.username
+      username: systemAdmin.username,
     });
 
-    if (!existingAdmin) {
-      adminUser = await User.create(systemAdmin);
-      console.log("Default admin successfully seeded");
-    };
+    const adminUser = await User.create(systemAdmin);
+    console.log("Default admin successfully seeded");
   } catch (error) {
     console.error("Seeding failed:", error);
   }
 };
 
+module.exports = seedDefaultAdmin;
 module.exports = seedDefaultAdmin;
