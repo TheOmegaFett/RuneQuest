@@ -11,3 +11,6 @@ node_modules/
 
 # Ignore bruno API tester
 bruno_runequestAPI/
+
+# Ingore test coverage directory
+coverage/
