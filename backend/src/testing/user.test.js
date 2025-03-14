@@ -26,6 +26,10 @@ const mockRequest = (body = {}, params = {}, headers = {}) => ({
   get: jest.fn((key) => headers[key]),
 });
 
+jest.mock("../functions/comparePassword", () => ({
+  comparePassword: jest.fn().mockImplementation(() => Promise.resolve(true)),
+}));
+
 describe("User Controller Tests", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -98,6 +102,8 @@ describe("User Controller Tests", () => {
         salt: "testSalt",
       };
 
+      const { comparePassword } = require("../functions/comparePassword");
+
       User.findOne = jest.fn().mockResolvedValue(mockUser);
 
       const req = mockRequest({
@@ -105,7 +111,7 @@ describe("User Controller Tests", () => {
         password: "password123",
       });
       const res = mockResponse();
-
+      comparePassword.mockResolvedValue(true);
       await userController.loginUser(req, res);
 
       expect(res.status).toHaveBeenCalledWith(200);
@@ -357,7 +363,7 @@ describe("User Controller Tests", () => {
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
         success: true,
-        message: "All users deleted",
+        message: "All users deleted, excluding SystemAdmin",
       });
     });
 

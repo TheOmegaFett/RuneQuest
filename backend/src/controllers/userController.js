@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const crypto = require("node:crypto")
+const crypto = require("node:crypto");
 const User = require("../models/User");
 const { encryptPassword } = require("../functions/encryptPassword");
 const seedDefaultAdmin = require("../seeders/adminSeeder");
@@ -84,13 +84,13 @@ exports.loginUser = async (req, res) => {
     const isMatch = await comparePassword(
       user.password,
       user.salt,
-      req.body.password,
+      req.body.password
     );
     if (!isMatch) {
-      return {
+      return res.status(401).json({
         success: false,
         error: "Username or password incorrect",
-      };
+      });
     }
 
     // Create user token
@@ -207,11 +207,9 @@ exports.updateUserSettings = async (req, res) => {
       },
     };
 
-    const user = await User.findByIdAndUpdate(
-      req.params.userId,
-      bodyData,
-      { new: true },
-    );
+    const user = await User.findByIdAndUpdate(req.params.userId, bodyData, {
+      new: true,
+    });
 
     // Return success response with user file and token
     res.status(200).json({
@@ -240,7 +238,7 @@ exports.updateUserToAdmin = async (req, res) => {
     const newAdmin = await User.findByIdAndUpdate(
       req.params.userId,
       { isAdmin: true },
-      { new: true },
+      { new: true }
     );
 
     res.status(200).json({
@@ -257,7 +255,6 @@ exports.updateUserToAdmin = async (req, res) => {
     });
   }
 };
-
 
 /**
  * Deletes one user record from the database
