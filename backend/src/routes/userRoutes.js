@@ -1,5 +1,7 @@
 const express = require("express");
+const router = express.Router();
 const { checkAuthority } = require("../middleware/checkAuthority");
+
 const {
   getAllUsers,
   getOneUser,
@@ -9,8 +11,6 @@ const {
   deleteAllUsers,
   updateUserSettings,
 } = require("../controllers/userController");
-
-const router = express.Router();
 
 /**
  * Router for handling user-related endpoints

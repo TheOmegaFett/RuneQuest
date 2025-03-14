@@ -1,6 +1,6 @@
 const QuizQuestion = require("../models/QuizQuestion");
 
-jest.setTimeout(30000); // Increase global timeout to 30 seconds
+// jest.setTimeout(30000); // Increase global timeout to 30 seconds - Causes issues when running
 
 // Get quiz questions by difficulty
 exports.getQuizByDifficulty = async (req, res) => {

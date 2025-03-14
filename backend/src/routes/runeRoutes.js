@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const { checkAuthority } = require("../middleware/checkAuthority");
+
 const {
   getAllRunes,
   addRune,
@@ -16,8 +18,8 @@ const {
 router.get("/", getAllRunes);
 
 // POST /runes/add - Create a new rune with full details
-router.post("/add", checkAuthority, runeController.addRune);
+router.post("/add", checkAuthority, addRune);
 
 // DELETE /runes/:id - Remove specific rune and its relationships
-router.delete("/:id", checkAuthority, runeController.deleteRune);
+router.delete("/:id", checkAuthority, deleteRune);
 module.exports = router;

@@ -34,7 +34,7 @@ const QuizQuestionSchema = new mongoose.Schema(
 );
 
 function arrayLimit(val) {
-  return val.length >= 3;
+  return val.length = 3;  // Change to equals-to fix error with quiz seeding
 }
 
 module.exports = mongoose.model("QuizQuestion", QuizQuestionSchema);
