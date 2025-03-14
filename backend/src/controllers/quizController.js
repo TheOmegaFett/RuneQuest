@@ -1,6 +1,5 @@
 const QuizQuestion = require("../models/QuizQuestion");
-
-// jest.setTimeout(30000); // Increase global timeout to 30 seconds - Causes issues when running
+const { checkAndUnlockAchievements } = require("../helpers/achievementHelper");
 
 // Get quiz questions by difficulty
 exports.getQuizByDifficulty = async (req, res) => {
@@ -64,7 +63,7 @@ exports.getQuizByDifficulty = async (req, res) => {
       };
     });
 
-    // Return the formatted questions - this was missing!
+    // Return the formatted questions
     return res.status(200).json({
       success: true,
       data: formattedQuestions,
@@ -78,6 +77,7 @@ exports.getQuizByDifficulty = async (req, res) => {
     });
   }
 };
+
 // Check quiz answer
 exports.checkAnswer = async (req, res) => {
   try {
@@ -116,6 +116,114 @@ exports.checkAnswer = async (req, res) => {
     return res.status(500).json({
       success: false,
       error: "Failed to check answer: " + error.message,
+      data: null,
+    });
+  }
+};
+
+// Add a new endpoint for completing a quiz
+exports.completeQuiz = async (req, res) => {
+  try {
+    const {
+      userId,
+      quizId,
+      score,
+      correctAnswers,
+      totalQuestions,
+      difficulty,
+    } = req.body;
+
+    if (
+      !userId ||
+      !quizId ||
+      score === undefined ||
+      !correctAnswers ||
+      !totalQuestions ||
+      !difficulty
+    ) {
+      return res.status(400).json({
+        success: false,
+        error: "Missing required quiz completion data",
+        data: null,
+      });
+    }
+
+    // Find or create user progression
+    const UserProgression = require("../models/UserProgression");
+    let userProgress = await UserProgression.findOne({ user: userId });
+
+    if (!userProgress) {
+      userProgress = new UserProgression({
+        user: userId,
+        quizzes: [],
+        readings: [],
+        puzzles: [],
+        achievements: [],
+        stats: {
+          totalPoints: 0,
+          quizStreak: 0,
+          lastActive: new Date(),
+          runesLearned: 0,
+        },
+      });
+    }
+
+    // Add quiz to progress
+    userProgress.quizzes.push({
+      quiz: quizId,
+      score,
+      correctAnswers,
+      totalQuestions,
+      difficulty,
+      completedAt: new Date(),
+    });
+
+    // Update stats
+    userProgress.stats.lastActive = new Date();
+    userProgress.stats.totalPoints += score;
+
+    // Update streak logic
+    const lastQuiz =
+      userProgress.quizzes.length > 1
+        ? userProgress.quizzes[userProgress.quizzes.length - 2]
+        : null;
+
+    if (lastQuiz) {
+      const lastQuizTime = new Date(lastQuiz.completedAt).getTime();
+      const currentTime = new Date().getTime();
+      const hoursBetween = (currentTime - lastQuizTime) / (1000 * 60 * 60);
+
+      if (hoursBetween < 24) {
+        userProgress.stats.quizStreak += 1;
+      } else {
+        userProgress.stats.quizStreak = 1; // Reset streak if more than 24 hours
+      }
+    } else {
+      userProgress.stats.quizStreak = 1; // First quiz sets streak to 1
+    }
+
+    await userProgress.save();
+
+    // Check for unlocked achievements
+    const quizData = { score, correctAnswers, totalQuestions, difficulty };
+    const newAchievements = await checkAndUnlockAchievements(
+      userId,
+      quizData,
+      "quiz"
+    );
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        progress: userProgress,
+        newAchievements: newAchievements,
+      },
+      error: null,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: "Failed to complete quiz: " + error.message,
       data: null,
     });
   }

@@ -58,14 +58,13 @@ exports.registerUser = async (req, res) => {
 
 /**
  * Logs in a user from the database, creating a token
+ /**
  * @async
  * @function loginUser
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  * @returns {Object} JSON response of user file and token
  */
-
-// NEED TO ADD PASSWORD CHECK
 
 exports.loginUser = async (req, res) => {
   try {
@@ -96,6 +95,9 @@ exports.loginUser = async (req, res) => {
     // Create user token
     const token = jwt.sign({ id: user._id }, "secret");
 
+    // Update login streak
+    await updateLoginStreak(user._id);
+
     if (token.error) {
       // If token creation produces an error, respond with 409
       res.status(409).json({
@@ -120,7 +122,73 @@ exports.loginUser = async (req, res) => {
 };
 
 /**
- * Retrieves all user records from the database // MAY REMOVE LATER
+ * Updates a user's login streak when they successfully log in
+ * @async
+ * @function updateLoginStreak
+ * @param {String} userId - The user's ID
+ */
+async function updateLoginStreak(userId) {
+  try {
+    // Find or create user progression
+    let userProgress = await UserProgression.findOne({ user: userId });
+
+    if (!userProgress) {
+      userProgress = new UserProgression({
+        user: userId,
+        quizzes: [],
+        readings: [],
+        puzzles: [],
+        achievements: [],
+        stats: {
+          totalPoints: 0,
+          quizStreak: 0,
+          loginStreak: 1, // First login sets streak to 1
+          lastActive: new Date(),
+          runesLearned: 0,
+        },
+      });
+    } else {
+      const lastActiveDate = new Date(userProgress.stats.lastActive);
+      const currentDate = new Date();
+
+      // Calculate days between logins
+      // Reset hours/minutes/seconds to compare calendar days properly
+      const lastActiveDay = new Date(lastActiveDate.setHours(0, 0, 0, 0));
+      const currentDay = new Date(currentDate.setHours(0, 0, 0, 0));
+      const dayDifference = Math.floor(
+        (currentDay - lastActiveDay) / (1000 * 60 * 60 * 24)
+      );
+
+      // Initialize loginStreak if it doesn't exist
+      if (userProgress.stats.loginStreak === undefined) {
+        userProgress.stats.loginStreak = 0;
+      }
+
+      if (dayDifference === 1) {
+        // Consecutive day login - increment streak
+        userProgress.stats.loginStreak += 1;
+      } else if (dayDifference === 0) {
+        // Same day login - maintain streak
+        // No change to streak
+      } else {
+        // Non-consecutive login - reset streak
+        userProgress.stats.loginStreak = 1;
+      }
+
+      // Update last active timestamp
+      userProgress.stats.lastActive = new Date();
+    }
+
+    await userProgress.save();
+
+    // Check for streak achievements
+    await checkAndUnlockAchievements(userId, {}, "login");
+  } catch (error) {
+    console.error("Error updating login streak:", error);
+  }
+}
+
+/** * Retrieves all user records from the database // MAY REMOVE LATER
  * @async
  * @function getAllUsers
  * @param {Object} req - Express request object

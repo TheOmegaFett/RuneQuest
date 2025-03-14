@@ -75,6 +75,10 @@ const UserProgressionSchema = new mongoose.Schema(
         type: Number,
         default: 0,
       },
+      loginStreak: {
+        type: Number,
+        default: 0,
+      },
       lastActive: {
         type: Date,
         default: Date.now,
