@@ -6,7 +6,7 @@ const { checkAuthority } = require("../middleware/checkAuthority");
 // Public route - can be accessed without authentication for preview
 router.get("/:difficulty", quizController.getQuizByDifficulty);
 
-// Protected route - requires authentication to verify answers and record progress
+// Protected routes - require authentication
 router.post("/check", checkAuthority, quizController.checkAnswer);
-
+router.post("/complete", checkAuthority, quizController.completeQuiz);
 module.exports = router;

@@ -22,14 +22,17 @@
 
 ### Backend Technology Stack
 
-| Technology | Version  | Purpose                                          | Alternatives         | License |
-| ---------- | -------- | ------------------------------------------------ | -------------------- | ------- |
-| Node.js    | 16.x+    | JavaScript runtime for server-side execution     | Deno, Bun            | MIT     |
-| Express.js | 4.x      | Web framework for building RESTful APIs          | Koa, Fastify, NestJS | MIT     |
-| MongoDB    | 5.0+     | NoSQL database for flexible data storage         | PostgreSQL, MySQL    | SSPL    |
-| Mongoose   | 6.x      | MongoDB object modeling and schema validation    | Prisma, TypeORM      | MIT     |
-| Jest       | 29.x     | Testing framework for unit and integration tests | Mocha, Jasmine       | MIT     |
-| Crypto     | Built-in | Password encryption and security                 | bcrypt, Argon2       | MIT     |
+| Technology            | Version  | Purpose                                          | Alternatives         | License |
+| --------------------- | -------- | ------------------------------------------------ | -------------------- | ------- |
+| Node.js               | 16.x+    | JavaScript runtime for server-side execution     | Deno, Bun            | MIT     |
+| Express.js            | 4.x      | Web framework for building RESTful APIs          | Koa, Fastify, NestJS | MIT     |
+| MongoDB               | 5.0+     | NoSQL database for flexible data storage         | PostgreSQL, MySQL    | SSPL    |
+| Mongoose              | 6.x      | MongoDB object modeling and schema validation    | Prisma, TypeORM      | MIT     |
+| Jest                  | 29.x     | Testing framework for unit and integration tests | Mocha, Jasmine       | MIT     |
+| Crypto                | Built-in | Password encryption and security                 | bcrypt, Argon2       | MIT     |
+| JWT                   | 9.x      | Stateless authentication with secure tokens      | Passport, OAuth2     | MIT     |
+| MongoDB Memory Server | 8.x      | In-memory MongoDB for isolated testing           | -                    | MIT     |
+| Express Middleware    | 4.x      | Custom request processing and authorization      | Connect, Koa         | MIT     |
 
 ### Industry Relevance of Chosen Technologies
 
@@ -56,6 +59,18 @@ Jest has emerged as the leading JavaScript testing framework with adoption by Fa
 #### Crypto (Node.js built-in)
 
 The native Crypto module provides industry-standard cryptographic functions that follow NIST guidelines for secure password hashing and encryption, essential for applications handling user credentials.
+
+#### JWT (JSON Web Tokens)
+
+JWT has become the industry standard for stateless authentication in web applications, with over 9 million weekly downloads on npm. Its compact, self-contained format allows for secure transmission of user identity information without requiring server-side session storage.
+
+#### MongoDB Memory Server
+
+This specialized testing utility creates ephemeral MongoDB instances in memory, enabling isolated and reproducible tests without external dependencies. It's widely used in professional Node.js applications for reliable test suites.
+
+#### Express Middleware
+
+The middleware pattern is central to Express.js architecture, allowing for modular request processing pipelines. RuneQuest leverages custom middleware for authentication, authorization, and request validation.
 
 ### Detailed Comparison to Alternative Technologies
 
@@ -104,6 +119,37 @@ Our technology stack forms a cohesive ecosystem specifically designed for buildi
 #### Primary Development Stack
 
 The **Node.js** and **Express.js** combination provides an efficient foundation for building our RESTful API layer. Node.js's event-driven architecture allows our application to handle numerous concurrent connections with minimal resource overhead, which is essential for a web application that may experience variable traffic patterns. Express.js provides the routing and middleware architecture that enables clean separation of concerns in our codebase.
+
+### Security Implementation Details
+
+The RuneQuest application implements a robust security architecture:
+
+#### Authentication System
+
+- **Custom Password Encryption**: Implements PBKDF2 algorithm through Node's Crypto module with appropriate iteration counts and key lengths
+- **Salt Generation**: Each user password is secured with a unique cryptographically strong salt
+- **JWT Authentication**: Stateless authentication using signed JSON Web Tokens with configurable expiration
+- **Protected Routes**: API endpoints requiring authentication are protected by custom middleware
+
+#### Authorization Framework
+
+- **Role-based Access Control**: Different permission levels for regular users vs administrators
+- **Resource Ownership Verification**: Users can only access their own data unless they have admin privileges
+- **Admin-only Operations**: System-wide operations like user management restricted to admin accounts
+
+### Testing Infrastructure
+
+RuneQuest employs a comprehensive testing strategy:
+
+- **Isolated Database Testing**: Using mongodb-memory-server to create ephemeral MongoDB instances for each test run
+- **Model Validation Tests**: Verifies data integrity constraints and schema validation
+- **Controller Tests**: Ensures API endpoints handle requests and responses correctly
+- **Authentication Tests**: Validates security middleware and access controls
+- **Achievement System Tests**: Verifies achievement unlocking logic and progression tracking
+
+### Comprehensive Purpose of Chosen Technologies
+
+Our technology stack forms a cohesive ecosystem specifically designed for building secure, scalable, and maintainable web applications:
 
 #### Data Layer
 
@@ -210,6 +256,16 @@ RuneQuest achievements are organized into the following categories:
 - **Puzzle Achievements**: Earned by solving Norse rune puzzles
 - **Collection Achievements**: Granted for learning complete sets of runes
 - **Streak Achievements**: Rewarded for consistent daily activity
+
+### Achievement System Architecture
+
+The achievement system uses a specialized architecture:
+
+- **Event-Driven Design**: Achievements are checked and awarded based on user activity events
+- **Requirement Evaluation Engine**: Flexible system for defining and checking various achievement criteria
+- **Progressive Unlocking**: Achievements build upon each other in difficulty and complexity
+- **Point-Based Rewards**: Users earn points for unlocking achievements, contributing to their overall score
+- **Category Organization**: Achievements are organized into logical categories (quiz, puzzle, reading, general)
 
 ### Available Achievements
 
