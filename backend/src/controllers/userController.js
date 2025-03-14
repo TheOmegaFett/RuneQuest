@@ -1,7 +1,9 @@
 const jwt = require("jsonwebtoken");
+const crypto = require("node:crypto")
 const User = require("../models/User");
 const { encryptPassword } = require("../functions/encryptPassword");
 const seedDefaultAdmin = require("../seeders/adminSeeder");
+const { comparePassword } = require("../functions/comparePassword");
 
 /**
  * Creates a new user record in the database
@@ -67,14 +69,28 @@ exports.registerUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   try {
-    // Fetch one user documents from database by username
+    // Fetch one user document from database by username
     const user = await User.findOne({ username: req.body.username });
 
+    // Check the user exists
     if (!user) {
       return res.status(404).json({
         success: false,
         error: "Username or password incorrect",
       });
+    }
+
+    // Check if the password matches
+    const isMatch = await comparePassword(
+      user.password,
+      user.salt,
+      req.body.password,
+    );
+    if (!isMatch) {
+      return {
+        success: false,
+        error: "Username or password incorrect",
+      };
     }
 
     // Create user token
@@ -308,13 +324,11 @@ exports.deleteAllUsers = async (req, res) => {
     }
 
     // Proceed with deletion if admin
-    await User.deleteMany();
-
-    seedDefaultAdmin();
+    await User.deleteMany({ username: { $ne: "SystemAdmin" } });
 
     res.status(200).json({
       success: true,
-      message: "All users deleted",
+      message: "All users deleted, excluding SystemAdmin",
     });
   } catch (error) {
     res.status(400).json({
