@@ -31,22 +31,158 @@
 | Jest       | 29.x     | Testing framework for unit and integration tests | Mocha, Jasmine       | MIT     |
 | Crypto     | Built-in | Password encryption and security                 | bcrypt, Argon2       | MIT     |
 
-### Why These Technologies?
+### Industry Relevance of Chosen Technologies
 
-- **Node.js & Express**: Chosen for their robust ecosystem, excellent documentation, and performance characteristics. The non-blocking I/O model is ideal for handling multiple concurrent requests in our application.
+#### Node.js
 
-- **MongoDB & Mongoose**: Selected for flexible schema design that accommodates our diverse data models (runes, readings, users) and evolving requirements. MongoDB's document-based structure aligns perfectly with JSON-like data exchange.
+Node.js dominates the modern web development landscape with over 50% of developers using it for server-side applications according to the 2023 Stack Overflow Developer Survey. Its event-driven, non-blocking I/O model has revolutionized backend development, enabling highly scalable applications. Companies like Netflix, LinkedIn, and Uber rely on Node.js for their production systems due to its performance characteristics and extensive ecosystem.
 
-- **Jest**: Provides a zero-configuration testing experience with built-in mocking capabilities, making it ideal for testing both synchronous and asynchronous code.
+#### Express.js
 
-- **Crypto (Node.js built-in)**: Used for password encryption instead of external libraries to reduce dependencies while maintaining strong security practices.
+Express.js remains the most widely adopted Node.js framework with 23+ million weekly downloads on npm. Its minimalist approach provides the flexibility that enterprises need while maintaining robust functionality. Major companies including IBM, Accenture, and Uber have built production systems using Express, demonstrating its industry acceptance and reliability.
+
+#### MongoDB
+
+MongoDB ranks as the most popular NoSQL database according to DB-Engines, with widespread adoption across industries from financial services (Capital One) to retail (eBay) and gaming (Epic Games). Its document-oriented structure aligns perfectly with modern JavaScript applications, eliminating the object-relational impedance mismatch that plagues traditional SQL databases when working with JSON data.
+
+#### Mongoose
+
+Mongoose has become the de facto standard for MongoDB object modeling in Node.js applications with 4+ million weekly downloads. Its schema validation, middleware, and query building capabilities significantly improve developer productivity when working with MongoDB.
+
+#### Jest
+
+Jest has emerged as the leading JavaScript testing framework with adoption by Facebook, Twitter, and Airbnb. Its zero-configuration approach and built-in code coverage reporting make it particularly valuable for maintaining high-quality codebases.
+
+#### Crypto (Node.js built-in)
+
+The native Crypto module provides industry-standard cryptographic functions that follow NIST guidelines for secure password hashing and encryption, essential for applications handling user credentials.
+
+### Detailed Comparison to Alternative Technologies
+
+#### Node.js vs. Alternatives
+
+- **Deno**: While Deno offers improved security with its permissions system and TypeScript support out-of-the-box, it lacks Node.js's mature ecosystem (1M+ npm packages). Deno's adoption remains limited to experimental projects rather than production systems.
+- **Bun**: Bun promises significantly faster performance than Node.js through its use of the JavaScriptCore engine, but its recency (released 2022) means limited production testing and ecosystem integration.
+- **Python (Django/Flask)**: While powerful for data science applications, Python frameworks typically demonstrate lower request throughput than Node.js for I/O-bound web applications, making them less suitable for our high-concurrency requirements.
+
+#### Express.js vs. Alternatives
+
+- **Koa**: Created by the Express team, Koa offers a more modern middleware architecture using async/await, but has a smaller ecosystem and community compared to Express.
+- **Fastify**: Provides better performance metrics than Express (up to 2x faster in benchmarks) but requires more configuration and has a steeper learning curve.
+- **NestJS**: Offers superior TypeScript integration and Angular-inspired architecture, but introduces additional complexity and abstraction layers that aren't necessary for our specific application needs.
+- **Hapi.js**: Focuses on configuration over code, which can reduce bugs but increases boilerplate compared to Express's minimalist approach.
+
+#### MongoDB vs. Alternatives
+
+- **PostgreSQL**: Provides ACID compliance and relational data integrity that MongoDB has only recently addressed with multi-document transactions. However, PostgreSQL requires predefined schemas that reduce flexibility for our evolving data models.
+- **MySQL**: Offers better query performance for complex joins but lacks MongoDB's horizontal scaling capabilities and flexible document structure.
+- **Firebase**: Provides excellent real-time capabilities but introduces vendor lock-in and potential scaling costs that MongoDB Atlas avoids.
+- **DynamoDB**: AWS's NoSQL solution offers excellent scalability but with complex pricing models and less intuitive query capabilities compared to MongoDB.
+
+#### Mongoose vs. Alternatives
+
+- **Prisma**: Offers superior type safety and auto-completion through its generated TypeScript client, but is primarily designed for SQL databases with MongoDB support being relatively recent.
+- **TypeORM**: Provides excellent TypeScript integration but focuses more on SQL databases, with less comprehensive MongoDB support than Mongoose.
+- **Native MongoDB Driver**: Offers better performance than Mongoose but lacks schema validation and middleware capabilities that improve code organization and data integrity.
+
+#### Jest vs. Alternatives
+
+- **Mocha**: Requires additional configuration and separate libraries for assertions and mocking, unlike Jest's all-in-one approach.
+- **Jasmine**: Provides a similar all-in-one testing experience but lacks Jest's snapshot testing and interactive watch mode.
+- **Vitest**: Offers faster performance through Vite's bundling but is primarily designed for component testing rather than backend API testing.
+
+#### Crypto vs. Alternatives
+
+- **bcrypt**: Provides specialized password hashing but introduces an additional dependency with native bindings that can complicate deployment.
+- **Argon2**: Offers stronger security as the winner of the Password Hashing Competition but has less widespread adoption and support than the Node.js built-in crypto module.
+- **Auth0/Passport**: Provides comprehensive authentication frameworks but introduces unnecessary complexity for our specific authentication requirements.
+
+### Comprehensive Purpose of Chosen Technologies
+
+Our technology stack forms a cohesive ecosystem specifically designed for building secure, scalable, and maintainable web applications:
+
+#### Primary Development Stack
+
+The **Node.js** and **Express.js** combination provides an efficient foundation for building our RESTful API layer. Node.js's event-driven architecture allows our application to handle numerous concurrent connections with minimal resource overhead, which is essential for a web application that may experience variable traffic patterns. Express.js provides the routing and middleware architecture that enables clean separation of concerns in our codebase.
+
+#### Data Layer
+
+**MongoDB** was selected specifically for its document-oriented structure, which perfectly models our diverse data entities (runes, readings, user profiles, achievements) without requiring complex joins or rigid schemas. The flexible schema design accommodates our evolving requirements without migration headaches. **Mongoose** adds a crucial layer of schema validation and middleware capabilities that enforce data integrity while simplifying database operations through its intuitive API.
+
+#### Quality Assurance
+
+**Jest** forms the cornerstone of our testing strategy, enabling comprehensive test coverage across unit, integration, and functional tests. Its snapshot testing capabilities are particularly valuable for ensuring API response consistency, while its mocking features allow isolated testing of components with external dependencies.
+
+#### Security Infrastructure
+
+The **Crypto** module provides industry-standard encryption for sensitive user data, especially password hashing using the PBKDF2 algorithm with appropriate key stretching parameters. This approach follows OWASP recommendations for secure credential storage while maintaining high performance.
+
+### Licensing Considerations
+
+Our technology choices reflect careful consideration of licensing implications:
+
+- **MIT License** (Node.js, Express.js, Mongoose, Jest): The permissive MIT license allows unrestricted use, modification, and distribution, making it ideal for both commercial and open-source applications. This licensing model ensures we can freely incorporate these technologies without complex legal requirements.
+
+- **Server Side Public License (SSPL)** (MongoDB): While more restrictive than MIT, MongoDB's SSPL license doesn't impact our application since we're not offering MongoDB as a service. This license requires that anyone making the functionality of MongoDB available as a service must release the entire service code under the same license. For our use case as an application using MongoDB, there are no restrictions.
+
+- **Built-in Node.js modules** (Crypto): As part of the Node.js core, these modules inherit Node's MIT license, eliminating any additional licensing concerns.
+
+Our careful selection of primarily MIT-licensed components minimizes licensing compliance overhead while ensuring legal protection for both developers and users of the RuneQuest application.
 
 ### Hardware Requirements
 
-- **Server**: Any system capable of running Node.js (minimum 1GB RAM, 1 CPU core)
-- **Database**: MongoDB instance (local or cloud-based like MongoDB Atlas)
-- **Development**: Modern web browser and code editor
-- **Client**: Device with modern web browser support
+The RuneQuest application has been designed with scalability and accessibility in mind, with the following hardware considerations:
+
+#### Development Environment
+
+- **Processor**: Any modern multi-core CPU (Intel Core i5/AMD Ryzen 5 or better recommended)
+- **Memory**: Minimum 8GB RAM for comfortable development experience
+- **Storage**: 1GB free space for application code, dependencies, and local database
+- **Operating System**: Platform-independent (Windows 10+, macOS 10.15+, or Linux)
+- **Development Tools**: Modern code editor (VS Code, WebStorm, etc.) and Git for version control
+
+#### Production Server Requirements
+
+- **Minimum Viable Configuration**:
+
+  - CPU: 1 vCPU (2+ GHz)
+  - RAM: 1GB dedicated memory
+  - Storage: 10GB SSD storage for application, logs, and database
+  - Network: 1Gbps connection with reasonable monthly transfer allowance
+
+- **Recommended Configuration** (supporting 5000+ daily active users):
+  - CPU: 2+ vCPUs (2.5+ GHz)
+  - RAM: 4GB dedicated memory
+  - Storage: 25GB SSD storage with backup capabilities
+  - Network: 1Gbps connection with unlimited transfer
+  - Monitoring: Server health and performance tracking
+
+#### Database Hosting Options
+
+- **Self-hosted**: Requires additional server resources beyond application hosting
+- **MongoDB Atlas**: Cloud-hosted solution with flexible scaling (free tier available for development)
+
+#### Client Requirements
+
+- **Modern web browser**: Chrome 80+, Firefox 75+, Safari 13+, Edge 80+
+- **Screen resolution**: Minimum 1280x720 (responsive design supports mobile devices)
+- **Internet connection**: 1Mbps+ for optimal experience
+
+### Coding Style Guide
+
+The RuneQuest project follows a comprehensive style guide detailed in our [backend-style-guide.md](./backend-style-guide.md) file. This guide covers:
+
+- Naming conventions for variables, functions, classes, and constants
+- Indentation and spacing standards
+- Documentation requirements using JSDoc
+- Data structure and validation approaches
+- API design patterns and response formats
+- Database interaction best practices
+- Security implementations
+- Logging and monitoring standards
+- Development workflow procedures
+
+All contributors should review this style guide before submitting code to ensure consistency across the codebase.
 
 ## ✨ Features
 
