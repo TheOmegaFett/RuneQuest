@@ -1,11 +1,17 @@
 {
   "norse_words": [
-    { "word": "Ásgarðr", "meaning": "Realm of the Æsir gods" },
+    {
+      "word": "Ásgarðr",
+      "meaning": "Realm of the Æsir gods"
+    },
     {
       "word": "Bifröst",
       "meaning": "Rainbow bridge connecting Midgard and Asgard"
     },
-    { "word": "Yggdrasil", "meaning": "World Tree connecting all realms" },
+    {
+      "word": "Yggdrasil",
+      "meaning": "World Tree connecting all realms"
+    },
     {
       "word": "Mjölnir",
       "meaning": "Thor's hammer, a symbol of protection and power"
@@ -14,23 +20,50 @@
       "word": "Ragnarök",
       "meaning": "Prophesied end of the world and rebirth"
     },
-    { "word": "Jötunn", "meaning": "Giant, often in opposition to the gods" },
-    { "word": "Valkyrja", "meaning": "Chooser of the slain, serving Odin" },
+    {
+      "word": "Jötunn",
+      "meaning": "Giant, often in opposition to the gods"
+    },
+    {
+      "word": "Valkyrja",
+      "meaning": "Chooser of the slain, serving Odin"
+    },
     {
       "word": "Níðhöggr",
       "meaning": "Dragon gnawing at the roots of Yggdrasil"
     },
-    { "word": "Fimbulvetr", "meaning": "Great winter preceding Ragnarök" },
-    { "word": "Mímir", "meaning": "Wise being guarding the well of wisdom" },
+    {
+      "word": "Fimbulvetr",
+      "meaning": "Great winter preceding Ragnarök"
+    },
+    {
+      "word": "Mímir",
+      "meaning": "Wise being guarding the well of wisdom"
+    },
     {
       "word": "Gjallarhorn",
       "meaning": "Horn sounded by Heimdallr at Ragnarök"
     },
-    { "word": "Fenrir", "meaning": "Gigantic wolf, bound by the gods" },
-    { "word": "Loki", "meaning": "Trickster god and shapeshifter" },
-    { "word": "Sleipnir", "meaning": "Odin's eight-legged horse" },
-    { "word": "Ginnungagap", "meaning": "Primordial void before creation" },
-    { "word": "Hel", "meaning": "Realm of the dead and its ruler" },
+    {
+      "word": "Fenrir",
+      "meaning": "Gigantic wolf, bound by the gods"
+    },
+    {
+      "word": "Loki",
+      "meaning": "Trickster god and shapeshifter"
+    },
+    {
+      "word": "Sleipnir",
+      "meaning": "Odin's eight-legged horse"
+    },
+    {
+      "word": "Ginnungagap",
+      "meaning": "Primordial void before creation"
+    },
+    {
+      "word": "Hel",
+      "meaning": "Realm of the dead and its ruler"
+    },
     {
       "word": "Skíðblaðnir",
       "meaning": "Ship of the gods, always with a favorable wind"
@@ -39,19 +72,46 @@
       "word": "Surtr",
       "meaning": "Fire giant who leads destruction during Ragnarök"
     },
-    { "word": "Runes", "meaning": "Sacred symbols used for writing and magic" },
-    { "word": "Freyja", "meaning": "Goddess of love, beauty, and fertility" },
-    { "word": "Odin", "meaning": "All-Father, god of wisdom, war, and death" },
-    { "word": "Thor", "meaning": "God of thunder and protector of Midgard" },
-    { "word": "Midgard", "meaning": "Realm of humans" },
+    {
+      "word": "Runes",
+      "meaning": "Sacred symbols used for writing and magic"
+    },
+    {
+      "word": "Freyja",
+      "meaning": "Goddess of love, beauty, and fertility"
+    },
+    {
+      "word": "Odin",
+      "meaning": "All-Father, god of wisdom, war, and death"
+    },
+    {
+      "word": "Thor",
+      "meaning": "God of thunder and protector of Midgard"
+    },
+    {
+      "word": "Midgard",
+      "meaning": "Realm of humans"
+    },
     {
       "word": "Svartálfaheimr",
       "meaning": "Realm of the dark elves or dwarves"
     },
-    { "word": "Vanaheim", "meaning": "Realm of the Vanir gods" },
-    { "word": "Alfheim", "meaning": "Realm of the light elves" },
-    { "word": "Muspelheim", "meaning": "Realm of fire and heat" },
-    { "word": "Niflheim", "meaning": "Realm of ice and cold" },
+    {
+      "word": "Vanaheim",
+      "meaning": "Realm of the Vanir gods"
+    },
+    {
+      "word": "Alfheim",
+      "meaning": "Realm of the light elves"
+    },
+    {
+      "word": "Muspelheim",
+      "meaning": "Realm of fire and heat"
+    },
+    {
+      "word": "Niflheim",
+      "meaning": "Realm of ice and cold"
+    },
     {
       "word": "Einherjar",
       "meaning": "Warriors chosen by Valkyries to fight in Odin's army"
@@ -60,8 +120,14 @@
       "word": "Frigg",
       "meaning": "Odin's wife, associated with marriage and motherhood"
     },
-    { "word": "Baldr", "meaning": "God of light, purity, and beauty" },
-    { "word": "Týr", "meaning": "God of war and law" },
+    {
+      "word": "Baldr",
+      "meaning": "God of light, purity, and beauty"
+    },
+    {
+      "word": "Týr",
+      "meaning": "God of war and law"
+    },
     {
       "word": "Heimdallr",
       "meaning": "Watchman of the gods, who guards Bifröst"
@@ -82,23 +148,50 @@
       "word": "Draupnir",
       "meaning": "Odin’s magical gold ring that replicates itself"
     },
-    { "word": "Gungnir", "meaning": "Odin’s spear that always hits its mark" },
-    { "word": "Vigrid", "meaning": "Battlefield of Ragnarök" },
-    { "word": "Álfablót", "meaning": "Sacrifices made to the elves" },
+    {
+      "word": "Gungnir",
+      "meaning": "Odin’s spear that always hits its mark"
+    },
+    {
+      "word": "Vigrid",
+      "meaning": "Battlefield of Ragnarök"
+    },
+    {
+      "word": "Álfablót",
+      "meaning": "Sacrifices made to the elves"
+    },
     {
       "word": "Svaðilfari",
       "meaning": "Stallion used by the builder of Asgard's walls"
     },
-    { "word": "Hrimfaxi", "meaning": "Horse of Nótt (night)" },
-    { "word": "Blót", "meaning": "Sacrificial ritual" },
+    {
+      "word": "Hrimfaxi",
+      "meaning": "Horse of Nótt (night)"
+    },
+    {
+      "word": "Blót",
+      "meaning": "Sacrificial ritual"
+    },
     {
       "word": "Seiðr",
       "meaning": "Norse magic associated with prophecy and fate"
     },
-    { "word": "Skald", "meaning": "Poet or bard of Norse society" },
-    { "word": "Þing", "meaning": "Assembly or council in Norse governance" },
-    { "word": "Vættir", "meaning": "Spirits or beings of nature" },
-    { "word": "Rún", "meaning": "Rune, used for writing and divination" }
+    {
+      "word": "Skald",
+      "meaning": "Poet or bard of Norse society"
+    },
+    {
+      "word": "Þing",
+      "meaning": "Assembly or council in Norse governance"
+    },
+    {
+      "word": "Vættir",
+      "meaning": "Spirits or beings of nature"
+    },
+    {
+      "word": "Rún",
+      "meaning": "Rune, used for writing and divination"
+    }
   ],
   "elemental_words": [
     {
@@ -193,7 +286,10 @@
       "word": "Mail",
       "meaning": "Interlocking metal rings worn as body armor."
     },
-    { "word": "Gambeson", "meaning": "Padded underarmor worn beneath mail." },
+    {
+      "word": "Gambeson",
+      "meaning": "Padded underarmor worn beneath mail."
+    },
     {
       "word": "Lamellar",
       "meaning": "Armor made from small iron or leather plates tied together."
@@ -202,8 +298,14 @@
       "word": "Leather Armor",
       "meaning": "Light, flexible armor used for mobility."
     },
-    { "word": "Bracers", "meaning": "Armguards made from leather or metal." },
-    { "word": "Greaves", "meaning": "Armor to protect the legs." },
+    {
+      "word": "Bracers",
+      "meaning": "Armguards made from leather or metal."
+    },
+    {
+      "word": "Greaves",
+      "meaning": "Armor to protect the legs."
+    },
     {
       "word": "Cloak",
       "meaning": "Often used for warmth, occasionally reinforced with leather."

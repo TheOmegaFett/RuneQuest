@@ -83,9 +83,9 @@ describe("Quiz Feature Tests", () => {
       // Mock a document-like object with both data and lean() method
       const result = question
         ? {
-            ...question,
-            lean: () => question,
-          }
+          ...question,
+          lean: () => question,
+        }
         : null;
       return Promise.resolve(result);
     });
