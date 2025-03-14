@@ -9,6 +9,7 @@ const seedElderFuthark = require("../seeders/elderFutharkSeeder");
 const seedPuzzles = require("../seeders/puzzleSeed");
 const seedQuizQuestions = require("../seeders/quizSeed");
 const { seedAchievements } = require("../seeders/achievementSeeder");
+const seedDefaultAdmin = require("../seeders/adminSeeder");
 
 /**
  * Initializes the database with seed data in the appropriate order
@@ -36,6 +37,9 @@ const initializeDatabase = async () => {
 
     // Seed achievements (depends on understanding of all available content)
     await seedAchievements();
+
+    // Seed default admin
+    await seedDefaultAdmin();
 
     console.log("Database initialization completed successfully");
   } catch (error) {

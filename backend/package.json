@@ -30,7 +30,8 @@
     "exit": "^0.1.2",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.11.0"
+    "mongoose": "^8.11.0",
+    "prompt-sync": "^4.2.0"
   },
   "license": "MIT"
 }
