@@ -3,13 +3,14 @@ const router = express.Router();
 const { checkAuthority } = require("../middleware/checkAuthority");
 
 const {
-  getAllUsers,
-  getOneUser,
   registerUser,
   loginUser,
+  getAllUsers,
+  getOneUser,
+  updateUserSettings,
+  updateUserToAdmin,
   deleteUser,
   deleteAllUsers,
-  updateUserSettings,
 } = require("../controllers/userController");
 
 /**
@@ -25,7 +26,8 @@ router.get("/login", loginUser);
 // Protected routes (authentication required)
 router.get("/", checkAuthority, getAllUsers);
 router.get("/one/:userId", checkAuthority, getOneUser);
-router.patch("/settings/login/:userId", checkAuthority, updateUserSettings);
+router.patch("/settings/:userId", checkAuthority, updateUserSettings);
+router.patch("/settings/admin/:userId", checkAuthority, updateUserToAdmin);
 router.delete("/delete/:userId", checkAuthority, deleteUser);
 router.delete("/deleteAll", checkAuthority, deleteAllUsers);
 

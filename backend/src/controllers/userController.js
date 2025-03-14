@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const { encryptPassword } = require("../functions/encryptPassword");
+const seedDefaultAdmin = require("../seeders/adminSeeder");
 
 /**
  * Creates a new user record in the database
@@ -61,6 +62,8 @@ exports.registerUser = async (req, res) => {
  * @param {Object} res - Express response object
  * @returns {Object} JSON response of user file and token
  */
+
+// NEED TO ADD PASSWORD CHECK
 
 exports.loginUser = async (req, res) => {
   try {
@@ -165,7 +168,7 @@ exports.getOneUser = async (req, res) => {
 };
 
 /**
- * Updates one user record in the database, separate routes, separate data
+ * Updates one user record in the database
  * @async
  * @function updateUser
  * @param {Object} req - Express request object
@@ -188,9 +191,11 @@ exports.updateUserSettings = async (req, res) => {
       },
     };
 
-    const user = await User.findByIdAndUpdate(req.params.userId, bodyData, {
-      new: true,
-    });
+    const user = await User.findByIdAndUpdate(
+      req.params.userId,
+      bodyData,
+      { new: true },
+    );
 
     // Return success response with user file and token
     res.status(200).json({
@@ -205,36 +210,38 @@ exports.updateUserSettings = async (req, res) => {
   }
 };
 
-// exports.updateUserProgress = async (req, res) => {
-//   try {
-//     // // Retrieve update data from the body
-//     const bodyData = {
-//       progress: {
-//         completedQuizzes: req.body.preferences.completedQuizzes,
-//         completedPuzzles: req.body.preferences.completedPuzzles,
-//         achievements: req.body.preferences.achievements,
-//       }
-//     };
+/**
+ * Updates one user record in the database, changing the user into an admin
+ * @async
+ * @function updateUser
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} JSON response of username and update confirmation
+ */
 
-//     const user = await User.findByIdAndUpdate(
-//       req.params.userId,
-//       bodyData,
-//       { new: true }
-//     );
+exports.updateUserToAdmin = async (req, res) => {
+  try {
+    const newAdmin = await User.findByIdAndUpdate(
+      req.params.userId,
+      { isAdmin: true },
+      { new: true },
+    );
 
-//     // Return success response with user file
-//     res.status(200).json({
-//       success: true,
-//       data: user,
-//     });
+    res.status(200).json({
+      success: true,
+      data: {
+        username: newAdmin["username"],
+        isAdmin: newAdmin["isAdmin"],
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
 
-//   } catch (error) {
-//     res.status(400).json({
-//       success: false,
-//       error: error.message,
-//     });
-//   }
-// };
 
 /**
  * Deletes one user record from the database
@@ -286,6 +293,7 @@ exports.deleteUser = async (req, res) => {
     });
   }
 };
+
 exports.deleteAllUsers = async (req, res) => {
   try {
     // Get the authenticated user
@@ -301,6 +309,8 @@ exports.deleteAllUsers = async (req, res) => {
 
     // Proceed with deletion if admin
     await User.deleteMany();
+
+    seedDefaultAdmin();
 
     res.status(200).json({
       success: true,
