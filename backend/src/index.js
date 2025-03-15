@@ -8,6 +8,7 @@ const express = require("express");
 const { connectDB } = require("./config/db");
 const mainRouter = require("./routes/mainRouter");
 const initializeDatabase = require("./config/initDB");
+const { logger } = require("./middleware/logger");
 
 // Connect to MongoDB
 connectDB();
@@ -30,9 +31,11 @@ const PORT = process.env.PORT || 3000;
 // Configure middleware for request parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(logger)
 // Register main API router
 app.use("/api", mainRouter);
+
+
 
 // Start server
 app.listen(PORT, () => {

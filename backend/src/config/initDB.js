@@ -41,9 +41,9 @@ const initializeDatabase = async () => {
     // Seed default admin
     await seedDefaultAdmin();
 
-    console.log("Database initialization completed successfully");
+    console.log("Database initialization completed successfully\n");
   } catch (error) {
-    console.error("Database initialization failed:", error);
+    console.error("Database initialization failed:", error, "\n");
   }
 };
 
