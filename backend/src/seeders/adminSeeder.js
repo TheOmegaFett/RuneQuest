@@ -1,4 +1,4 @@
-const { encryptPassword } = require("../functions/encryptPassword");
+const { encryptPassword } = require("../helpers/encryptPasswordHelper");
 const User = require("../models/User");
 require("dotenv").config();
 

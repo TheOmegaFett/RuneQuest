@@ -1,10 +1,8 @@
-const jwt = require("jsonwebtoken");
-const crypto = require("node:crypto");
 const User = require("../models/User");
 const UserProgression = require("../models/UserProgression");
-const { filterUserData } = require("../functions/filterUserData");
-const { encryptPassword } = require("../functions/encryptPassword");
-const { comparePassword } = require("../functions/comparePassword");
+const { filterUserData } = require("../helpers/filterDataHelper");
+const { encryptPassword } = require("../helpers/encryptPasswordHelper");
+const { comparePassword } = require("../helpers/comparePasswordHelper");
 const { checkAndUnlockAchievements } = require("../helpers/achievementHelper");
 
 /**
@@ -33,7 +31,7 @@ exports.registerUser = async (req, res) => {
     const user = await User.create(bodyData);
 
     // Create user token
-    const token = jwt.sign({ id: user._id }, "secret");
+    const token = createToken(user._id);
 
     if (token.error) {
       // If token creation produces an error, respond with 409
@@ -98,7 +96,7 @@ exports.loginUser = async (req, res) => {
     }
 
     // Create user token
-    const token = jwt.sign({ id: user._id }, "secret");
+    const token = createToken(user._id);
 
     // Update login streak
     await updateLoginStreak(user._id);

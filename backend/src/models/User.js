@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const crypto = require("node:crypto")
 
-const { encryptPassword } = require("../functions/encryptPassword")
-
 /**
  * Mongoose schema for Users
  * Tracks user information, preferences, and progress in the RuneQuest application
