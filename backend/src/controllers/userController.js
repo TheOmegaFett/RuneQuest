@@ -1,9 +1,11 @@
 const jwt = require("jsonwebtoken");
 const crypto = require("node:crypto");
 const User = require("../models/User");
-const { filterUserData } = require("../functions/filterUserData")
+const UserProgression = require("../models/UserProgression");
+const { filterUserData } = require("../functions/filterUserData");
 const { encryptPassword } = require("../functions/encryptPassword");
 const { comparePassword } = require("../functions/comparePassword");
+const { checkAndUnlockAchievements } = require("../helpers/achievementHelper");
 
 /**
  * Creates a new user record in the database
@@ -83,7 +85,7 @@ exports.loginUser = async (req, res) => {
     }
 
     // Check if the password matches
-    const isMatch = await comparePassword(
+    const isMatch = comparePassword(
       user.password,
       user.salt,
       req.body.password
@@ -189,7 +191,7 @@ async function updateLoginStreak(userId) {
     await userProgress.save();
 
     // Check for streak achievements
-    await checkAndUnlockAchievements(userId, {}, "login");
+    checkAndUnlockAchievements(userId, {}, "login");
   } catch (error) {
     console.error("Error updating login streak:", error);
   }
@@ -301,15 +303,10 @@ exports.getOneUser = async (req, res) => {
 
 exports.updateUserSettings = async (req, res) => {
   try {
-    // Get the authenticated user ID from the middleware
-    const authenticatedUserId = req.userId;
-
     // Check if user is trying to delete someone else's account
-    if (authenticatedUserId !== req.params.userId) {
+    if (req.userId !== req.params.userId) {
       // If IDs don't match, check if user is an admin
-      const authenticatedUser = await User.findById(authenticatedUserId);
-
-      if (!authenticatedUser || !authenticatedUser.isAdmin) {
+      if (!req.isAdmin) {
         return res.status(403).json({
           success: false,
           error: "Unauthorised - only admins can update other user accounts",
@@ -404,16 +401,10 @@ exports.updateUserToAdmin = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    // Get the authenticated user ID from the middleware
-    const authenticatedUserId = req.userId;
-    const requestedUserId = req.params.userId;
-
     // Check if user is trying to delete someone else's account
-    if (authenticatedUserId !== requestedUserId) {
+    if (req.userId !== req.params.userId) {
       // If IDs don't match, check if user is an admin
-      const authenticatedUser = await User.findById(authenticatedUserId);
-
-      if (!authenticatedUser || !authenticatedUser.isAdmin) {
+      if (!req.isAdmin) {
         return res.status(403).json({
           success: false,
           error: "Unauthorised - only admins can delete other user accounts",

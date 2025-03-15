@@ -32,10 +32,9 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger)
+
 // Register main API router
 app.use("/api", mainRouter);
-
-
 
 // Start server
 app.listen(PORT, () => {
