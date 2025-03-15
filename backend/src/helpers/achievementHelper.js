@@ -98,7 +98,7 @@ exports.checkAndUnlockAchievements = async (
         case "runes_learned":
           // For rune collection achievements
           if (requirement.category && requirement.count) {
-            // This would need more implementation based on how you track learned runes
+            // This would need more implementation based on how we track learned runes
             // For now, using the runesLearned stat as a simple approximation
             isUnlocked = userProgress.stats.runesLearned >= requirement.count;
           }

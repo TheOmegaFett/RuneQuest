@@ -51,7 +51,7 @@ const mockUserProgress = {
 beforeEach(() => {
   // Reset mock data to initial state before each test
   jest.clearAllMocks();
-  // Re-initialize your mock with the original test data
+  // Re-initialize mock with the original test data
   const UserProgression = require("../models/UserProgression");
   UserProgression.findOne.mockImplementation(({ user }) => {
     if (user === mockUserId) {
