@@ -116,9 +116,17 @@ The middleware pattern is central to Express.js architecture, allowing for modul
 
 Our technology stack forms a cohesive ecosystem specifically designed for building secure, scalable, and maintainable web applications:
 
-#### Primary Development Stack
+#### Data Layer
 
-The **Node.js** and **Express.js** combination provides an efficient foundation for building our RESTful API layer. Node.js's event-driven architecture allows our application to handle numerous concurrent connections with minimal resource overhead, which is essential for a web application that may experience variable traffic patterns. Express.js provides the routing and middleware architecture that enables clean separation of concerns in our codebase.
+**MongoDB** was selected specifically for its document-oriented structure, which perfectly models our diverse data entities (runes, readings, user profiles, achievements) without requiring complex joins or rigid schemas. The flexible schema design accommodates our evolving requirements without migration headaches. **Mongoose** adds a crucial layer of schema validation and middleware capabilities that enforce data integrity while simplifying database operations through its intuitive API.
+
+#### Quality Assurance
+
+**Jest** forms the cornerstone of our testing strategy, enabling comprehensive test coverage across unit, integration, and functional tests. Its snapshot testing capabilities are particularly valuable for ensuring API response consistency, while its mocking features allow isolated testing of components with external dependencies.
+
+#### Security Infrastructure
+
+The **Crypto** module provides industry-standard encryption for sensitive user data, especially password hashing using the PBKDF2 algorithm with appropriate key stretching parameters. This approach follows OWASP recommendations for secure credential storage while maintaining high performance.
 
 ### Security Implementation Details
 
@@ -146,22 +154,6 @@ RuneQuest employs a comprehensive testing strategy:
 - **Controller Tests**: Ensures API endpoints handle requests and responses correctly
 - **Authentication Tests**: Validates security middleware and access controls
 - **Achievement System Tests**: Verifies achievement unlocking logic and progression tracking
-
-### Comprehensive Purpose of Chosen Technologies
-
-Our technology stack forms a cohesive ecosystem specifically designed for building secure, scalable, and maintainable web applications:
-
-#### Data Layer
-
-**MongoDB** was selected specifically for its document-oriented structure, which perfectly models our diverse data entities (runes, readings, user profiles, achievements) without requiring complex joins or rigid schemas. The flexible schema design accommodates our evolving requirements without migration headaches. **Mongoose** adds a crucial layer of schema validation and middleware capabilities that enforce data integrity while simplifying database operations through its intuitive API.
-
-#### Quality Assurance
-
-**Jest** forms the cornerstone of our testing strategy, enabling comprehensive test coverage across unit, integration, and functional tests. Its snapshot testing capabilities are particularly valuable for ensuring API response consistency, while its mocking features allow isolated testing of components with external dependencies.
-
-#### Security Infrastructure
-
-The **Crypto** module provides industry-standard encryption for sensitive user data, especially password hashing using the PBKDF2 algorithm with appropriate key stretching parameters. This approach follows OWASP recommendations for secure credential storage while maintaining high performance.
 
 ### Licensing Considerations
 
