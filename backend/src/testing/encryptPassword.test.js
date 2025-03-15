@@ -6,7 +6,7 @@
  */
 
 const crypto = require("crypto");
-const { encryptPassword } = require("../functions/encryptPassword");
+const { encryptPassword } = require("../helpers/encryptPasswordHelper");
 
 describe("Password Encryption Middleware", () => {
   it("should encrypt password when called", async () => {

@@ -4,6 +4,7 @@ const { filterUserData } = require("../helpers/filterDataHelper");
 const { encryptPassword } = require("../helpers/encryptPasswordHelper");
 const { comparePassword } = require("../helpers/comparePasswordHelper");
 const { checkAndUnlockAchievements } = require("../helpers/achievementHelper");
+const { createToken } = require("../helpers/createTokenHelper");
 
 /**
  * Creates a new user record in the database
@@ -212,18 +213,16 @@ exports.getAllUsers = async (req, res) => {
 
     // Display all nonsensitve data for admins, only usernames for others
     if (req.isAdmin) {
-      users.forEach(user => {
-        userData.push(
-          filterUserData(user)
-        );
+      users.forEach((user) => {
+        userData.push(filterUserData(user));
       });
     } else {
-      users.forEach(user => {
+      users.forEach((user) => {
         userData.push({
           username: user.username,
         });
       });
-    };
+    }
 
     // Return success response with user files and count for standard users
     res.status(200).json({
@@ -325,11 +324,9 @@ exports.updateUserSettings = async (req, res) => {
       },
     };
 
-    const user = await User.findByIdAndUpdate(
-      req.params.userId,
-      bodyData,
-      { new: true },
-    );
+    const user = await User.findByIdAndUpdate(req.params.userId, bodyData, {
+      new: true,
+    });
 
     // Check user exists
     if (!user) {
@@ -366,7 +363,7 @@ exports.updateUserToAdmin = async (req, res) => {
     if (!req.isAdmin) {
       return res.status(403).json({
         success: false,
-        error: "Unauthorised - admin privileges required for this operation"
+        error: "Unauthorised - admin privileges required for this operation",
       });
     }
 
@@ -411,7 +408,7 @@ exports.deleteUser = async (req, res) => {
     }
 
     // Authorized to delete - proceed with deletion
-    const user = await User.findByIdAndDelete(requestedUserId);
+    const user = await User.findByIdAndDelete(req.params.userId);
 
     // Check user exists
     if (!user) {
