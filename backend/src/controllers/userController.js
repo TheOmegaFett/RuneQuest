@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 const crypto = require("node:crypto");
 const User = require("../models/User");
+const { filterUserData } = require("../functions/filterUserData")
 const { encryptPassword } = require("../functions/encryptPassword");
-const seedDefaultAdmin = require("../seeders/adminSeeder");
 const { comparePassword } = require("../functions/comparePassword");
 
 /**
@@ -43,7 +43,10 @@ exports.registerUser = async (req, res) => {
       // Return success response with created user data
       res.status(201).json({
         success: true,
-        data: user,
+        data: {
+          id: userData.id,
+          username: userData.username,
+        },
         token: token,
       });
     }
@@ -64,8 +67,6 @@ exports.registerUser = async (req, res) => {
  * @param {Object} res - Express response object
  * @returns {Object} JSON response of user file and token
  */
-
-// NEED TO ADD PASSWORD CHECK
 
 exports.loginUser = async (req, res) => {
   try {
@@ -106,7 +107,11 @@ exports.loginUser = async (req, res) => {
       // Return success response with user file
       res.status(200).json({
         success: true,
-        userId: user._id,
+        data: {
+          id: userData.id,
+          username: userData.username,
+          isAdmin: userData.isAdmin,
+        },
         token: token,
       });
     }
@@ -133,11 +138,18 @@ exports.getAllUsers = async (req, res) => {
     // Fetch all user documents from database
     const users = await User.find();
 
+    userData = [];
+    users.forEach(user => {
+      displayData.push(
+        filterUserData(user),
+      );
+    });
+
     // Return success response with user files and count
     res.status(200).json({
       success: true,
       count: users.length,
-      data: users,
+      data: userData,
     });
   } catch (error) {
     // Return error response if retrieval fails
@@ -172,7 +184,7 @@ exports.getOneUser = async (req, res) => {
     // Return success response with user file and token
     res.status(200).json({
       success: true,
-      data: user,
+      data: filterUserData(user),
     });
   } catch (error) {
     // Return error response if retrieval fails
@@ -214,7 +226,7 @@ exports.updateUserSettings = async (req, res) => {
     // Return success response with user file and token
     res.status(200).json({
       success: true,
-      data: user,
+      data: filterUserData(user),
     });
   } catch (error) {
     res.status(400).json({
@@ -235,7 +247,7 @@ exports.updateUserSettings = async (req, res) => {
 
 exports.updateUserToAdmin = async (req, res) => {
   try {
-    const newAdmin = await User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       req.params.userId,
       { isAdmin: true },
       { new: true }
@@ -243,10 +255,7 @@ exports.updateUserToAdmin = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: {
-        username: newAdmin["username"],
-        isAdmin: newAdmin["isAdmin"],
-      },
+      data: filterUserData(user),
     });
   } catch (error) {
     res.status(400).json({
@@ -297,7 +306,7 @@ exports.deleteUser = async (req, res) => {
     // Return success response with deleted data
     res.status(200).json({
       success: true,
-      data: user,
+      data: filterUserData(user),
     });
   } catch (error) {
     res.status(400).json({
@@ -306,6 +315,15 @@ exports.deleteUser = async (req, res) => {
     });
   }
 };
+
+/**
+ * Deletes all user records from the database
+ * @async
+ * @function deleteUser
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} JSON response of deletion confirmation
+ */
 
 exports.deleteAllUsers = async (req, res) => {
   try {
