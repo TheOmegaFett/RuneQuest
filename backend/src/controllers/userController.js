@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 const crypto = require("node:crypto");
 const User = require("../models/User");
+const { filterUserData } = require("../functions/filterUserData")
 const { encryptPassword } = require("../functions/encryptPassword");
-const seedDefaultAdmin = require("../seeders/adminSeeder");
 const { comparePassword } = require("../functions/comparePassword");
 
 /**
@@ -43,7 +43,10 @@ exports.registerUser = async (req, res) => {
       // Return success response with created user data
       res.status(201).json({
         success: true,
-        data: user,
+        data: {
+          id: user.id,
+          username: user.username,
+        },
         token: token,
       });
     }
@@ -71,7 +74,7 @@ exports.loginUser = async (req, res) => {
     // Fetch one user document from database by username
     const user = await User.findOne({ username: req.body.username });
 
-    // Check the user exists
+    // Check user exists
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -108,7 +111,11 @@ exports.loginUser = async (req, res) => {
       // Return success response with user file
       res.status(200).json({
         success: true,
-        userId: user._id,
+        data: {
+          id: user.id,
+          username: user.username,
+          isAdmin: user.isAdmin,
+        },
         token: token,
       });
     }
@@ -201,11 +208,28 @@ exports.getAllUsers = async (req, res) => {
     // Fetch all user documents from database
     const users = await User.find();
 
-    // Return success response with user files and count
+    const userData = [];
+
+    // Display all nonsensitve data for admins, only usernames for others
+    if (req.isAdmin) {
+      users.forEach(user => {
+        userData.push(
+          filterUserData(user)
+        );
+      });
+    } else {
+      users.forEach(user => {
+        userData.push({
+          username: user.username,
+        });
+      });
+    };
+
+    // Return success response with user files and count for standard users
     res.status(200).json({
       success: true,
       count: users.length,
-      data: users,
+      data: userData,
     });
   } catch (error) {
     // Return error response if retrieval fails
@@ -230,6 +254,7 @@ exports.getOneUser = async (req, res) => {
     // Fetch one user documents from database by id
     const user = await User.findById(req.params.userId);
 
+    // Check user exists
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -237,10 +262,24 @@ exports.getOneUser = async (req, res) => {
       });
     }
 
-    // Return success response with user file and token
+    if (req.isAdmin) {
+      userData = filterUserData(user);
+    } else if (req.userId == req.params.userId) {
+      userData = {
+        username: user.username,
+        preferences: user.preferences,
+        progress: user.progress,
+      };
+    } else {
+      userData = {
+        username: user.username,
+      };
+    }
+
+    // Return success response with user data
     res.status(200).json({
       success: true,
-      data: user,
+      data: userData,
     });
   } catch (error) {
     // Return error response if retrieval fails
@@ -262,7 +301,23 @@ exports.getOneUser = async (req, res) => {
 
 exports.updateUserSettings = async (req, res) => {
   try {
-    // // Retrieve update data from the body
+    // Get the authenticated user ID from the middleware
+    const authenticatedUserId = req.userId;
+
+    // Check if user is trying to delete someone else's account
+    if (authenticatedUserId !== req.params.userId) {
+      // If IDs don't match, check if user is an admin
+      const authenticatedUser = await User.findById(authenticatedUserId);
+
+      if (!authenticatedUser || !authenticatedUser.isAdmin) {
+        return res.status(403).json({
+          success: false,
+          error: "Unauthorised - only admins can update other user accounts",
+        });
+      }
+    }
+
+    // Retrieve update data from the body
     const saltPass = encryptPassword(req.body.password);
 
     const bodyData = {
@@ -275,14 +330,24 @@ exports.updateUserSettings = async (req, res) => {
       },
     };
 
-    const user = await User.findByIdAndUpdate(req.params.userId, bodyData, {
-      new: true,
-    });
+    const user = await User.findByIdAndUpdate(
+      req.params.userId,
+      bodyData,
+      { new: true },
+    );
+
+    // Check user exists
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found",
+      });
+    }
 
     // Return success response with user file and token
     res.status(200).json({
       success: true,
-      data: user,
+      data: filterUserData(user),
     });
   } catch (error) {
     res.status(400).json({
@@ -303,7 +368,14 @@ exports.updateUserSettings = async (req, res) => {
 
 exports.updateUserToAdmin = async (req, res) => {
   try {
-    const newAdmin = await User.findByIdAndUpdate(
+    if (!req.isAdmin) {
+      return res.status(403).json({
+        success: false,
+        error: "Unauthorised - admin privileges required for this operation"
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
       req.params.userId,
       { isAdmin: true },
       { new: true }
@@ -311,10 +383,7 @@ exports.updateUserToAdmin = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: {
-        username: newAdmin["username"],
-        isAdmin: newAdmin["isAdmin"],
-      },
+      data: filterUserData(user),
     });
   } catch (error) {
     res.status(400).json({
@@ -347,7 +416,7 @@ exports.deleteUser = async (req, res) => {
       if (!authenticatedUser || !authenticatedUser.isAdmin) {
         return res.status(403).json({
           success: false,
-          error: "Not authorized to delete other user accounts",
+          error: "Unauthorised - only admins can delete other user accounts",
         });
       }
     }
@@ -355,6 +424,7 @@ exports.deleteUser = async (req, res) => {
     // Authorized to delete - proceed with deletion
     const user = await User.findByIdAndDelete(requestedUserId);
 
+    // Check user exists
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -365,7 +435,7 @@ exports.deleteUser = async (req, res) => {
     // Return success response with deleted data
     res.status(200).json({
       success: true,
-      data: user,
+      data: filterUserData(user),
     });
   } catch (error) {
     res.status(400).json({
@@ -374,6 +444,15 @@ exports.deleteUser = async (req, res) => {
     });
   }
 };
+
+/**
+ * Deletes all user records from the database
+ * @async
+ * @function deleteUser
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} JSON response of deletion confirmation
+ */
 
 exports.deleteAllUsers = async (req, res) => {
   try {
@@ -384,7 +463,7 @@ exports.deleteAllUsers = async (req, res) => {
     if (!authenticatedUser || !authenticatedUser.isAdmin) {
       return res.status(403).json({
         success: false,
-        error: "Admin privileges required for this operation",
+        error: "Unauthorised - admin privileges required for this operation",
       });
     }
 
