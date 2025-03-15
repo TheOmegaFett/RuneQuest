@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 
+// Check for user authorisation
 exports.checkAuthority = function (req, res, next) {
   let token = req.get("authorization"); // Bearer the-actual-token
   token = token?.split(" ")?.[1]; // the-actual-token
