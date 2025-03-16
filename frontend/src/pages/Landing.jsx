@@ -1,11 +1,19 @@
 import { Header } from "../components/Header";
+import { LoginForm } from "../components/LoginForm";
+// import { useUserJwtContext } from "../contexts/UserJwtContext";
 
 export function Landing() {
 
+  // If userJwt is not "", then user is logged in, redirect to dashboard
+
+  // let  [userJwt] = useUserJwtContext();
+  // if (userJwt.accessToken !== "") {}
+  
+  // Else, render landing page
   return (
     <>
-      <Header />
-
+      <Header notLoggedIn={true} />
+      <LoginForm />
       <section className="overview">
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo unde
@@ -16,5 +24,5 @@ export function Landing() {
       </section>
     </>
   )
-  
+
 };

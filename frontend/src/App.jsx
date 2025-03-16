@@ -1,9 +1,9 @@
 import './App.css'
-import { Header } from './components/Header'
-import { Landing } from './pages/landing'
+import { Landing } from './pages/Landing'
 
 function App() {
 
+  // Return different pages based on routes
   return (
     <>
       <Landing />
