@@ -3,11 +3,15 @@ node_modules
 
 # Ignore all files in the build directory
 build/
+
 # Ignore the .env file
 .env
 
 # Ignore node modules
 node_modules/
+
+# Ignore package-lock.json
+package-lock.json
 
 # Ignore bruno API tester
 bruno_runequestAPI/
@@ -24,7 +28,6 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
 dist
 dist-ssr
 *.local
