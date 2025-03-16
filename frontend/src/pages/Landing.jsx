@@ -1,11 +1,12 @@
 import { Header } from "../components/Header";
+import { LoginForm } from "../components/LoginForm";
 
 export function Landing() {
 
   return (
     <>
-      <Header />
-
+      <Header loggedIn={false} />
+      <LoginForm />
       <section className="overview">
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo unde
@@ -16,5 +17,5 @@ export function Landing() {
       </section>
     </>
   )
-  
+
 };
