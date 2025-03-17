@@ -29,6 +29,7 @@ exports.addRune = async (req, res) => {
       category,
       relationships,
       audioFile,
+      englishEquivalent, // Add this line
     } = req.body;
 
     // Create new rune document
@@ -41,6 +42,7 @@ exports.addRune = async (req, res) => {
       category,
       relationships,
       audioFile,
+      englishEquivalent, // Add this line
     });
 
     // Fetch created rune with populated references
@@ -70,7 +72,6 @@ exports.addRune = async (req, res) => {
     });
   }
 };
-
 /**
  * Retrieves all runes from database with populated relationships
  * @async

@@ -17,6 +17,7 @@ const elderFutharkData = {
       pronunciation: "feh-who",
       history:
         "Represents mobile wealth, earned income, and luck. Associated with Norse goddess Freya.",
+      englishEquivalent: "F",
       relationships: [
         { rune: "Othala", relationshipType: "wealth manifestation" },
         { rune: "Gebo", relationshipType: "exchange of resources" },
@@ -30,6 +31,7 @@ const elderFutharkData = {
       pronunciation: "oo-rooz",
       history:
         "Symbolizes physical strength, speed, and untamed potential. Represents the wild ox.",
+      englishEquivalent: "U",
       relationships: [
         { rune: "Thurisaz", relationshipType: "raw power" },
         { rune: "Algiz", relationshipType: "primal protection" },
@@ -43,6 +45,7 @@ const elderFutharkData = {
       pronunciation: "thur-ee-saz",
       history:
         "Connected to Thor's hammer and defensive force. Represents directed force and protection.",
+      englishEquivalent: "Th",
       relationships: [
         { rune: "Uruz", relationshipType: "defensive power" },
         { rune: "Algiz", relationshipType: "protective barrier" },
@@ -56,6 +59,7 @@ const elderFutharkData = {
       pronunciation: "ahn-sooz",
       history:
         "Associated with Odin and divine communication. Represents wisdom and communication.",
+      englishEquivalent: "A",
       relationships: [
         { rune: "Kenaz", relationshipType: "divine knowledge" },
         { rune: "Mannaz", relationshipType: "spiritual guidance" },
@@ -68,6 +72,7 @@ const elderFutharkData = {
       symbol: "ᚱ",
       pronunciation: "rye-though",
       history: "Represents the cosmic order and physical/spiritual journeys.",
+      englishEquivalent: "R",
       relationships: [
         { rune: "Ehwaz", relationshipType: "physical journey" },
         { rune: "Laguz", relationshipType: "flow of movement" },
@@ -81,6 +86,7 @@ const elderFutharkData = {
       pronunciation: "ken-aaz",
       history:
         "Symbolizes knowledge, learning, and technical ability. Represents illumination.",
+      englishEquivalent: "K",
       relationships: [
         { rune: "Ansuz", relationshipType: "wisdom sharing" },
         { rune: "Dagaz", relationshipType: "illumination" },
@@ -94,6 +100,7 @@ const elderFutharkData = {
       pronunciation: "gay-boo",
       history:
         "Represents gifts, generosity, and partnerships. Symbolizes exchange and balance.",
+      englishEquivalent: "G",
       relationships: [
         { rune: "Fehu", relationshipType: "generous exchange" },
         { rune: "Wunjo", relationshipType: "joyful giving" },
@@ -107,6 +114,7 @@ const elderFutharkData = {
       pronunciation: "wun-yo",
       history:
         "Represents joy, pleasure, and fellowship. Symbolizes harmony and well-being.",
+      englishEquivalent: "W",
       relationships: [
         { rune: "Gebo", relationshipType: "shared happiness" },
         { rune: "Sowilo", relationshipType: "radiant joy" },
@@ -121,6 +129,7 @@ const elderFutharkData = {
       symbol: "ᚺ",
       pronunciation: "hah-gah-lahz",
       history: "Represents destructive natural forces and radical change.",
+      englishEquivalent: "h",
       relationships: [
         { rune: "Nauthiz", relationshipType: "destructive transformation" },
         { rune: "Isa", relationshipType: "frozen chaos" },
@@ -134,6 +143,7 @@ const elderFutharkData = {
       pronunciation: "now-theez",
       history:
         "Symbolizes need, restriction, and resistance. Represents personal development through hardship.",
+      englishEquivalent: "N",
       relationships: [
         { rune: "Hagalaz", relationshipType: "forced change" },
         { rune: "Isa", relationshipType: "resistance" },
@@ -147,6 +157,7 @@ const elderFutharkData = {
       pronunciation: "ee-sa",
       history:
         "Represents stillness, stasis, and self-containment. Symbolizes challenges and preservation.",
+      englishEquivalent: "I",
       relationships: [
         { rune: "Nauthiz", relationshipType: "frozen state" },
         { rune: "Hagalaz", relationshipType: "suspended action" },
@@ -160,6 +171,7 @@ const elderFutharkData = {
       pronunciation: "yeh-rah",
       history:
         "Represents the harvest cycle and reward after hard work. Symbolizes fruition.",
+      englishEquivalent: "J",
       relationships: [
         { rune: "Fehu", relationshipType: "earned rewards" },
         { rune: "Berkana", relationshipType: "natural growth" },
@@ -173,6 +185,7 @@ const elderFutharkData = {
       pronunciation: "eye-wahz",
       history:
         "Connected to the world tree Yggdrasil. Represents stability and enlightenment.",
+      englishEquivalent: "E",
       relationships: [
         { rune: "Algiz", relationshipType: "spiritual protection" },
         { rune: "Mannaz", relationshipType: "spiritual growth" },
@@ -186,6 +199,7 @@ const elderFutharkData = {
       pronunciation: "per-throw",
       history:
         "Represents fate, luck, and hidden matters. Associated with divination and gaming.",
+      englishEquivalent: "P",
       relationships: [
         { rune: "Nauthiz", relationshipType: "fated necessity" },
         { rune: "Dagaz", relationshipType: "revealed mysteries" },
@@ -199,6 +213,7 @@ const elderFutharkData = {
       pronunciation: "al-geez",
       history:
         "Represents protection and connection with divine forces. Symbolizes defense.",
+      englishEquivalent: "Z",
       relationships: [
         { rune: "Thurisaz", relationshipType: "active defense" },
         { rune: "Eihwaz", relationshipType: "spiritual shield" },
@@ -212,6 +227,7 @@ const elderFutharkData = {
       pronunciation: "so-wee-lo",
       history:
         "Represents the sun's energy and success. Symbolizes guidance and goal achievement.",
+      englishEquivalent: "S",
       relationships: [
         { rune: "Dagaz", relationshipType: "illuminating success" },
         { rune: "Kenaz", relationshipType: "guiding light" },
@@ -227,6 +243,7 @@ const elderFutharkData = {
       pronunciation: "tee-wahz",
       history:
         "Associated with Tyr, god of justice. Represents honor and righteousness.",
+      englishEquivalent: "T",
       relationships: [
         { rune: "Mannaz", relationshipType: "just leadership" },
         { rune: "Algiz", relationshipType: "righteous protection" },
@@ -240,6 +257,7 @@ const elderFutharkData = {
       pronunciation: "ber-kah-nah",
       history:
         "Represents growth, fertility, and new beginnings. Connected to feminine energy.",
+      englishEquivalent: "B",
       relationships: [
         { rune: "Ingwaz", relationshipType: "fertile growth" },
         { rune: "Jera", relationshipType: "natural cycles" },
@@ -253,6 +271,7 @@ const elderFutharkData = {
       pronunciation: "eh-wahz",
       history:
         "Symbolizes the partnership between horse and rider. Represents trust and cooperation.",
+      englishEquivalent: "E",
       relationships: [
         { rune: "Mannaz", relationshipType: "harmonious partnership" },
         { rune: "Raidho", relationshipType: "guided journey" },
@@ -266,6 +285,7 @@ const elderFutharkData = {
       pronunciation: "mah-nahz",
       history:
         "Represents humanity, social order, and intelligence. Symbolizes the self.",
+      englishEquivalent: "M",
       relationships: [
         { rune: "Ehwaz", relationshipType: "human connection" },
         { rune: "Ansuz", relationshipType: "divine humanity" },
@@ -279,6 +299,7 @@ const elderFutharkData = {
       pronunciation: "lah-gooz",
       history:
         "Represents water, flow, and psychic abilities. Symbolizes emotions and intuition.",
+      englishEquivalent: "L",
       relationships: [
         { rune: "Berkana", relationshipType: "flowing growth" },
         { rune: "Perthro", relationshipType: "intuitive wisdom" },
@@ -292,6 +313,7 @@ const elderFutharkData = {
       pronunciation: "ing-wahz",
       history:
         "Associated with the god Ing. Represents completion and family heritage.",
+      englishEquivalent: "Ng",
       relationships: [
         { rune: "Othala", relationshipType: "ancestral fertility" },
         { rune: "Berkana", relationshipType: "growth potential" },
@@ -305,6 +327,7 @@ const elderFutharkData = {
       pronunciation: "dah-gahz",
       history:
         "Represents breakthrough and transformation. Symbolizes balance and new opportunities.",
+      englishEquivalent: "D",
       relationships: [
         { rune: "Sowilo", relationshipType: "enlightened breakthrough" },
         { rune: "Kenaz", relationshipType: "transformative knowledge" },
@@ -318,6 +341,7 @@ const elderFutharkData = {
       pronunciation: "oh-thah-la",
       history:
         "Represents inheritance, tradition, and ancestral property. Symbolizes legacy.",
+      englishEquivalent: "O",
       relationships: [
         { rune: "Fehu", relationshipType: "inherited wealth" },
         { rune: "Ingwaz", relationshipType: "ancestral connection" },
@@ -346,7 +370,7 @@ const seedElderFuthark = async () => {
 
       if (!rune) {
         rune = await Rune.create({
-          ...runeWithoutRelationships,
+          ...runeWithoutRelationships, // This will now include englishEquivalent
           category: category._id,
         });
       }
