@@ -86,6 +86,7 @@ exports.getAllRunes = async (req, res) => {
     const runes = await Rune.find()
       .populate("category", "name")
       .populate("relationships.rune", "name symbol")
+
       .populate("audioFile", "url")
       .select(
         "name meaning symbol pronunciation history category relationships audioFile englishEquivalent"
