@@ -1,24 +1,107 @@
 import "../styles/components/LoginForm.css";
+import { useState } from "react";
+import { useUserJwt } from "../hooks/useUserJwt";
 
 // Dynamic form that allows users to login to or register their account 
 
 export function LoginForm() {
 
+  let [username, setUsername] = useState("");
+  let [password, setPassword] = useState("");
+  let [action, setAction] = useState("");
+
+  let [userJwt, setUserJwt] = useUserJwt();
+
+  async function handleLogin(event) {
+    event.preventDefault();
+
+    // Log attempt to login/register to console
+    console.log(`Sending request to ${action} user...`);
+    console.log("Username:", username);
+    console.log("Password:", password);
+
+    // Identify the location we are sending the request to
+    // let targetUrl = "";
+    // if (action === "register") {
+    //   targetUrl = "https://runequest-3po3.onrender.com/api/users/register";
+    // }
+    // else {
+    //   targetUrl = "https://runequest-3po3.onrender.com/api/users/login";
+    // }
+
+    let targetUrl = "";
+    if (action === "register") {
+      targetUrl = "http://localhost:3001/api/users/register";
+    }
+    else {
+      targetUrl = "http://localhost:3001/api/users/login";
+    }
+
+
+    // Prepare the data to send to the server
+    let inputDataToSend = JSON.stringify({
+      username: username,
+      password: password,
+    });
+    console.log("Data to send:", inputDataToSend);
+
+    // Create the fetch request
+    let response = await fetch(
+      targetUrl,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: inputDataToSend,
+      },
+    );
+
+    // Parse the response from the API
+    let apiResponse = await response.json();
+    console.log("API response:\n", JSON.stringify(apiResponse, null, 2));
+
+    // Save response to global state
+    setUserJwt({
+      accessToken: apiResponse.accessToken,
+      refreshToken: apiResponse.refreshToken,
+    });
+
+    console.log("User JWT saved to global state:\n", JSON.stringify(userJwt, null, 2));
+  }
+
   return (
-    <form className="LoginForm">
+    <form
+      className="LoginForm" onSubmit={(event) => handleLogin(event)}>
       <section className="input-group">
         <div className="username-block">
           <label htmlFor="username">Username:</label>
-          <input type="text" id="username" name="username" />
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+          />
         </div>
         <div className="password-block">
           <label htmlFor="password">Password:</label>
-          <input type="password" id="password" name="password" />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
         </div>
       </section>
       <section className="submit-group">
-        <button>Register</button>
-        <button>Login</button>
+        <button type="submit" onClick={() => setAction("register")}>
+          Register
+        </button>
+        <button type="submit" onClick={() => setAction("login")}>
+          Login
+        </button>
       </section>
     </form>
   )
