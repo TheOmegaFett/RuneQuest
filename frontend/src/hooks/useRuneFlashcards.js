@@ -13,8 +13,7 @@ export const useRuneFlashcards = () => {
       try {
         setIsLoading(true);
         const runeData = await fetchRunes();
-
-        // No mapping needed - use the data directly from the API
+        console.log("Rune data from API:", runeData);
         setRunes(runeData);
       } catch (err) {
         setError(err.message);
