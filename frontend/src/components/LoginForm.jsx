@@ -31,10 +31,10 @@ export function LoginForm() {
 
     let targetUrl = "";
     if (action === "register") {
-      targetUrl = "http://localhost:3001/api/users/register";
+      targetUrl = process.env.API_URL + "api/users/register";
     }
     else {
-      targetUrl = "http://localhost:3001/api/users/login";
+      targetUrl = process.env.API_URL + "api/users/login";
     }
 
 
