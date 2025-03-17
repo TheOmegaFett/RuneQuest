@@ -361,19 +361,25 @@ const seedElderFuthark = async () => {
     if (!category) {
       category = await RuneCategory.create(elderFutharkData.category);
     }
-
-    // First pass: Create all runes without relationships
+    // First pass: Create or update all runes without relationships
     const runeMap = new Map();
     for (const runeData of elderFutharkData.runes) {
       const { relationships, ...runeWithoutRelationships } = runeData;
-      let rune = await Rune.findOne({ name: runeData.name });
 
-      if (!rune) {
-        rune = await Rune.create({
-          ...runeWithoutRelationships, // This will now include englishEquivalent
+      // Use findOneAndUpdate with upsert:true to update existing documents
+      let rune = await Rune.findOneAndUpdate(
+        { name: runeData.name }, // find criteria
+        {
+          ...runeWithoutRelationships,
           category: category._id,
-        });
-      }
+        },
+        {
+          new: true, // return the updated document
+          upsert: true, // create if it doesn't exist
+          setDefaultsOnInsert: true, // apply schema defaults for new documents
+        }
+      );
+
       runeMap.set(rune.name, rune._id);
     }
 
