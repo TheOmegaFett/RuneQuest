@@ -82,11 +82,14 @@ exports.addRune = async (req, res) => {
  */
 exports.getAllRunes = async (req, res) => {
   try {
-    // Fetch all runes with populated references
+    // Fetch all runes with populated references and include englishEquivalent
     const runes = await Rune.find()
       .populate("category", "name")
       .populate("relationships.rune", "name symbol")
-      .populate("audioFile", "url");
+      .populate("audioFile", "url")
+      .select(
+        "name meaning symbol pronunciation history category relationships audioFile englishEquivalent"
+      ); // Add englishEquivalent here
 
     // Return success response with runes and count
     res.status(200).json({
