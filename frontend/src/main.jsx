@@ -1,15 +1,30 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import { UserJwtProvider } from './contexts/UserJwtContext.jsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.jsx";
+import { RuneLearningPage } from "./pages/RuneLearningPage";
+import { UserJwtProvider } from "./contexts/UserJwtContext.jsx";
 
-createRoot(document.getElementById('root')).render(
+// Get the URL parameter
+const urlParams = new URLSearchParams(window.location.search);
+const page = urlParams.get("page");
 
-  <UserJwtProvider>
+// Render the appropriate component
+const rootElement = document.getElementById("root");
+const root = createRoot(rootElement);
+
+if (page === "learning") {
+  root.render(
     <StrictMode>
-      <App />
+      <RuneLearningPage />
     </StrictMode>
-  </UserJwtProvider>
-
-)
+  );
+} else {
+  root.render(
+    <UserJwtProvider>
+      <StrictMode>
+        <App />
+      </StrictMode>
+    </UserJwtProvider>
+  );
+}

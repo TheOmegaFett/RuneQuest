@@ -55,11 +55,15 @@ const RuneSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Audio",
     },
+    // Add this new field
+    englishEquivalent: {
+      type: String,
+      required: [true, "English equivalent is required"],
+    },
   },
   {
     // Automatically manage createdAt and updatedAt timestamps
     timestamps: true,
   }
 );
-
 module.exports = mongoose.model("Rune", RuneSchema);
