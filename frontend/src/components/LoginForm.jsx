@@ -24,7 +24,7 @@ export function LoginForm() {
     // let targetUrl = "";
     // if (action === "register") {
     //   targetUrl = "https://runequest-3po3.onrender.com/api/users/register";
-    // }
+    // }  
     // else {
     //   targetUrl = "https://runequest-3po3.onrender.com/api/users/login";
     // }
@@ -63,11 +63,10 @@ export function LoginForm() {
 
     // Save response to global state
     setUserJwt({
-      accessToken: apiResponse.accessToken,
-      refreshToken: apiResponse.refreshToken,
+      accessToken: apiResponse.token
     });
 
-    console.log("User JWT saved to global state:\n", JSON.stringify(userJwt, null, 2));
+    console.log("User JWT saved to global state. User is now logged in.");
   }
 
   return (
@@ -96,7 +95,7 @@ export function LoginForm() {
         </div>
       </section>
       <section className="submit-group">
-        <button type="submit" onClick={() => setAction("register")}>
+        <button type="button" onClick={() => setAction("register")}>
           Register
         </button>
         <button type="submit" onClick={() => setAction("login")}>
