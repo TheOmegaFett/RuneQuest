@@ -15,6 +15,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "index.html"),
         testlearning: resolve(__dirname, "testlearning.html"),
+        testcasting: resolve(__dirname, "testcasting.html"),
       },
     },
   },

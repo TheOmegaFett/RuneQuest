@@ -28,15 +28,25 @@ export const useRuneFlashcards = () => {
   const flipCard = () => setIsFlipped(!isFlipped);
 
   const nextCard = () => {
+    // First set flipped to false, then change the card in the next render cycle
     setIsFlipped(false);
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % runes.length);
+
+    // Use setTimeout to ensure the flip happens first
+    setTimeout(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % runes.length);
+    }, 300); // Half the flip animation duration
   };
 
   const previousCard = () => {
+    // First set flipped to false, then change the card in the next render cycle
     setIsFlipped(false);
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + runes.length) % runes.length
-    );
+
+    // Use setTimeout to ensure the flip happens first
+    setTimeout(() => {
+      setCurrentIndex(
+        (prevIndex) => (prevIndex - 1 + runes.length) % runes.length
+      );
+    }, 300); // Half the flip animation duration
   };
 
   const shuffleCards = () => {
