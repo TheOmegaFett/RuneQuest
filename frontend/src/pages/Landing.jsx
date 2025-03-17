@@ -8,14 +8,15 @@ export function Landing() {
     <>
       <Header notLoggedIn={true} />
       <LoginForm />
-      <section className="overview">
+      <article className="overview">
+        <h3>What is RuneQuest?</h3>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo unde
           deleniti iusto laborum provident repellendus! Esse sequi dignissimos
           temporibus magnam dolorum, asperiores praesentium fugit unde
           corrupti sint, tempore aut nihil.
         </p>
-      </section>
+      </article>
     </>
   )
 
