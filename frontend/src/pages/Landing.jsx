@@ -1,27 +1,22 @@
 import { Header } from "../components/Header";
 import { LoginForm } from "../components/LoginForm";
-// import { useUserJwtContext } from "../contexts/UserJwtContext";
 
+// Landing page
 export function Landing() {
 
-  // If userJwt is not "", then user is logged in, redirect to dashboard
-
-  // let  [userJwt] = useUserJwtContext();
-  // if (userJwt.accessToken !== "") {}
-  
-  // Else, render landing page
   return (
     <>
       <Header notLoggedIn={true} />
       <LoginForm />
-      <section className="overview">
+      <article className="overview">
+        <h3>What is RuneQuest?</h3>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo unde
           deleniti iusto laborum provident repellendus! Esse sequi dignissimos
           temporibus magnam dolorum, asperiores praesentium fugit unde
           corrupti sint, tempore aut nihil.
         </p>
-      </section>
+      </article>
     </>
   )
 

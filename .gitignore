@@ -15,6 +15,7 @@ package-lock.json
 
 # Ignore bruno API tester
 bruno_runequestAPI/
+bruno_runequestRemote/
 
 # Ingore test coverage directory
 coverage/

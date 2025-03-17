@@ -5,9 +5,10 @@
  */
 
 const express = require("express");
+const cors = require("cors");
+const initializeDatabase = require("./config/initDB");
 const { connectDB } = require("./config/db");
 const mainRouter = require("./routes/mainRouter");
-const initializeDatabase = require("./config/initDB");
 const { logger } = require("./middleware/logger");
 
 // Connect to MongoDB
@@ -27,6 +28,20 @@ const app = express();
  * @type {number}
  */
 const PORT = process.env.PORT || 3000;
+
+/**
+ * CORS options
+ * @type {object}
+ */
+
+const corsOptions = {
+  origin: '*',
+  credentials: true,
+  optionSuccessStatus: 200,
+}
+
+// Enable CORS
+app.use(cors(corsOptions));
 
 // Configure middleware for request parsing
 app.use(express.json());
