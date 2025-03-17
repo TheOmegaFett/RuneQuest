@@ -1,15 +1,5 @@
 import { useState, useEffect } from "react";
 import { fetchRunes } from "../api/runeService";
-import runesMapping from "../assets/runes.json";
-
-// Create a reverse mapping (rune symbol → English letter)
-const reverseRunesMapping = Object.entries(runesMapping).reduce(
-  (acc, [english, runeSymbol]) => {
-    acc[runeSymbol] = english;
-    return acc;
-  },
-  {}
-);
 
 export const useRuneFlashcards = () => {
   const [runes, setRunes] = useState([]);
@@ -24,13 +14,8 @@ export const useRuneFlashcards = () => {
         setIsLoading(true);
         const runeData = await fetchRunes();
 
-        // Enhance each rune with its English equivalent
-        const enhancedRuneData = runeData.map((rune) => ({
-          ...rune,
-          englishEquivalent: reverseRunesMapping[rune.symbol] || "?",
-        }));
-
-        setRunes(enhancedRuneData);
+        // No mapping needed - use the data directly from the API
+        setRunes(runeData);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -42,6 +27,7 @@ export const useRuneFlashcards = () => {
   }, []);
 
   const flipCard = () => setIsFlipped(!isFlipped);
+
   const nextCard = () => {
     setIsFlipped(false);
     setCurrentIndex((prevIndex) => (prevIndex + 1) % runes.length);
