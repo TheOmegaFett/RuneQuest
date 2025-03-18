@@ -3,8 +3,11 @@ const UserProgression = require("../models/UserProgression");
 const { filterUserData } = require("../helpers/filterDataHelper");
 const { encryptPassword } = require("../helpers/encryptPasswordHelper");
 const { comparePassword } = require("../helpers/comparePasswordHelper");
+const { userNotExist } = require("../helpers/userNotExistHelper");
+const { validateUserDetails } = require("../helpers/validateUserDetailsHelper");
 const { checkAndUnlockAchievements } = require("../helpers/achievementHelper");
 const { createToken } = require("../helpers/createTokenHelper");
+
 
 /**
  * Creates a new user record in the database
@@ -18,11 +21,24 @@ const { createToken } = require("../helpers/createTokenHelper");
 
 exports.registerUser = async (req, res) => {
   try {
+    // Define user data from request body
+    let newUsername = req.body.username;
+    let newPassword = req.body.password;
+
+    // Validate username and password
+    validated = validateUserDetails(newUsername, newPassword);
+    if (validated.error) {
+      return res.status(409).json({
+        success: false,
+        error: validated.error,
+      });
+    }
+
     // Create new user document from request body
-    const saltPass = encryptPassword(req.body.password);
+    const saltPass = encryptPassword(newPassword);
 
     const bodyData = {
-      username: req.body.username,
+      username: newUsername,
       password: saltPass["password"],
       salt: saltPass["salt"],
     };
@@ -311,11 +327,29 @@ exports.updateUserSettings = async (req, res) => {
       }
     }
 
+    // Find user by ID
+    const updatingUser = await User.findById(req.params.userId);
+
+    // Define user data from request body or existing data
+    let newUsername = req.body.username || updatingUser.username;
+    let newPassword = req.body.password || updatingUser.password;
+
+    // Validate username and password
+    validated = validateUserDetails(
+      newUsername,
+      newPassword,
+    );
+    if (validated.error) {
+      return res.status(409).json({
+        success: false,
+        error: validated.error,
+      });
+    }
     // Retrieve update data from the body
-    const saltPass = encryptPassword(req.body.password);
+    const saltPass = encryptPassword(newPassword);
 
     const bodyData = {
-      username: req.body.username,
+      username: newUsername,
       password: saltPass["password"],
       salt: saltPass["salt"],
       preferences: {
