@@ -33,6 +33,7 @@ function convertToRunes(text, runeMap) {
     í: "I",
     ó: "O",
     ú: "U",
+    ý: "Y",
   };
 
   for (let i = 0; i < text.length; i++) {
