@@ -20,20 +20,34 @@ function convertToRunes(text, runeMap) {
 
   // Create a mapping for special characters (all uppercase)
   const specialCharMap = {
+    // Current mappings
     ð: "D",
     þ: "TH",
     æ: "AE",
     ø: "O",
     å: "A",
-    ö: "O",
-    ü: "U",
-    ä: "A",
-    é: "E",
+
+    // Additional mappings from word list
     á: "A",
+    é: "E",
     í: "I",
     ó: "O",
     ú: "U",
     ý: "Y",
+    ö: "O",
+    ä: "A",
+    ü: "U",
+
+    // Less common but potentially useful
+    è: "E",
+    ì: "I",
+    ò: "O",
+    ù: "U",
+    ÿ: "Y",
+    ë: "E",
+    ï: "I",
+    ô: "O",
+    û: "U",
   };
 
   for (let i = 0; i < text.length; i++) {

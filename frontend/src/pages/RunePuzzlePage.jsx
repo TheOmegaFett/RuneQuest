@@ -90,27 +90,37 @@ export function RunePuzzlePage() {
     const normalizedAnswer = normalizeText(
       currentPuzzle.englishWord.toLowerCase()
     );
-
     const normalizedInput = normalizeText(userInput.toLowerCase());
 
     if (normalizedInput === normalizedAnswer) {
       setFeedback("Correct! Well done!");
-      setTimeout(() => {
-        selectRandomPuzzle(puzzles);
-      }, 1500);
+      // Continue with success logic
     } else {
       setFeedback("Not quite right. Try again!");
     }
   };
 
-  const normalizeText = (text) => {
+  const normalizeWord = (text) => {
+    const specialCharMap = {
+      ð: "d",
+      þ: "th",
+      æ: "ae",
+      ø: "o",
+      å: "a",
+      ö: "o",
+      ý: "y",
+      á: "a",
+      í: "i",
+      ó: "o",
+      ú: "u",
+      é: "e",
+    };
+
     return text
-      .replace(/ð/g, "d")
-      .replace(/þ/g, "th")
-      .replace(/æ/g, "ae")
-      .replace(/ø/g, "o")
-      .replace(/å/g, "a")
-      .replace(/ö/g, "o");
+      .toLowerCase()
+      .split("")
+      .map((char) => specialCharMap[char] || char)
+      .join("");
   };
 
   const toggleHint = () => {
