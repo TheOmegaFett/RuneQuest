@@ -44,35 +44,20 @@ export function LoginForm() {
     let log = ("API response:\n", JSON.stringify(apiResponse, null, 2));
     apiResponse.success ? console.log(log) : console.error(log);
 
-<<<<<<< HEAD
-    // Save response to global state
-    setUserJwt({
-      accessToken: apiResponse.token,
-    });
-
-    console.log("User JWT saved to global state. User is now logged in.");
-  }
-
-  return (
-    <form className="LoginForm" onSubmit={(event) => handleLogin(event)}>
-=======
     if (apiResponse.success) {
       // Save response to global state
       setUserJwt({
-        accessToken: apiResponse.token
+        accessToken: apiResponse.token,
       });
       console.log("User JWT saved to global state. User is now logged in.");
-    }
-    else {
+    } else {
       // Display error message
       setErrorMessage(apiResponse.error);
     }
-  };
+  }
 
   return (
-    <form
-      className="login-form" onSubmit={(event) => handleLogin(event)}>
->>>>>>> 2f659991c5c753d79d663f10635e034f75ec695c
+    <form className="login-form" onSubmit={(event) => handleLogin(event)}>
       <section className="input-group">
         <div className="username-block">
           <label htmlFor="username">Username:</label>

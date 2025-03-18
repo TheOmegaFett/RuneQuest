@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Header } from "../components/General/Header";
-import "../styles/pages/RunePuzzlePage.css";
+import "./RunePuzzlePage.css";
 
 export function RunePuzzlePage() {
   const [puzzles, setPuzzles] = useState([]);
@@ -10,6 +10,7 @@ export function RunePuzzlePage() {
   const [showHint, setShowHint] = useState(false);
   const [loading, setLoading] = useState(true);
   const [difficulty, setDifficulty] = useState("all");
+  const [answerRevealed, setAnswerRevealed] = useState(false);
 
   // Fetch puzzles from API
   useEffect(() => {
@@ -51,6 +52,7 @@ export function RunePuzzlePage() {
       setUserInput("");
       setFeedback("");
       setShowHint(false);
+      setAnswerRevealed(false);
     } else {
       setFeedback("No puzzles available for this difficulty level");
     }
@@ -89,7 +91,18 @@ export function RunePuzzlePage() {
     selectRandomPuzzle(puzzles);
   };
 
-  // Add this handler function to the component
+  // Handle giving up and showing the answer
+  const handleGiveUp = () => {
+    setAnswerRevealed(true);
+    setFeedback(`The correct answer is: ${currentPuzzle.englishWord}`);
+  };
+
+  // Move to the next puzzle
+  const moveToNextPuzzle = () => {
+    selectRandomPuzzle(puzzles);
+  };
+
+  // Handle key press for Enter key submission
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       checkAnswer();
@@ -141,8 +154,11 @@ export function RunePuzzlePage() {
                 onChange={handleInputChange}
                 onKeyPress={handleKeyPress}
                 placeholder="Enter the English translation"
+                disabled={answerRevealed}
               />
-              <button onClick={checkAnswer}>Check Answer</button>
+              <button onClick={checkAnswer} disabled={answerRevealed}>
+                Check Answer
+              </button>
             </div>
 
             <div className="puzzle-hint">
@@ -154,6 +170,21 @@ export function RunePuzzlePage() {
                 currentPuzzle.hints.length > 0 && (
                   <p>{currentPuzzle.hints[0]}</p>
                 )}
+            </div>
+
+            <div className="puzzle-actions">
+              {!answerRevealed ? (
+                <button onClick={handleGiveUp} className="give-up-button">
+                  Show Answer
+                </button>
+              ) : (
+                <button
+                  onClick={moveToNextPuzzle}
+                  className="next-puzzle-button"
+                >
+                  Next Puzzle
+                </button>
+              )}
             </div>
 
             {feedback && <div className="feedback">{feedback}</div>}

@@ -119,3 +119,47 @@
   text-align: center;
   color: #666;
 }
+
+.puzzle-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.give-up-button,
+.next-puzzle-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.give-up-button {
+  background-color: #f0f0f0;
+  color: #666;
+}
+
+.give-up-button:hover {
+  background-color: #e0e0e0;
+}
+
+.next-puzzle-button {
+  background-color: #4a6da7;
+  color: white;
+}
+
+.next-puzzle-button:hover {
+  background-color: #3a5a8f;
+}
+
+/* Style for when the answer is revealed */
+.feedback:contains("The correct answer is") {
+  background-color: #e8f4f8;
+  color: #2c3e50;
+  font-weight: bold;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
