@@ -18,30 +18,42 @@ function convertToRunes(text, runeMap) {
   // Convert to lowercase for consistent mapping
   text = text.toLowerCase();
 
-  // Create a mapping for special characters
+  // Create a mapping for special characters (all uppercase)
   const specialCharMap = {
-    ð: "d",
-    þ: "th",
-    æ: "ae",
-    ø: "o",
-    å: "a",
+    ð: "D",
+    þ: "TH",
+    æ: "AE",
+    ø: "O",
+    å: "A",
+    ö: "O",
+    ü: "U",
+    ä: "A",
+    é: "E",
+    á: "A",
+    í: "I",
+    ó: "O",
+    ú: "U",
   };
 
   for (let i = 0; i < text.length; i++) {
     // Check for special case digraphs like 'th'
     if (i < text.length - 1 && text[i] === "t" && text[i + 1] === "h") {
-      runeText += runeMap["th"] || "";
+      runeText += runeMap["th"] || "TH"; // Fallback to uppercase TH
       i++; // Skip next character
     } else {
       // Get rune for current character or empty if not found
       let char = text[i];
 
-      // Replace special characters with their Latin equivalents
+      // Replace special characters with their uppercase Latin equivalents
       if (specialCharMap[char]) {
         char = specialCharMap[char];
+      } else {
+        // Convert regular characters to uppercase
+        char = char.toUpperCase();
       }
 
-      runeText += runeMap[char] || char; // Keep original if no mapping
+      // Use lowercase for runeMap lookup, but uppercase for fallback
+      runeText += runeMap[char.toLowerCase()] || char.toUpperCase();
     }
   }
 
