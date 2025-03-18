@@ -2,13 +2,14 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     width: fit-content;
     height: 100%;
+    max-width: 100%;
     border: #1a1a1a solid 1px;
     border-radius: 8px;
     padding: 1.2em;
-    gap: 1.2em;
+    gap: 0.5em;
     background-color: #333333;
 }
 
@@ -17,7 +18,6 @@ section.input-group {
     flex-direction: column;
     align-items: space-between;
     justify-content: center;
-    margin-bottom: 1.2em;
     gap: 0.6em;
 }
 
@@ -45,9 +45,15 @@ input {
     transition: border-color 0.25s;
 }
 
+section.error-notifications {
+    min-height: 1.5em;
+    height: fit-content;
+    color: red;
+}
+
 section.submit-group {
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     align-items: center;
     justify-content: center;
     gap: 0.6em;

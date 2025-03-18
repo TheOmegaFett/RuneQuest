@@ -14,8 +14,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
-        testlearning: resolve(__dirname, "testlearning.html"),
-        testcasting: resolve(__dirname, "testcasting.html"),
       },
     },
   },

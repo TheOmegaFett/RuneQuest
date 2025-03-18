@@ -1,4 +1,4 @@
-import "../styles/components/Header.css";
+import "./Header.css";
 
 // Header component
 // If user is logged in, render menu button and profile link
