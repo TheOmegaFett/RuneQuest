@@ -1,6 +1,6 @@
 import "../styles/components/LoginForm.css";
 import { useState } from "react";
-import { useUserJwt } from "../hooks/useUserJwt";
+import { useUserJwt } from "../../hooks/useUserJwt";
 
 // Dynamic form that allows users to login to or register their account 
 
@@ -21,22 +21,7 @@ export function LoginForm() {
     console.log("Password:", password);
 
     // Identify the location we are sending the request to
-    // let targetUrl = "";
-    // if (action === "register") {
-    //   targetUrl = "https://runequest-3po3.onrender.com/api/users/register";
-    // }  
-    // else {
-    //   targetUrl = "https://runequest-3po3.onrender.com/api/users/login";
-    // }
-
-    let targetUrl = "";
-    if (action === "register") {
-      targetUrl = process.env.API_URL + "api/users/register";
-    }
-    else {
-      targetUrl = process.env.API_URL + "api/users/login";
-    }
-
+    let targetUrl = import.meta.env.VITE_API_URL + "api/users/" + action;
 
     // Prepare the data to send to the server
     let inputDataToSend = JSON.stringify({
