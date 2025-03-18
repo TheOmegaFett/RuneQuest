@@ -2,30 +2,40 @@ const mongoose = require("mongoose");
 const fs = require("fs");
 const path = require("path");
 const Puzzle = require("../models/Puzzle");
+const Rune = require("../models/Rune"); // Add this import for the Rune model
 
-// Import word lists and rune mappings
+// Import word lists
 const wordsList = require("./words_list.json");
-const runeMap = require("./runes.json");
 
 /**
- * Converts English text to Elder Futhark runes
+ * Converts English text to Elder Futhark runes using database
  * @param {string} text - English text to convert
+ * @param {Object} runeMap - Map of characters to runes from database
  * @returns {string} - Rune representation
  */
-function convertToRunes(text) {
+function convertToRunes(text, runeMap) {
   let runeText = "";
   // Convert to lowercase for consistent mapping
   text = text.toLowerCase();
 
   for (let i = 0; i < text.length; i++) {
     // Check for special case digraphs like 'th'
-    if (i < text.length - 1 && text[i] === "t" && text[i + 1] === "h") {
-      runeText += runeMap["th"] || "";
+    if (
+      i < text.length - 1 &&
+      text[i] === "t" &&
+      text[i + 1] === "h" &&
+      runeMap["th"]
+    ) {
+      runeText += runeMap["th"];
       i++; // Skip next character
     } else {
       // Get rune for current character or empty if not found
       const char = text[i];
-      runeText += runeMap[char] || char; // Keep original if no mapping
+      // For accented characters, try to use the non-accented version
+      const normalizedChar = char
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+      runeText += runeMap[normalizedChar] || char; // Keep original if no mapping
     }
   }
 
@@ -34,16 +44,17 @@ function convertToRunes(text) {
 
 /**
  * Creates puzzle entries from words list
+ * @param {Object} runeMap - Map of characters to runes from database
  * @returns {Array} - Array of puzzle objects
  */
-function generatePuzzles() {
+function generatePuzzles(runeMap) {
   const puzzles = [];
 
   // Process Norse words
   wordsList.norse_words.forEach((wordObj) => {
     puzzles.push({
       englishWord: wordObj.word,
-      runeEquivalent: convertToRunes(wordObj.word),
+      runeEquivalent: convertToRunes(wordObj.word, runeMap),
       difficulty: getDifficulty(wordObj.word),
       category: "norse",
       hints: [wordObj.meaning],
@@ -54,7 +65,7 @@ function generatePuzzles() {
   wordsList.elemental_words.forEach((wordObj) => {
     puzzles.push({
       englishWord: wordObj.word,
-      runeEquivalent: convertToRunes(wordObj.word),
+      runeEquivalent: convertToRunes(wordObj.word, runeMap),
       difficulty: getDifficulty(wordObj.word),
       category: "elemental",
       hints: [wordObj.meaning],
@@ -66,7 +77,7 @@ function generatePuzzles() {
     wordsList[category].forEach((wordObj) => {
       puzzles.push({
         englishWord: wordObj.word,
-        runeEquivalent: convertToRunes(wordObj.word),
+        runeEquivalent: convertToRunes(wordObj.word, runeMap),
         difficulty: getDifficulty(wordObj.word),
         category: category.replace("_words", ""),
         hints: [wordObj.meaning],
@@ -94,8 +105,19 @@ function getDifficulty(word) {
  */
 async function seedPuzzles() {
   try {
-    // Generate puzzles from word lists
-    const puzzles = generatePuzzles();
+    // Get rune mappings from database
+    const runes = await Rune.find({});
+
+    // Create a mapping object from the database results
+    const runeMap = {};
+    runes.forEach((rune) => {
+      if (rune.englishEquivalent) {
+        runeMap[rune.englishEquivalent.toLowerCase()] = rune.symbol;
+      }
+    });
+
+    // Generate puzzles using the database-sourced rune map
+    const puzzles = generatePuzzles(runeMap);
 
     // Clear existing puzzles
     await Puzzle.deleteMany({});
