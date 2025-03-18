@@ -1,4 +1,4 @@
-import "../styles/components/LoginForm.css";
+import "./LoginForm.css";
 import { useState } from "react";
 import { useUserJwt } from "../../hooks/useUserJwt";
 
