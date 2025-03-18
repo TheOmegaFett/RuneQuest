@@ -52,7 +52,12 @@ export function LoginForm() {
       console.log("User JWT saved to global state. User is now logged in.");
     } else {
       // Display error message
-      setErrorMessage(apiResponse.error);
+      if ((apiResponse.error).includes("E11000 duplicate key error")) {
+        setErrorMessage("Username already in use")
+      } else {
+        setErrorMessage(apiResponse.error);
+      }
+      
     }
   }
 
