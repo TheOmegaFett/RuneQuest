@@ -19,7 +19,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: false,
-      minLength: 6,
     },
     // User salt for encryption
     salt: {
