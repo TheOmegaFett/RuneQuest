@@ -1,11 +1,10 @@
-import "../styles/components/LoginForm.css";
+import "./LoginForm.css";
 import { useState } from "react";
 import { useUserJwt } from "../../hooks/useUserJwt";
 
-// Dynamic form that allows users to login to or register their account 
+// Dynamic form that allows users to login to or register their account
 
 export function LoginForm() {
-
   let [username, setUsername] = useState("");
   let [password, setPassword] = useState("");
   let [action, setAction] = useState("");
@@ -31,16 +30,13 @@ export function LoginForm() {
     console.log("Data to send:", inputDataToSend);
 
     // Create the fetch request
-    let response = await fetch(
-      targetUrl,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: inputDataToSend,
+    let response = await fetch(targetUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: inputDataToSend,
+    });
 
     // Parse the response from the API
     let apiResponse = await response.json();
@@ -48,15 +44,14 @@ export function LoginForm() {
 
     // Save response to global state
     setUserJwt({
-      accessToken: apiResponse.token
+      accessToken: apiResponse.token,
     });
 
     console.log("User JWT saved to global state. User is now logged in.");
   }
 
   return (
-    <form
-      className="LoginForm" onSubmit={(event) => handleLogin(event)}>
+    <form className="LoginForm" onSubmit={(event) => handleLogin(event)}>
       <section className="input-group">
         <div className="username-block">
           <label htmlFor="username">Username:</label>
@@ -88,6 +83,5 @@ export function LoginForm() {
         </button>
       </section>
     </form>
-  )
-
-};
+  );
+}

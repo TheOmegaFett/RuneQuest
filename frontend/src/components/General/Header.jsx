@@ -1,4 +1,4 @@
-import "../styles/components/Header.css";
+import "./Header.css";
 
 // Header component
 // If user is logged in, render menu button and profile link
@@ -17,13 +17,13 @@ export function Header({ notLoggedIn }) {
         <div className="menu-button">
           {/* Menu button, not functional yet*/}
           |||
-          </div>
+        </div>
         <h1>RuneQuest</h1>
         <div className="profile-link">
           {/* Profile link, not functional yet*/}
           :D
-          </div> 
+        </div>
       </header>
     );
   }
-};
+}
