@@ -1,5 +1,5 @@
-import { Header } from "../components/Header";
-import { LoginForm } from "../components/LoginForm";
+import { Header } from "../components/General/Header";
+import { LoginForm } from "../components/Landing/LoginForm";
 
 // Landing page
 export function Landing() {

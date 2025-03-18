@@ -1,6 +1,6 @@
 import "../styles/components/LoginForm.css";
 import { useState } from "react";
-import { useUserJwt } from "../hooks/useUserJwt";
+import { useUserJwt } from "../../hooks/useUserJwt";
 
 // Dynamic form that allows users to login to or register their account 
 

@@ -1,4 +1,4 @@
-import { Header } from "../components/Header";
+import { Header } from "../components/General/Header";
 
 // Profile page
 export function Profile() {
