@@ -11,33 +11,58 @@ export function RunePuzzlePage() {
   const [loading, setLoading] = useState(true);
   const [difficulty, setDifficulty] = useState("all");
   const [answerRevealed, setAnswerRevealed] = useState(false);
-
+  const [retryCount, setRetryCount] = useState(0);
   // Fetch puzzles from API
-  useEffect(() => {
-    const fetchPuzzles = async () => {
-      try {
-        // Using import.meta.env for Vite projects
-        const apiUrl =
-          import.meta.env.VITE_API_URL || "https://runequest-3po3.onrender.com";
-        const response = await fetch(`${apiUrl}/api/puzzles/`);
-        const data = await response.json();
+  const fetchPuzzles = async () => {
+    try {
+      console.log("Fetching puzzles from API...");
 
-        if (data.success) {
-          setPuzzles(data.data);
-          selectRandomPuzzle(data.data);
-        } else {
-          setFeedback("Failed to load puzzles");
-        }
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching puzzles:", error);
-        setFeedback("Error connecting to server");
-        setLoading(false);
+      // Instead of using the full URL with import.meta.env.VITE_API_URL
+      const apiUrl = "/api/puzzles/";
+      console.log("Using proxied API URL:", apiUrl);
+      const response = await fetch(apiUrl);
+
+      // Add content type checking to help diagnose issues
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await response.text();
+        console.error(
+          "Received non-JSON response:",
+          text.substring(0, 100) + "..."
+        );
+        throw new Error("Server returned non-JSON response");
       }
-    };
 
+      const data = await response.json();
+      console.log("API response:", data);
+
+      if (data.success && data.data && data.data.length > 0) {
+        setPuzzles(data.data);
+        selectRandomPuzzle(data.data);
+      } else {
+        setFeedback("Failed to load puzzles");
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching puzzles:", error);
+      setFeedback("Error connecting to server");
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     fetchPuzzles();
-  }, []);
+
+    // Set up a retry if no puzzles are loaded
+    const retryTimer = setTimeout(() => {
+      if (puzzles.length === 0 && retryCount < 3) {
+        console.log(`Retrying puzzle fetch (attempt ${retryCount + 1})...`);
+        setRetryCount((prevCount) => prevCount + 1);
+        fetchPuzzles();
+      }
+    }, 3000);
+
+    return () => clearTimeout(retryTimer);
+  }, [retryCount]);
 
   // Select a random puzzle based on current difficulty setting
   const selectRandomPuzzle = (puzzleArray) => {

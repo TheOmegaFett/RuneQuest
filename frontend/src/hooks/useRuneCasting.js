@@ -7,20 +7,19 @@ export const useRuneCasting = () => {
   const [error, setError] = useState(null);
 
   const castRunes = async (count) => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      setError(null);
+      // Use relative URL to work with the proxy
+      const response = await fetch(`/api/runes/cast?count=${count}`);
+      const data = await response.json();
 
-      // Fetch all runes from the API
-      const allRunes = await fetchRunes();
-
-      // Randomly select the requested number of runes
-      const shuffled = [...allRunes].sort(() => 0.5 - Math.random());
-      const selected = shuffled.slice(0, count);
-
-      setSelectedRunes(selected);
-    } catch (err) {
-      setError(err.message);
+      if (data.success) {
+        setSelectedRunes(data.runes);
+      } else {
+        console.error("Error casting runes:", data.error);
+      }
+    } catch (error) {
+      console.error("Failed to cast runes:", error);
     } finally {
       setIsLoading(false);
     }
