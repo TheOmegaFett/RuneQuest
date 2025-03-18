@@ -5,6 +5,7 @@ const { encryptPassword } = require("../helpers/encryptPasswordHelper");
 const { comparePassword } = require("../helpers/comparePasswordHelper");
 const { checkAndUnlockAchievements } = require("../helpers/achievementHelper");
 const { createToken } = require("../helpers/createTokenHelper");
+const { validateUserDetails } = require("../helpers/validateUserDetailsHelper");
 
 /**
  * Creates a new user record in the database
@@ -18,6 +19,18 @@ const { createToken } = require("../helpers/createTokenHelper");
 
 exports.registerUser = async (req, res) => {
   try {
+    // Validate username and password
+    validated = validateUserDetails(
+      req.body.username,
+      req.body.password,
+    );
+    if (validated.error) {
+      return res.status(409).json({
+        success: false,
+        error: validated.error,
+      });
+    }
+
     // Create new user document from request body
     const saltPass = encryptPassword(req.body.password);
 
@@ -311,6 +324,17 @@ exports.updateUserSettings = async (req, res) => {
       }
     }
 
+    // Validate username and password
+    validated = validateUserDetails(
+      req.body.username,
+      req.body.password,
+    );
+    if (validated.error) {
+      return res.status(409).json({
+        success: false,
+        error: validated.error,
+      });
+    }
     // Retrieve update data from the body
     const saltPass = encryptPassword(req.body.password);
 
