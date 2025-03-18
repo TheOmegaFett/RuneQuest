@@ -13,35 +13,40 @@ const wordsList = require("./words_list.json");
  * @param {Object} runeMap - Map of characters to runes from database
  * @returns {string} - Rune representation
  */
-function convertToRunes(text, runeMap) {
+function convertToRunes(text) {
   let runeText = "";
   // Convert to lowercase for consistent mapping
   text = text.toLowerCase();
 
+  // Create a mapping for special characters
+  const specialCharMap = {
+    ð: "d",
+    þ: "th",
+    æ: "ae",
+    ø: "o",
+    å: "a",
+  };
+
   for (let i = 0; i < text.length; i++) {
     // Check for special case digraphs like 'th'
-    if (
-      i < text.length - 1 &&
-      text[i] === "t" &&
-      text[i + 1] === "h" &&
-      runeMap["th"]
-    ) {
-      runeText += runeMap["th"];
+    if (i < text.length - 1 && text[i] === "t" && text[i + 1] === "h") {
+      runeText += runeMap["th"] || "";
       i++; // Skip next character
     } else {
       // Get rune for current character or empty if not found
-      const char = text[i];
-      // For accented characters, try to use the non-accented version
-      const normalizedChar = char
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
-      runeText += runeMap[normalizedChar] || char; // Keep original if no mapping
+      let char = text[i];
+
+      // Replace special characters with their Latin equivalents
+      if (specialCharMap[char]) {
+        char = specialCharMap[char];
+      }
+
+      runeText += runeMap[char] || char; // Keep original if no mapping
     }
   }
 
   return runeText;
 }
-
 /**
  * Creates puzzle entries from words list
  * @param {Object} runeMap - Map of characters to runes from database

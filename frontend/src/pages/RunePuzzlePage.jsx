@@ -87,21 +87,38 @@ export function RunePuzzlePage() {
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
   };
+    // Check user's answer
+    const checkAnswer = () => {
+      if (!currentPuzzle) return;
 
-  // Check user's answer
-  const checkAnswer = () => {
-    if (!currentPuzzle) return;
+      // Normalize the puzzle's answer
+      const normalizedAnswer = normalizeText(currentPuzzle.englishWord.toLowerCase());
+    
+      // Normalize the user's input
+      const normalizedInput = normalizeText(userInput.toLowerCase());
+    
+      // Compare normalized versions
+      if (normalizedInput === normalizedAnswer) {
+        setFeedback("Correct! Well done!");
+        // After a short delay, move to the next puzzle
+        setTimeout(() => {
+          selectRandomPuzzle(puzzles);
+        }, 1500);
+      } else {
+        setFeedback("Not quite right. Try again!");
+      }
+    };
 
-    // Compare user input with the correct answer (case insensitive)
-    if (userInput.toLowerCase() === currentPuzzle.englishWord.toLowerCase()) {
-      setFeedback("Correct! Well done!");
-      // After a short delay, move to the next puzzle
-      setTimeout(() => {
-        selectRandomPuzzle(puzzles);
-      }, 1500);
-    } else {
-      setFeedback("Not quite right. Try again!");
-    }
+    // Helper function to normalize text
+    const normalizeText = (text) => {
+      // Replace special characters with their Latin equivalents
+      return text
+        .replace(/ð/g, 'd')
+        .replace(/þ/g, 'th')
+        .replace(/æ/g, 'ae')
+        .replace(/ø/g, 'o')
+        .replace(/å/g, 'a');
+    };
   };
 
   // Toggle hint visibility
