@@ -12,15 +12,15 @@ import { RuneCastingTestPage } from './pages/RuneCastingTestPage';
 
 function App() {
 
-  // If no userJwt, render landing page
-  let [userJwt] = useUserJwt();
-  if (!userJwt.accessToken) {
-    return (
-      <Landing />
-    );
-  }
-  // Else render other pages based on URL parameters
-  else {
+  // // If no userJwt, render landing page
+  // let [userJwt] = useUserJwt();
+  // if (!userJwt.accessToken) {
+  //   return (
+  //     <Landing />
+  //   );
+  // }
+  // // Else render other pages based on URL parameters
+  // else {
     // Get the URL parameter
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get("page");
@@ -44,7 +44,7 @@ function App() {
           <Dashboard />
         );
     };
-  }
+  // }
 
 };
 
