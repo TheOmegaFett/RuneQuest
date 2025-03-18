@@ -57,8 +57,11 @@ function generatePuzzles(runeMap) {
 
   // Process Norse words
   wordsList.norse_words.forEach((wordObj) => {
+    // Normalize the English word for storage
+    const normalizedWord = normalizeWord(wordObj.word);
+
     puzzles.push({
-      englishWord: wordObj.word,
+      englishWord: normalizedWord, // Store the normalized version
       runeEquivalent: convertToRunes(wordObj.word, runeMap),
       difficulty: getDifficulty(wordObj.word),
       category: "norse",
@@ -68,8 +71,9 @@ function generatePuzzles(runeMap) {
 
   // Process elemental words
   wordsList.elemental_words.forEach((wordObj) => {
+    const normalizedWord = normalizeWord(wordObj.word);
     puzzles.push({
-      englishWord: wordObj.word,
+      englishWord: normalizedWord,
       runeEquivalent: convertToRunes(wordObj.word, runeMap),
       difficulty: getDifficulty(wordObj.word),
       category: "elemental",
@@ -80,8 +84,9 @@ function generatePuzzles(runeMap) {
   // Add remaining categories
   ["weapon_words", "armour_words"].forEach((category) => {
     wordsList[category].forEach((wordObj) => {
+      const normalizedWord = normalizeWord(wordObj.word);
       puzzles.push({
-        englishWord: wordObj.word,
+        englishWord: normalizedWord,
         runeEquivalent: convertToRunes(wordObj.word, runeMap),
         difficulty: getDifficulty(wordObj.word),
         category: category.replace("_words", ""),
@@ -93,6 +98,36 @@ function generatePuzzles(runeMap) {
   return puzzles;
 }
 
+// Helper function to normalize words
+function normalizeWord(text) {
+  // Create a mapping for special characters (same as in convertToRunes)
+  const specialCharMap = {
+    ð: "D",
+    þ: "TH",
+    æ: "AE",
+    ø: "O",
+    å: "A",
+    ö: "O",
+    ü: "U",
+    ä: "A",
+    é: "E",
+    á: "A",
+    í: "I",
+    ó: "O",
+    ú: "U",
+  };
+
+  // Replace special characters and convert to desired case
+  return text
+    .split("")
+    .map((char) => {
+      if (specialCharMap[char.toLowerCase()]) {
+        return specialCharMap[char.toLowerCase()];
+      }
+      return char; // Keep original case for regular characters
+    })
+    .join("");
+}
 /**
  * Determines difficulty based on word length and complexity
  * @param {string} word - The word to analyze
