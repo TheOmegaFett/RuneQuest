@@ -13,7 +13,7 @@ const wordsList = require("./words_list.json");
  * @param {Object} runeMap - Map of characters to runes from database
  * @returns {string} - Rune representation
  */
-function convertToRunes(text) {
+function convertToRunes(text, runeMap) {
   let runeText = "";
   // Convert to lowercase for consistent mapping
   text = text.toLowerCase();
