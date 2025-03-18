@@ -8,6 +8,7 @@ export function LoginForm() {
   let [username, setUsername] = useState("");
   let [password, setPassword] = useState("");
   let [action, setAction] = useState("");
+  let [errorMessage, setErrorMessage] = useState("");
 
   let [userJwt, setUserJwt] = useUserJwt();
 
@@ -20,7 +21,7 @@ export function LoginForm() {
     console.log("Password:", password);
 
     // Identify the location we are sending the request to
-    let targetUrl = import.meta.env.VITE_API_URL + "api/users/" + action;
+    let targetUrl = import.meta.env.VITE_API_URL + "/api/users/" + action;
 
     // Prepare the data to send to the server
     let inputDataToSend = JSON.stringify({
@@ -40,8 +41,10 @@ export function LoginForm() {
 
     // Parse the response from the API
     let apiResponse = await response.json();
-    console.log("API response:\n", JSON.stringify(apiResponse, null, 2));
+    let log = ("API response:\n", JSON.stringify(apiResponse, null, 2));
+    apiResponse.success ? console.log(log) : console.error(log);
 
+<<<<<<< HEAD
     // Save response to global state
     setUserJwt({
       accessToken: apiResponse.token,
@@ -52,6 +55,24 @@ export function LoginForm() {
 
   return (
     <form className="LoginForm" onSubmit={(event) => handleLogin(event)}>
+=======
+    if (apiResponse.success) {
+      // Save response to global state
+      setUserJwt({
+        accessToken: apiResponse.token
+      });
+      console.log("User JWT saved to global state. User is now logged in.");
+    }
+    else {
+      // Display error message
+      setErrorMessage(apiResponse.error);
+    }
+  };
+
+  return (
+    <form
+      className="login-form" onSubmit={(event) => handleLogin(event)}>
+>>>>>>> 2f659991c5c753d79d663f10635e034f75ec695c
       <section className="input-group">
         <div className="username-block">
           <label htmlFor="username">Username:</label>
@@ -74,12 +95,15 @@ export function LoginForm() {
           />
         </div>
       </section>
+      <section className="error-notifications">
+        <div className="error-message">{errorMessage}</div>
+      </section>
       <section className="submit-group">
-        <button type="button" onClick={() => setAction("register")}>
-          Register
-        </button>
         <button type="submit" onClick={() => setAction("login")}>
           Login
+        </button>
+        <button type="submit" onClick={() => setAction("register")}>
+          Register
         </button>
       </section>
     </form>

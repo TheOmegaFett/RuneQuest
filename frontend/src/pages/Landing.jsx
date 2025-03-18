@@ -1,3 +1,4 @@
+import "./Landing.css";
 import { Header } from "../components/General/Header";
 import { LoginForm } from "../components/Landing/LoginForm";
 
@@ -5,7 +6,7 @@ import { LoginForm } from "../components/Landing/LoginForm";
 export function Landing() {
 
   return (
-    <>
+    <main className="Landing">
       <Header notLoggedIn={true} />
       <LoginForm />
       <article className="overview">
@@ -17,7 +18,7 @@ export function Landing() {
           corrupti sint, tempore aut nihil.
         </p>
       </article>
-    </>
+    </main>
   )
 
 };

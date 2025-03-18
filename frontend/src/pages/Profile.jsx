@@ -4,9 +4,9 @@ import { Header } from "../components/General/Header";
 export function Profile() {
 
   return (
-    <>
+    <main className="Profile">
       <Header />
-    </>
+    </main>
   )
 
 };

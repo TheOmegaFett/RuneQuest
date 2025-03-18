@@ -4,9 +4,9 @@ import { Header } from "../components/General/Header";
 export function Dashboard() {
 
   return (
-    <>
+    <main className="Dashboard">
       <Header />
-    </>
+    </main>
   )
 
 };
