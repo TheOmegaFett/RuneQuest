@@ -3,6 +3,7 @@ import { Header } from "../components/General/Header";
 import "./RunePuzzlePage.css";
 
 export function RunePuzzlePage() {
+  // State declarations
   const [puzzles, setPuzzles] = useState([]);
   const [currentPuzzle, setCurrentPuzzle] = useState(null);
   const [userInput, setUserInput] = useState("");
@@ -12,6 +13,24 @@ export function RunePuzzlePage() {
   const [difficulty, setDifficulty] = useState("all");
   const [answerRevealed, setAnswerRevealed] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
+
+  // Helper functions
+  const normalizeText = (text) => {
+    // Replace special characters with their Latin equivalents
+    return text
+      .replace(/ð/g, "d")
+      .replace(/þ/g, "th")
+      .replace(/æ/g, "ae")
+      .replace(/ø/g, "o")
+      .replace(/å/g, "a")
+      .replace(/ö/g, "o")
+      .replace(/ý/g, "y")
+      .replace(/á/g, "a")
+      .replace(/í/g, "i")
+      .replace(/ó/g, "o")
+      .replace(/ú/g, "u")
+      .replace(/é/g, "e");
+  };
 
   const fetchPuzzles = async () => {
     try {
@@ -48,6 +67,7 @@ export function RunePuzzlePage() {
     }
   };
 
+  // useEffect hooks
   useEffect(() => {
     fetchPuzzles();
 
@@ -62,6 +82,30 @@ export function RunePuzzlePage() {
     return () => clearTimeout(retryTimer);
   }, [retryCount]);
 
+  // Event handlers
+  const handleInputChange = (e) => {
+    setUserInput(e.target.value);
+  };
+
+  const checkAnswer = () => {
+    if (!currentPuzzle) return;
+
+    const normalizedAnswer = normalizeText(
+      currentPuzzle.englishWord.toLowerCase()
+    );
+    const normalizedInput = normalizeText(userInput.toLowerCase());
+
+    if (normalizedInput === normalizedAnswer) {
+      setFeedback("Correct! Well done!");
+
+      // Add a timeout to move to the next puzzle after a brief delay
+      setTimeout(() => {
+        selectRandomPuzzle(puzzles);
+      }, 1500); // 1.5 second delay gives users time to see the success message
+    } else {
+      setFeedback("Not quite right. Try again!");
+    }
+  };
   const selectRandomPuzzle = (puzzleArray) => {
     const filteredPuzzles =
       difficulty === "all"
@@ -78,49 +122,6 @@ export function RunePuzzlePage() {
     } else {
       setFeedback("No puzzles available for this difficulty level");
     }
-  };
-
-  const handleInputChange = (e) => {
-    setUserInput(e.target.value);
-  };
-
-  const checkAnswer = () => {
-    if (!currentPuzzle) return;
-
-    const normalizedAnswer = normalizeText(
-      currentPuzzle.englishWord.toLowerCase()
-    );
-    const normalizedInput = normalizeText(userInput.toLowerCase());
-
-    if (normalizedInput === normalizedAnswer) {
-      setFeedback("Correct! Well done!");
-      // Continue with success logic
-    } else {
-      setFeedback("Not quite right. Try again!");
-    }
-  };
-
-  const normalizeWord = (text) => {
-    const specialCharMap = {
-      ð: "d",
-      þ: "th",
-      æ: "ae",
-      ø: "o",
-      å: "a",
-      ö: "o",
-      ý: "y",
-      á: "a",
-      í: "i",
-      ó: "o",
-      ú: "u",
-      é: "e",
-    };
-
-    return text
-      .toLowerCase()
-      .split("")
-      .map((char) => specialCharMap[char] || char)
-      .join("");
   };
 
   const toggleHint = () => {
