@@ -36,7 +36,6 @@ export const useRuneCasting = () => {
     loadRunes();
   }, []);
 
-  // Add the missing selectSpread function
   const selectSpread = (spread) => {
     setSelectedSpread(spread);
     setCastRunes([]);
@@ -47,15 +46,23 @@ export const useRuneCasting = () => {
   const castRunesForReading = (count) => {
     setLoading(true);
 
+    // Use the spread positions count if no count is provided
+    const runeCount =
+      count || (selectedSpread ? selectedSpread.positions.length : 3);
+
     // Simulate API call or random selection
     setTimeout(() => {
-      // Select 'count' random runes from your rune data
+      // Select 'runeCount' random runes from your rune data
       const selectedRunes = runes
         .sort(() => 0.5 - Math.random())
-        .slice(0, count)
+        .slice(0, runeCount)
         .map((rune, index) => ({
           ...rune,
-          position: index + 1,
+          position: selectedSpread
+            ? typeof selectedSpread.positions[index] === "string"
+              ? selectedSpread.positions[index]
+              : selectedSpread.positions[index].name
+            : index + 1,
           reversed: Math.random() > 0.5, // 50% chance of being reversed
         }));
 

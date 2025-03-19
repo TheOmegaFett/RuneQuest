@@ -43,7 +43,11 @@ describe("runeService", () => {
     });
 
     const result = await fetchRunes();
-    expect(result).toEqual(mockResponse.data);
+    expect(result).toEqual({
+      success: true,
+      count: 3,
+      data: mockResponse.data,
+    });
 
     // Update the expectation to match the actual URL pattern
     // Use a more flexible check that doesn't require "/api/" in the path
@@ -56,14 +60,16 @@ describe("runeService", () => {
       statusText: "Internal Server Error",
     });
 
-    await expect(fetchRunes()).rejects.toThrow(
-      "Failed to fetch runes: 500 Internal Server Error"
-    );
+    const result = await fetchRunes();
+    expect(result.success).toBe(false);
+    expect(result.error).toContain("Failed to fetch runes: 500");
   });
 
   it("should handle network errors", async () => {
     fetch.mockRejectedValueOnce(new Error("Network error"));
 
-    await expect(fetchRunes()).rejects.toThrow("Network error");
+    const result = await fetchRunes();
+    expect(result.success).toBe(false);
+    expect(result.error).toBe("Network error");
   });
 });

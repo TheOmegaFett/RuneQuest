@@ -79,7 +79,7 @@ describe("Quiz Service", () => {
       const result = await fetchQuizByDifficulty("easy");
 
       // Verify
-      expect(get).toHaveBeenCalledWith("/quiz/easy?count=10");
+      expect(get).toHaveBeenCalledWith("/api/quizzes/easy?count=10");
       expect(result).toEqual(mockResponse.data);
     });
 
@@ -116,7 +116,7 @@ describe("Quiz Service", () => {
       await fetchQuizByDifficulty("medium", 5);
 
       // Verify
-      expect(get).toHaveBeenCalledWith("/quiz/medium?count=5");
+      expect(get).toHaveBeenCalledWith("/api/quizzes/medium?count=5");
     });
   });
 
@@ -141,7 +141,7 @@ describe("Quiz Service", () => {
       const result = await checkAnswer("1", "wealth");
 
       // Verify
-      expect(post).toHaveBeenCalledWith("/quiz/check", {
+      expect(post).toHaveBeenCalledWith("/api/quizzes/check", {
         questionId: "1",
         selectedAnswer: "wealth",
       });
@@ -204,7 +204,7 @@ describe("Quiz Service", () => {
       const result = await completeQuiz(quizData);
 
       // Verify
-      expect(post).toHaveBeenCalledWith("/quiz/complete", quizData);
+      expect(post).toHaveBeenCalledWith("/quizzes/complete", quizData);
       expect(result).toEqual(mockResponse.data);
     });
 

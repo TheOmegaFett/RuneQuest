@@ -100,8 +100,19 @@ describe("useRuneCasting", () => {
 
     // Cast runes
     act(() => {
-      result.current.castRunesForReading();
+      result.current.castRunesForReading(mockSpread.positions.length);
     });
+
+    // Wait for the setTimeout in castRunesForReading to complete
+    await vi.waitFor(
+      () =>
+        expect(result.current.castRunes.length).toBe(
+          mockSpread.positions.length
+        ),
+      {
+        timeout: 1000,
+      }
+    );
 
     expect(result.current.castRunes.length).toBe(mockSpread.positions.length);
     expect(result.current.isReading).toBe(true);
