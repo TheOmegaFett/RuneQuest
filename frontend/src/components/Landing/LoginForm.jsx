@@ -57,12 +57,16 @@ export function LoginForm() {
       } else {
         setErrorMessage(apiResponse.error);
       }
-      
+
     }
   }
 
   return (
-    <form className="login-form" onSubmit={(event) => handleLogin(event)}>
+    <form
+      className="login-form"
+      onSubmit={(event) => handleLogin(event)}
+      data-testid="login-form"
+    >
       <section className="input-group">
         <div className="username-block">
           <label htmlFor="username">Username:</label>
