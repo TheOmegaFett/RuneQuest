@@ -65,18 +65,25 @@ async function seedQuizQuestions() {
     // Generate quiz questions
     const questions = generateQuizQuestions();
 
-    // Clear existing questions
-    await QuizQuestion.deleteMany({});
+    // Instead of deleting all and re-inserting, we'll use upsert logic
+    for (const question of questions) {
+      // Create a unique identifier based on rune and difficulty
+      const filter = {
+        rune: question.rune,
+        difficulty: question.difficulty,
+      };
 
-    // Insert new questions
-    await QuizQuestion.insertMany(questions);
+      // Use findOneAndUpdate with upsert option
+      await QuizQuestion.findOneAndUpdate(filter, question, {
+        upsert: true, // Create if doesn't exist
+        new: true, // Return the updated document
+        setDefaultsOnInsert: true, // Apply schema defaults for new documents
+      });
+    }
 
-    console.log(
-      `Successfully seeded ${questions.length} quiz questions into database`
-    );
+    console.log(`Successfully seeded/updated quiz questions in database`);
   } catch (error) {
     console.error("Error seeding quiz questions:", error);
   }
 }
-
 module.exports = seedQuizQuestions;
