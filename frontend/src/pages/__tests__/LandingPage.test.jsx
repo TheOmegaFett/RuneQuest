@@ -13,8 +13,7 @@ describe("Landing", () => {
     );
 
     // Should include the header element from Header
-    const header = screen.getByTestId("header")
-    expect(header).toBeInTheDocument();
+    expect(screen.getByTestId("header")).toBeInTheDocument();
 
     // Should include the form element from LoginForm
     expect(screen.getByTestId("login-form")).toBeInTheDocument();
