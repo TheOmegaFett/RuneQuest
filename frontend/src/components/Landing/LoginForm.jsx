@@ -17,8 +17,6 @@ export function LoginForm() {
 
     // Log attempt to login/register to console
     console.log(`Sending request to ${action} user...`);
-    console.log("Username:", username);
-    console.log("Password:", password);
 
     // Identify the location we are sending the request to
     let targetUrl = import.meta.env.VITE_API_URL + "/api/users/" + action;
@@ -57,12 +55,16 @@ export function LoginForm() {
       } else {
         setErrorMessage(apiResponse.error);
       }
-      
+
     }
   }
 
   return (
-    <form className="login-form" onSubmit={(event) => handleLogin(event)}>
+    <form
+      className="login-form"
+      onSubmit={(event) => handleLogin(event)}
+      data-testid="login-form"
+    >
       <section className="input-group">
         <div className="username-block">
           <label htmlFor="username">Username:</label>
@@ -89,10 +91,18 @@ export function LoginForm() {
         <div className="error-message">{errorMessage}</div>
       </section>
       <section className="submit-group">
-        <button type="submit" onClick={() => setAction("login")}>
+        <button
+          type="submit"
+          name="login"
+          onClick={() => setAction("login")}
+        >
           Login
         </button>
-        <button type="submit" onClick={() => setAction("register")}>
+        <button
+          type="submit"
+          name="register"
+          onClick={() => setAction("register")}
+        >
           Register
         </button>
       </section>

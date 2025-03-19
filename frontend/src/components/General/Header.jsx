@@ -7,13 +7,13 @@ import "./Header.css";
 export function Header({ notLoggedIn }) {
   if (notLoggedIn) {
     return (
-      <header>
+      <header data-testid="header">
         <h1>RuneQuest</h1>
       </header>
     );
   } else {
     return (
-      <header>
+      <header data-testid="header">
         <div className="menu-button">
           {/* Menu button, not functional yet*/}
           |||

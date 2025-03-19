@@ -9,13 +9,13 @@ export function Landing() {
     <main className="Landing">
       <Header notLoggedIn={true} />
       <LoginForm />
-      <article className="overview">
+      <article className="overview" data-testid="overview" >
         <h3>What is RuneQuest?</h3>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo unde
-          deleniti iusto laborum provident repellendus! Esse sequi dignissimos
-          temporibus magnam dolorum, asperiores praesentium fugit unde
-          corrupti sint, tempore aut nihil.
+          RuneQuest is an interactive app designed to help users learn 
+          and master the art of runes. It combines engaging lessons, 
+          practice exercises, and rune divination readings to make the 
+          process of learning runes both fun and educational.
         </p>
       </article>
     </main>
