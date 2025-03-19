@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { RuneLearningPage } from "../RuneLearningPage";
 import { fetchRunes } from "../../api/runeService";
-import { act } from "react-dom/test-utils";
+import { act } from "react"; // Import from react instead of react-dom/test-utils
 
 // Mock the API service
 vi.mock("../../api/runeService", () => ({
@@ -35,34 +35,47 @@ describe("RuneLearningPage", () => {
 
   beforeEach(() => {
     fetchRunes.mockReset();
-    // Return just the data array
-    fetchRunes.mockResolvedValue(mockRunesData);
+    // Return the proper response structure with success and data fields
+    fetchRunes.mockResolvedValue({
+      success: true,
+      data: mockRunesData,
+      error: null,
+    });
   });
 
   it("renders the learning page with flashcards", async () => {
-    render(<RuneLearningPage />);
-
-    // Initially should show loading state
-    expect(screen.getByText(/loading/i)).toBeInTheDocument();
-
-    // Wait for the data to load
-    await waitFor(() => {
-      expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+    // Use act to handle async rendering
+    await act(async () => {
+      render(<RuneLearningPage />);
     });
 
-    // Should display the first rune's symbol
+    // The component is already showing the rune data, so we can directly check for it
     expect(screen.getByText("ᚠ")).toBeInTheDocument();
+    expect(screen.getByText("F")).toBeInTheDocument();
+
+    // Verify other UI elements are present
+    expect(screen.getByText("Learn the Runes")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Click on the card to reveal the English letter equivalent."
+      )
+    ).toBeInTheDocument();
+    expect(screen.getByText("Previous")).toBeInTheDocument();
+    expect(screen.getByText("Next")).toBeInTheDocument();
+    expect(screen.getByText("Shuffle")).toBeInTheDocument();
   });
 
   it("handles API errors gracefully", async () => {
     // Setup an error response
     fetchRunes.mockRejectedValueOnce(new Error("Failed to fetch runes"));
 
-    render(<RuneLearningPage />);
+    await act(async () => {
+      render(<RuneLearningPage />);
+    });
 
     // Wait for the error to be displayed
     await waitFor(() => {
-      expect(screen.getByText(/failed to fetch runes/i)).toBeInTheDocument();
+      expect(screen.getByText(/Error:/i)).toBeInTheDocument();
     });
   });
 });

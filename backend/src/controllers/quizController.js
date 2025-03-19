@@ -21,7 +21,6 @@ exports.getQuizByDifficulty = async (req, res) => {
       { $match: { difficulty } },
       { $sample: { size: count } },
     ]);
-
     // Format questions for client
     const formattedQuestions = questions.map((question) => {
       let optionCount;
@@ -42,17 +41,25 @@ exports.getQuizByDifficulty = async (req, res) => {
       // Get all options but limit based on difficulty
       const allOptions = [
         question.correctMeaning,
-        ...question.incorrectMeanings,
+        ...question.incorrectMeanings.filter(Boolean), // Filter out any null/undefined values
       ];
+
       // Always include correct answer, then add random incorrect ones up to the count
       const correctOption = allOptions[0];
       const incorrectOptions = allOptions
         .slice(1)
         .sort(() => 0.5 - Math.random())
         .slice(0, optionCount - 1);
-      const options = [correctOption, ...incorrectOptions].sort(
-        () => 0.5 - Math.random()
-      );
+
+      // Combine and shuffle all options, ensuring no null values
+      const options = [correctOption, ...incorrectOptions]
+        .filter(Boolean) // Remove any null values
+        .sort(() => 0.5 - Math.random());
+
+      // If we don't have enough options, generate placeholder options
+      while (options.length < optionCount) {
+        options.push(`Placeholder option ${options.length + 1}`);
+      }
 
       return {
         id: question._id,
@@ -62,7 +69,6 @@ exports.getQuizByDifficulty = async (req, res) => {
         category: question.category,
       };
     });
-
     // Return the formatted questions
     return res.status(200).json({
       success: true,

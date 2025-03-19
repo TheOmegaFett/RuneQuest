@@ -7,13 +7,13 @@ export const RuneLearningPage = () => {
   const {
     currentRune,
     isFlipped,
-    isLoading,
+    loading: isLoading,
     error,
-    totalRunes,
+    runes,
     currentIndex,
     flipCard,
     nextCard,
-    previousCard,
+    prevCard: previousCard,
     shuffleCards,
   } = useRuneFlashcards();
 
@@ -47,7 +47,7 @@ export const RuneLearningPage = () => {
         onNext={nextCard}
         onShuffle={shuffleCards}
         currentIndex={currentIndex}
-        totalRunes={totalRunes}
+        totalRunes={runes.length}
       />
     </div>
   );

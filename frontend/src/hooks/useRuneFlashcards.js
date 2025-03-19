@@ -1,70 +1,87 @@
 import { useState, useEffect } from "react";
-import { fetchRunes } from "../api/runeService";
+import { fetchRunes } from "../api/runeService"; // Corrected import path
 
 export const useRuneFlashcards = () => {
   const [runes, setRunes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
 
+  // Load runes on initialization
   useEffect(() => {
     const loadRunes = async () => {
       try {
-        setIsLoading(true);
-        const runeData = await fetchRunes();
-        console.log("Rune data from API:", runeData);
-        setRunes(runeData);
+        setLoading(true);
+        const response = await fetchRunes();
+        if (response.success) {
+          console.log("Rune data from API:", response.data);
+          setRunes(response.data);
+        } else {
+          setError(response.error);
+        }
       } catch (err) {
-        setError(err.message);
+        setError("Failed to load runes");
+        console.error(err);
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
 
     loadRunes();
   }, []);
 
-  const flipCard = () => setIsFlipped(!isFlipped);
+  // Flip the current card
+  const flipCard = () => {
+    setIsFlipped(!isFlipped);
+  };
 
+  // Navigate to the next card
   const nextCard = () => {
-    // First set flipped to false, then change the card in the next render cycle
+    // Fix: Properly update the current index
+    setCurrentIndex((prevIndex) => {
+      // If we're at the end, loop back to the beginning
+      if (prevIndex >= runes.length - 1) {
+        return 0;
+      }
+      // Otherwise, go to the next card
+      return prevIndex + 1;
+    });
     setIsFlipped(false);
-
-    // Use setTimeout to ensure the flip happens first
-    setTimeout(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % runes.length);
-    }, 300); // Half the flip animation duration
   };
 
-  const previousCard = () => {
-    // First set flipped to false, then change the card in the next render cycle
+  // Navigate to the previous card
+  const prevCard = () => {
+    // Fix: Properly update the current index
+    setCurrentIndex((prevIndex) => {
+      // If we're at the beginning, loop to the end
+      if (prevIndex <= 0) {
+        return runes.length - 1;
+      }
+      // Otherwise, go to the previous card
+      return prevIndex - 1;
+    });
     setIsFlipped(false);
-
-    // Use setTimeout to ensure the flip happens first
-    setTimeout(() => {
-      setCurrentIndex(
-        (prevIndex) => (prevIndex - 1 + runes.length) % runes.length
-      );
-    }, 300); // Half the flip animation duration
   };
 
+  // Shuffle the cards
   const shuffleCards = () => {
-    setIsFlipped(false);
-    setRunes([...runes].sort(() => Math.random() - 0.5));
+    const shuffled = [...runes].sort(() => Math.random() - 0.5);
+    setRunes(shuffled);
     setCurrentIndex(0);
+    setIsFlipped(false);
   };
 
   return {
-    currentRune: runes[currentIndex],
-    isFlipped,
-    isLoading,
+    runes,
+    loading,
     error,
-    totalRunes: runes.length,
     currentIndex,
+    currentRune: runes[currentIndex] || null,
+    isFlipped,
     flipCard,
     nextCard,
-    previousCard,
+    prevCard,
     shuffleCards,
   };
 };

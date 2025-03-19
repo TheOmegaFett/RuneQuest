@@ -1,55 +1,157 @@
-import { useState } from "react";
-import { fetchRunes } from "../api/runeService";
+import { useState, useEffect } from "react";
+import { useUserJwt } from "./useUserJwt";
+import { fetchRunes } from "../api/runeService"; // Corrected import path
 
 export const useRuneCasting = () => {
-  const [selectedRunes, setSelectedRunes] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  // Correct function name
+  const [userJwt] = useUserJwt();
+  const [runes, setRunes] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedSpread, setSelectedSpread] = useState(null); // Initialize as null
+  const [castRunes, setCastRunes] = useState([]);
+  const [isReading, setIsReading] = useState(false);
+  const [selectedRunes, setSelectedRunes] = useState([]);
+  const [interpretation, setInterpretation] = useState(null);
 
-  const castRunes = async (count) => {
-    setIsLoading(true);
-    try {
-      // Use the working endpoint with a query parameter for count
-      const response = await fetch(`/api/runes?count=${count}`);
-      // Or potentially:
-      // const response = await fetch(`/api/runes/random?count=${count}`);
-
-      const data = await response.json();
-
-      if (data.success) {
-        // If the API returns all runes, we can select random ones client-side
-        if (data.data && Array.isArray(data.data) && data.data.length > 0) {
-          const randomRunes = selectRandomRunes(data.data, count);
-          setSelectedRunes(randomRunes);
-        } else if (data.runes) {
-          // If the API already returns random runes
-          setSelectedRunes(data.runes);
+  // Load runes on initialization
+  useEffect(() => {
+    const loadRunes = async () => {
+      try {
+        setLoading(true);
+        const response = await fetchRunes();
+        if (response.success) {
+          setRunes(response.data);
+        } else {
+          setError(response.error);
         }
-      } else {
-        console.error("Error casting runes:", data.error);
+      } catch (err) {
+        setError("Failed to load runes");
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Failed to cast runes:", error);
-    } finally {
-      setIsLoading(false);
+    };
+
+    loadRunes();
+  }, []);
+
+  // Add the missing selectSpread function
+  const selectSpread = (spread) => {
+    setSelectedSpread(spread);
+    setCastRunes([]);
+    setIsReading(false);
+    setInterpretation(null);
+  };
+  // Cast runes for a reading
+  const castRunesForReading = (count) => {
+    setLoading(true);
+
+    // Simulate API call or random selection
+    setTimeout(() => {
+      // Select 'count' random runes from your rune data
+      const selectedRunes = runes
+        .sort(() => 0.5 - Math.random())
+        .slice(0, count)
+        .map((rune, index) => ({
+          ...rune,
+          position: index + 1,
+          reversed: Math.random() > 0.5, // 50% chance of being reversed
+        }));
+
+      setCastRunes(selectedRunes);
+      setIsReading(true);
+      setLoading(false);
+    }, 500);
+  };
+  // Save a reading
+  const saveReading = async (notes) => {
+    if (!userJwt.accessToken || !isReading || castRunes.length === 0) {
+      return {
+        success: false,
+        error: "Invalid reading state or not logged in",
+      };
+    }
+
+    try {
+      // Format the reading data
+      const readingData = {
+        userId: userJwt.userId,
+        spreadType: selectedSpread.name,
+        runes: castRunes.map((rune) => ({
+          runeId: rune._id,
+          position: rune.position,
+          reversed: rune.reversed,
+        })),
+        notes: notes || "",
+        date: new Date().toISOString(),
+      };
+
+      // Call API to save reading (implement this in your service)
+      // const response = await saveRuneReading(readingData);
+      // return response;
+
+      // For now, just return a mock success response
+      return { success: true, data: { id: "mock-reading-id" } };
+    } catch (err) {
+      console.error("Error saving reading:", err);
+      return { success: false, error: "Failed to save reading" };
     }
   };
 
-  // Helper function to select random runes client-side if needed
-  const selectRandomRunes = (allRunes, count) => {
-    const shuffled = [...allRunes].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
+  // Reset the reading
+  const resetReading = () => {
+    setCastRunes([]);
+    setIsReading(false);
+    setInterpretation(null);
   };
 
-  const resetCasting = () => {
-    setSelectedRunes([]);
+  // Generate interpretation for the reading
+  const generateInterpretation = () => {
+    if (!isReading || castRunes.length === 0) return;
+
+    // Generate a simple interpretation based on the runes
+    const interpretationText = castRunes
+      .map((rune) => {
+        const positionText = rune.position;
+        const runeText = rune.name;
+        const meaningText = rune.meaning;
+        const reversedText = rune.reversed ? "reversed" : "upright";
+
+        return `In the position of ${positionText}, ${runeText} (${meaningText}) ${reversedText} suggests ${
+          rune.reversed ? "challenges related to" : "the energy of"
+        } ${meaningText} influencing your situation.`;
+      })
+      .join("\n\n");
+
+    setInterpretation(interpretationText);
+  };
+
+  // For testing purposes only
+  const _setTestRunes = (testRunes) => {
+    setCastRunes(testRunes);
+  };
+
+  const _setTestIsReading = (value) => {
+    setIsReading(value);
   };
 
   return {
-    selectedRunes,
-    isLoading,
+    runes,
+    loading,
     error,
+    selectedSpread,
     castRunes,
-    resetCasting,
+    selectedRunes, // Now properly defined
+    isReading,
+    interpretation,
+    selectSpread,
+    castRunesForReading,
+    saveReading,
+    resetReading,
+    generateInterpretation,
+    // Testing functions
+    _setTestRunes,
+    _setTestIsReading,
   };
 };

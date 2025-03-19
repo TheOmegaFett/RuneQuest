@@ -4,13 +4,18 @@ import RuneCard from "../components/RuneCasting/RuneCard";
 import "./RuneCastingTestPage.css";
 
 export const RuneCastingTestPage = () => {
-  const { castRunes, selectedRunes, resetCasting, isLoading } =
-    useRuneCasting();
+  const {
+    castRunesForReading,
+    resetReading,
+    castRunes: selectedRunes,
+    loading,
+  } = useRuneCasting();
+
   const [castingType, setCastingType] = useState("three");
 
   const handleCastRunes = () => {
     const count = castingType === "three" ? 3 : castingType === "five" ? 5 : 1;
-    castRunes(count);
+    castRunesForReading(count);
   };
 
   return (
@@ -51,15 +56,15 @@ export const RuneCastingTestPage = () => {
         <div className="action-buttons">
           <button
             onClick={handleCastRunes}
-            disabled={isLoading}
+            disabled={loading}
             className="cast-button"
           >
-            {isLoading ? "Casting..." : "Cast Runes"}
+            {loading ? "Casting..." : "Cast Runes"}
           </button>
 
           <button
-            onClick={resetCasting}
-            disabled={selectedRunes.length === 0 || isLoading}
+            onClick={resetReading}
+            disabled={selectedRunes.length === 0 || loading}
             className="reset-button"
           >
             Reset

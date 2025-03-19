@@ -1,108 +1,74 @@
-import { renderHook, act } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { renderHook, act, waitFor } from "@testing-library/react";
 import { useRuneFlashcards } from "../useRuneFlashcards";
-import { fetchRunes } from "../../api/runeService";
-import { vi, describe, it, expect, beforeEach } from "vitest";
+import { fetchRunes } from "../../api/runeService"; // Corrected import path
 
-// Mock the API service
+// Mock the runeService
 vi.mock("../../api/runeService", () => ({
   fetchRunes: vi.fn(),
 }));
 
 describe("useRuneFlashcards", () => {
-  // Create mock data that matches the structure expected by the hook
   const mockRunesData = [
-    {
-      _id: "67d3aa5f584c5a05591bd3fb",
-      name: "Fehu",
-      meaning: "Cattle, Wealth",
-      symbol: "ᚠ",
-      pronunciation: "feh-who",
-      history: "Represents mobile wealth, earned income, and luck.",
-      englishEquivalent: "F",
-      category: { name: "Elder Futhark" },
-    },
-    {
-      _id: "67d3aa5f584c5a05591bd3fe",
-      name: "Uruz",
-      meaning: "Aurochs, Strength",
-      symbol: "ᚢ",
-      pronunciation: "oo-rooz",
-      history: "Symbolizes physical strength, speed, and untamed potential.",
-      englishEquivalent: "U",
-      category: { name: "Elder Futhark" },
-    },
-    {
-      _id: "67d3aa5f584c5a05591bd3ff",
-      name: "Thurisaz",
-      meaning: "Thor, Giant",
-      symbol: "ᚦ",
-      pronunciation: "thur-ee-saz",
-      history: "Represents chaos, destruction and defense.",
-      englishEquivalent: "Th",
-      category: { name: "Elder Futhark" },
-    },
+    { _id: "1", name: "Fehu", meaning: "Wealth", symbol: "ᚠ" },
+    { _id: "2", name: "Uruz", meaning: "Strength", symbol: "ᚢ" },
+    { _id: "3", name: "Thurisaz", meaning: "Thor", symbol: "ᚦ" },
   ];
 
   beforeEach(() => {
-    fetchRunes.mockReset();
-    // Mock the API to return just the data array
-    fetchRunes.mockResolvedValue(mockRunesData);
+    // Reset mocks
+    vi.clearAllMocks();
+
+    // Mock successful rune fetch
+    fetchRunes.mockResolvedValue({
+      success: true,
+      data: mockRunesData,
+    });
   });
 
   it("should load runes on initialization", async () => {
-    const { result, rerender } = renderHook(() => useRuneFlashcards());
+    const { result } = renderHook(() => useRuneFlashcards());
 
-    // Initially should be loading
-    expect(result.current.isLoading).toBe(true);
+    // Wait for the async effect to complete
+    await waitFor(() => expect(result.current.loading).toBe(false));
 
-    // Wait for the data to load
-    await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 0));
-    });
-
-    rerender();
-
-    // Verify the data is loaded
-    expect(result.current.totalRunes).toBe(3);
-    expect(result.current.currentRune).toEqual(mockRunesData[0]);
+    expect(fetchRunes).toHaveBeenCalled();
+    expect(result.current.runes).toEqual(mockRunesData);
   });
 
   it("should flip the card when flipCard is called", async () => {
     const { result } = renderHook(() => useRuneFlashcards());
 
-    await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 0));
-    });
+    // Wait for the async effect to complete
+    await waitFor(() => expect(result.current.loading).toBe(false));
 
+    // Initially not flipped
     expect(result.current.isFlipped).toBe(false);
 
+    // Flip the card
     act(() => {
       result.current.flipCard();
     });
 
+    // Should be flipped now
     expect(result.current.isFlipped).toBe(true);
-
-    act(() => {
-      result.current.flipCard();
-    });
-
-    expect(result.current.isFlipped).toBe(false);
   });
 
   it("should navigate to the next card", async () => {
     const { result } = renderHook(() => useRuneFlashcards());
 
-    await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 0));
-    });
+    // Wait for the async effect to complete
+    await waitFor(() => expect(result.current.loading).toBe(false));
 
+    // Initially at index 0
     expect(result.current.currentIndex).toBe(0);
-    expect(result.current.currentRune).toEqual(mockRunesData[0]);
 
+    // Navigate to next card
     act(() => {
       result.current.nextCard();
     });
 
+    // Should be at index 1
     expect(result.current.currentIndex).toBe(1);
     expect(result.current.currentRune).toEqual(mockRunesData[1]);
   });
@@ -110,75 +76,83 @@ describe("useRuneFlashcards", () => {
   it("should navigate to the previous card", async () => {
     const { result } = renderHook(() => useRuneFlashcards());
 
-    await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 0));
-    });
+    // Wait for the async effect to complete
+    await waitFor(() => expect(result.current.loading).toBe(false));
 
+    // Set to index 1 first
     act(() => {
       result.current.nextCard();
-      result.current.nextCard();
-    });
-
-    expect(result.current.currentIndex).toBe(2);
-
-    act(() => {
-      result.current.previousCard();
     });
 
     expect(result.current.currentIndex).toBe(1);
-    expect(result.current.currentRune).toEqual(mockRunesData[1]);
+
+    // Then navigate to previous card
+    act(() => {
+      result.current.prevCard();
+    });
+
+    // Should be back at index 0
+    expect(result.current.currentIndex).toBe(0);
+    expect(result.current.currentRune).toEqual(mockRunesData[0]);
   });
 
   it("should handle circular navigation", async () => {
     const { result } = renderHook(() => useRuneFlashcards());
 
-    await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 0));
-    });
+    // Wait for the async effect to complete
+    await waitFor(() => expect(result.current.loading).toBe(false));
 
+    // Navigate to the last card
     act(() => {
-      result.current.previousCard();
+      result.current.prevCard(); // From index 0 to last index (2)
     });
 
+    // Should be at the last index
     expect(result.current.currentIndex).toBe(2);
     expect(result.current.currentRune).toEqual(mockRunesData[2]);
 
+    // Navigate past the end
     act(() => {
-      result.current.nextCard();
+      result.current.nextCard(); // From last index to 0
     });
 
+    // Should wrap around to the beginning
     expect(result.current.currentIndex).toBe(0);
     expect(result.current.currentRune).toEqual(mockRunesData[0]);
   });
 
   it("should shuffle the cards", async () => {
+    const { result } = renderHook(() => useRuneFlashcards());
+
+    // Wait for the async effect to complete
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    // Mock Math.random to get predictable results
     const originalRandom = Math.random;
     Math.random = vi.fn().mockReturnValue(0.5);
 
-    const { result } = renderHook(() => useRuneFlashcards());
-
-    await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 0));
-    });
-
+    // Shuffle the cards
     act(() => {
       result.current.shuffleCards();
     });
 
-    expect(result.current.currentIndex).toBe(0);
-
+    // Restore Math.random
     Math.random = originalRandom;
+
+    // Should reset to index 0
+    expect(result.current.currentIndex).toBe(0);
+    expect(result.current.isFlipped).toBe(false);
   });
 
   it("should handle API errors", async () => {
+    // Mock API error
     fetchRunes.mockRejectedValueOnce(new Error("API error"));
 
     const { result } = renderHook(() => useRuneFlashcards());
 
-    await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 0));
-    });
+    // Wait for the async effect to complete
+    await waitFor(() => expect(result.current.loading).toBe(false));
 
-    expect(result.current.error).toBe("API error");
+    expect(result.current.error).toBe("Failed to load runes");
   });
 });

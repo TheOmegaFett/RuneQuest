@@ -1,0 +1,153 @@
+/* Quiz Page Styles */
+
+/* General Quiz Styles */
+.quiz-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Rune Display */
+.rune-display {
+  font-size: 6rem;
+  line-height: 1.2;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  color: #343a40;
+  transition: transform 0.3s ease;
+}
+
+.rune-display:hover {
+  transform: scale(1.05);
+}
+
+/* Quiz Options */
+.quiz-option {
+  transition: all 0.2s ease;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.25rem;
+}
+
+.quiz-option:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Quiz Card */
+.quiz-card {
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.quiz-card .card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+.quiz-card .card-footer {
+  background-color: #f8f9fa;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+/* Difficulty Badges */
+.badge-easy {
+  background-color: #28a745;
+}
+
+.badge-medium {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.badge-hard {
+  background-color: #dc3545;
+}
+
+/* Quiz Selection Cards */
+.difficulty-card {
+  transition: all 0.3s ease;
+  height: 100%;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.difficulty-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.difficulty-card .card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Quiz Results */
+.quiz-results {
+  text-align: center;
+}
+
+.score-display {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.score-percentage {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+/* Achievements */
+.achievement-item {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #28a745;
+  animation: fadeIn 0.5s ease;
+}
+
+.achievement-title {
+  font-weight: 600;
+  color: #28a745;
+  margin-bottom: 0.25rem;
+}
+
+.achievement-description {
+  color: #6c757d;
+  margin-bottom: 0;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Progress Bar */
+.quiz-progress {
+  height: 8px;
+  border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .rune-display {
+    font-size: 4rem;
+  }
+
+  .quiz-container {
+    padding: 0 15px;
+  }
+}

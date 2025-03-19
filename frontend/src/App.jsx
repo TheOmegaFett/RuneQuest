@@ -10,6 +10,7 @@ import { Profile } from "./pages/Profile";
 import { RuneLearningPage } from "./pages/RuneLearningPage";
 import { RuneCastingTestPage } from "./pages/RuneCastingTestPage";
 import { RunePuzzlePage } from "./pages/RunePuzzlePage";
+import { QuizPage } from "./pages/QuizPage";
 
 function App() {
   // Get the URL parameter
@@ -36,9 +37,10 @@ function App() {
       return <RuneCastingTestPage />;
     case "puzzles":
       return <RunePuzzlePage />;
+    case "quiz":
+      return <QuizPage />;
     default:
       return <Dashboard />;
   }
 }
-
 export default App;
