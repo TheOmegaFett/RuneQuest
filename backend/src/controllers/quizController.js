@@ -38,28 +38,34 @@ exports.getQuizByDifficulty = async (req, res) => {
           optionCount = 4;
       }
 
-      // Get all options but limit based on difficulty
-      const allOptions = [
+      // Get all valid options from the current question
+      const currentOptions = [
         question.correctMeaning,
-        ...question.incorrectMeanings.filter(Boolean), // Filter out any null/undefined values
+        ...question.incorrectMeanings.filter(Boolean),
       ];
 
+      // Get meanings from other runes to use as additional fake options
+      const otherRuneMeanings = questions
+        .filter((q) => q._id.toString() !== question._id.toString()) // Exclude current rune
+        .map((q) => q.correctMeaning)
+        .filter((meaning) => meaning && !currentOptions.includes(meaning)); // Ensure uniqueness
+
+      // Shuffle the other rune meanings
+      const shuffledFakeMeanings = otherRuneMeanings.sort(
+        () => 0.5 - Math.random()
+      );
+
       // Always include correct answer, then add random incorrect ones up to the count
-      const correctOption = allOptions[0];
-      const incorrectOptions = allOptions
-        .slice(1)
-        .sort(() => 0.5 - Math.random())
-        .slice(0, optionCount - 1);
+      const correctOption = currentOptions[0];
+      const incorrectOptions = [
+        ...currentOptions.slice(1).filter(Boolean),
+        ...shuffledFakeMeanings,
+      ].slice(0, optionCount - 1);
 
-      // Combine and shuffle all options, ensuring no null values
-      const options = [correctOption, ...incorrectOptions]
-        .filter(Boolean) // Remove any null values
-        .sort(() => 0.5 - Math.random());
-
-      // If we don't have enough options, generate placeholder options
-      while (options.length < optionCount) {
-        options.push(`Placeholder option ${options.length + 1}`);
-      }
+      // Combine and shuffle all options
+      let options = [correctOption, ...incorrectOptions].sort(
+        () => 0.5 - Math.random()
+      );
 
       return {
         id: question._id,
@@ -68,8 +74,7 @@ exports.getQuizByDifficulty = async (req, res) => {
         difficulty: question.difficulty,
         category: question.category,
       };
-    });
-    // Return the formatted questions
+    }); // Return the formatted questions
     return res.status(200).json({
       success: true,
       data: formattedQuestions,
