@@ -48,7 +48,7 @@ input {
 section.error-notifications {
   min-height: 1.5em;
   height: fit-content;
-  color: red;
+  color: #e74c3c;
 }
 
 section.submit-group {
