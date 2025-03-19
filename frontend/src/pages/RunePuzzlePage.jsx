@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Header } from "../components/General/Header";
-import "./RunePuzzlePage.css";
+import "./styles/RunePuzzlePage.css";
 
 export function RunePuzzlePage() {
   // State declarations

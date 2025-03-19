@@ -1,7 +1,7 @@
 import { useRuneFlashcards } from "../hooks/useRuneFlashcards";
 import { RuneFlashcard } from "../components/RuneFlashcard/RuneFlashcard";
 import { FlashcardControls } from "../components/RuneFlashcard/FlashcardControls";
-import "./RuneLearningPage.css";
+import "./styles/RuneLearningPage.css";
 
 export const RuneLearningPage = () => {
   const {

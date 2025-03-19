@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRuneCasting } from "../hooks/useRuneCasting";
 import RuneCard from "../components/RuneCasting/RuneCard";
-import "./RuneCastingTestPage.css";
+import "./styles/RuneCastingTestPage.css";
 
 export const RuneCastingTestPage = () => {
   const {

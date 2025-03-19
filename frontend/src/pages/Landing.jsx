@@ -1,4 +1,4 @@
-import "./Landing.css";
+import "./styles/Landing.css";
 import { Header } from "../components/General/Header";
 import { LoginForm } from "../components/Landing/LoginForm";
 
