@@ -19,11 +19,13 @@ export function Header({ notLoggedIn }) {
   } else {
     return (
       <header data-testid="header">
-        <button className="menu-button">
+        <button className="menu-button" id="header-comp">
           <img src={menuIcon} alt="menu icon" />
         </button>
-        <h1>RuneQuest</h1>
-        <a className="profile-link" href="/?page=profile">
+        <a href="/">
+          <h1>RuneQuest</h1>
+        </a>
+        <a className="profile-link" href="/?page=profile" id="header-comp">
           <img src={profileIcon} alt="profile icon" />
         </a>
       </header>
