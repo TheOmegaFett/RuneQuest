@@ -1,3 +1,35 @@
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border: #000000 solid 1px;
+  border-radius: 0.5em;
+  background-color: #525252;
+  padding: 0 0.6em;
+}
+
 header h1 {
+  padding: 0 0.2em;
   color: #ffffff;
+}
+
+header .menu-button {
+  display: flex;
+  margin: 0.1em;
+  padding: 0.4em;
+  width: fit-content;
+  background-color: #696969;
+  border: #000000 solid 1.5px;
+  border-radius: 0.5em;
+}
+
+header .menu-button img {
+  width: 2.4em;
+  height: 2.2em;
+}
+
+header .profile-link img {
+  width: 3.6em;
 }
