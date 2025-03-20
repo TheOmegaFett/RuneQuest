@@ -1,64 +1,64 @@
 form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    width: fit-content;
-    height: 100%;
-    max-width: 100%;
-    border: #1a1a1a solid 1px;
-    border-radius: 8px;
-    padding: 1.2em;
-    gap: 0.5em;
-    background-color: #333333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: fit-content;
+  height: 100%;
+  max-width: 100%;
+  border: #1a1a1a solid 1px;
+  border-radius: 8px;
+  padding: 1.2em;
+  gap: 0.5em;
+  background-color: #333333;
 }
 
 section.input-group {
-    display: flex;
-    flex-direction: column;
-    align-items: space-between;
-    justify-content: center;
-    gap: 0.6em;
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+  justify-content: center;
+  gap: 0.6em;
 }
 
 .input-group div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 0.2em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2em;
 }
 
 label {
-    font-size: 1em;
-    font-weight: 500;
-    width: 4.8em;
+  font-size: 1em;
+  font-weight: 500;
+  width: 4.8em;
 }
 
 input {
-    padding: 0.6em 0.8em;
-    font-size: 1em;
-    font-weight: 500;
-    border: 1px solid #1a1a1a;
-    border-radius: 8px;
-    background-color: #797979;
-    transition: border-color 0.25s;
+  padding: 0.6em 0.8em;
+  font-size: 1em;
+  font-weight: 500;
+  border: 1px solid #1a1a1a;
+  border-radius: 8px;
+  background-color: #797979;
+  transition: border-color 0.25s;
 }
 
 section.error-notifications {
-    min-height: 1.5em;
-    height: fit-content;
-    color: red;
+  min-height: 1.5em;
+  height: fit-content;
+  color: #e74c3c;
 }
 
 section.submit-group {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6em;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
 }
 
 button {
-    width: 6.4em;
+  width: 6.4em;
 }

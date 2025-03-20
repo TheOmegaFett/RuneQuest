@@ -1,10 +1,15 @@
 import "./Header.css";
+import profileIcon from "../../assets/profile.png";
+import menuIcon from "../../assets/menu.png";
 
 // Header component
 // If user is logged in, render menu button and profile link
 // Else, render only the title
 
 export function Header({ notLoggedIn }) {
+  const urlParams = new URLSearchParams(window.location.search);
+  let page = urlParams.get("page");
+
   if (notLoggedIn) {
     return (
       <header data-testid="header">
@@ -14,15 +19,13 @@ export function Header({ notLoggedIn }) {
   } else {
     return (
       <header data-testid="header">
-        <div className="menu-button">
-          {/* Menu button, not functional yet*/}
-          |||
-        </div>
+        <button className="menu-button">
+          <img src={menuIcon} alt="menu icon" />
+        </button>
         <h1>RuneQuest</h1>
-        <div className="profile-link">
-          {/* Profile link, not functional yet*/}
-          :D
-        </div>
+        <a className="profile-link" href="/?page=profile">
+          <img src={profileIcon} alt="profile icon" />
+        </a>
       </header>
     );
   }
