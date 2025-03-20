@@ -5,7 +5,7 @@ import "./styles/Dashboard.css"
 // Dashboard page
 export function Dashboard() {
 
-  let [focus, setFocus] = useState(['1', '0', '0'])
+  let [focus, setFocus] = useState(['1', '0', '0', '0'])
 
   return (
     <main className="Dashboard">
@@ -13,16 +13,16 @@ export function Dashboard() {
       <section className="content">
         <button
           className="learning"
-          onClick={() => setFocus(['1', '0', '0'])}
+          onClick={() => setFocus(['1', '0', '0', '0'])}
         >
-          Learning
+          Learn
         </button>
         <article className="learning" style={{ zIndex: focus[0] }}>
           Learning Module
         </article>
         <button
           className="quizzes"
-          onClick={() => setFocus(['0', '1', '0'])}
+          onClick={() => setFocus(['0', '1', '0', '0'])}
         >
           Quizzes
         </button>
@@ -30,16 +30,24 @@ export function Dashboard() {
           Quiz Module
         </article>
         <button
-          className="casting"
-          onClick={() => setFocus(['0', '0', '1'])}
+          className="puzzles"
+          onClick={() => setFocus(['0', '0', '1', '0'])}
         >
-          Casting
+          Puzzles
         </button>
-        <article className="casting" style={{ zIndex: focus[2] }}>
+        <article className="puzzles" style={{ zIndex: focus[2] }}>
+          Puzzle Module
+        </article>
+        <button
+          className="casting"
+          onClick={() => setFocus(['0', '0', '0', '1'])}
+        >
+          Cast
+        </button>
+        <article className="casting" style={{ zIndex: focus[3] }}>
           Casting Module
         </article>
       </section>
     </main>
   )
-
 };

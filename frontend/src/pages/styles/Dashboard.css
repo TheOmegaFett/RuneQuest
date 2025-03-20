@@ -1,8 +1,14 @@
+.Dashboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .Dashboard .content {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 4fr;
-  width: 95%;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 14fr;
+  width: fit-content;
   height: 100%;
   color: black;
 }
@@ -11,13 +17,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 0 0.5em 0.5em;
+  border-radius: 0  0.5em 0.5em;
   grid-row: 2;
-  grid-column: 1 / span 4;
+  grid-column: 1 / span 5;
 }
 
 .Dashboard .content button {
   font-size: 1.1em;
+  width: fit-content;
   border: none;
   border-radius: 0.5em 0.5em 0 0;
   color: black;
@@ -25,15 +32,16 @@
 
 .learning {
   background-color: lightgray;
-  border: lightgrey solid 1px;
 }
 
 .quizzes {
   background-color: aqua;
-  border: aqua solid 1px;
+}
+
+.puzzles {
+  background-color: aquamarine;
 }
 
 .casting {
   background-color: lightcoral;
-  border: lightcoral solid 1px;
 }
