@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { resolve } from "path"; // Add this import
+import { resolve } from "path";
 
 export default defineConfig({
   plugins: [react()],
@@ -15,6 +15,8 @@ export default defineConfig({
   },
   preview: {
     allowedHosts: ["rune-quest.onrender.com", "localhost"],
+    port: process.env.PORT || 3000,
+    host: "0.0.0.0",
   },
   test: {
     globals: true,
@@ -22,6 +24,7 @@ export default defineConfig({
     setupFiles: "./src/test/setup.js",
   },
   build: {
+    outDir: "dist",
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
