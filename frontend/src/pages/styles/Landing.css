@@ -1,9 +1,14 @@
-main {
+.Landing {
+  grid-template-columns: 2fr 3fr;
+  grid-template-rows: 2fr 3fr;
+}
+
+.login-form-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: fit-content;
+  align-items: center;
+  grid-column: 2;
+  grid-row: 1 / span 2;
 }
 
 .overview {
@@ -16,6 +21,9 @@ main {
   justify-content: center;
   text-align: center;
   padding: 1em;
+  
+  grid-column: 1;
+  grid-row: 2;
 }
 
 .overview p {

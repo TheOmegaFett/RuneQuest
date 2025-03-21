@@ -1,14 +1,64 @@
 #root {
+  display: flex;
+  justify-content: center;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 1rem;
-  padding-top: 1.5em;
+  padding: 0.5em;
+  padding-top: 1em;
   min-height: 100%;
 }
 
 main {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: fit-content;
   gap: 2em;
+
+  grid-column: 1;
+  grid-row: 1;
+}
+
+@media (max-width: 360px) {
+  main {
+    font-size: small;
+  }
+}
+
+@media (min-width: 768px) {
+  #root {
+    padding-top: 1.5em;
+  }
+
+  main {
+    width: 80vw;
+    font-size: x-large;
+  }
+
+  header {
+    height: 10vh;
+  }
+}
+
+@media (min-width: 992px) {
+  main {
+    font-size: xx-large;
+  }
+}
+
+@media (min-width: 1200px) {
+  #root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  main {
+    font-size: large;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+  
 }

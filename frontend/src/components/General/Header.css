@@ -4,6 +4,7 @@ header {
   align-items: center;
   justify-content: space-evenly;
   width: 100%;
+  min-height: fit-content;
   border: #000000 solid 1px;
   border-radius: 0.5em;
   background-color: #525252;
