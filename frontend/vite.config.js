@@ -13,6 +13,9 @@ export default defineConfig({
       },
     },
   },
+  preview: {
+    allowedHosts: ["rune-quest.onrender.com", "localhost"],
+  },
   test: {
     globals: true,
     environment: "happy-dom",
