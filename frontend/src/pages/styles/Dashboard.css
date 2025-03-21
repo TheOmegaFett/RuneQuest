@@ -1,14 +1,9 @@
-.Dashboard {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .Dashboard .content {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 14fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 12fr;
   width: fit-content;
+  max-width: 95%;
   height: 100%;
   color: black;
 }
@@ -17,14 +12,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 0  0.5em 0.5em;
+  border-radius: 0 0 0.5em 0.5em;
   grid-row: 2;
-  grid-column: 1 / span 5;
+  grid-column: 1 / span 4;
 }
 
 .Dashboard .content button {
-  font-size: 1.1em;
-  width: fit-content;
+  font-size: 1em;
+  max-width: fit-content;
+  min-width: 100%;
   border: none;
   border-radius: 0.5em 0.5em 0 0;
   color: black;

@@ -101,6 +101,7 @@ export function LoginForm() {
         <button
           type="submit"
           name="register"
+          className="login-form-submit"
           onClick={() => setAction("register")}
         >
           Register
