@@ -13,7 +13,7 @@ export function Header({ notLoggedIn }) {
   if (notLoggedIn) {
     return (
       <header data-testid="header">
-        <h1>RuneQuest</h1>
+        <h1 className="solo-title">RuneQuest</h1>
       </header>
     );
   } else {

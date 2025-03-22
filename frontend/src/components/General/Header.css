@@ -36,3 +36,10 @@ header .profile-link img {
     font-size: small;
   }
 }
+
+@media (min-width: 1200px) {
+  .solo-title {
+    margin-left: 0.6em;
+    margin-top: 1.2em;
+  }
+}
