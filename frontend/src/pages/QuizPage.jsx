@@ -136,7 +136,7 @@ export const QuizPage = () => {
   if (!difficulty) {
     return (
       <>
-        <Header />
+        {/* <Header /> */}
         <div className="container my-5">
           <h1 className="text-center mb-4">Rune Quiz Challenge</h1>
           <p className="text-center mb-5">
@@ -203,7 +203,7 @@ export const QuizPage = () => {
   if (loading) {
     return (
       <>
-        <Header />
+        {/* <Header /> */}
         <div className="container d-flex justify-content-center my-5">
           <div className="spinner-border" role="status">
             <span className="visually-hidden">Loading...</span>
@@ -218,7 +218,7 @@ export const QuizPage = () => {
   if (error) {
     return (
       <>
-        <Header />
+        {/* <Header /> */}
         <div className="container my-5">
           <div className="alert alert-danger">{error}</div>
           <button className="btn btn-primary" onClick={startNewQuiz}>
@@ -234,7 +234,7 @@ export const QuizPage = () => {
   if (quizCompleted) {
     return (
       <>
-        <Header />
+        {/* <Header /> */}
         <div className="container my-5">
           <div className="card">
             <div className="card-body text-center">
@@ -278,7 +278,7 @@ export const QuizPage = () => {
   if (questions.length === 0) {
     return (
       <>
-        <Header />
+        {/* <Header /> */}
         <div className="container my-5">
           <div className="alert alert-warning">
             No questions available for this difficulty level.
@@ -297,7 +297,7 @@ export const QuizPage = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className="container my-5">
         <div className="card">
           <div className="card-header">
@@ -394,3 +394,5 @@ export const QuizPage = () => {
     </>
   );
 };
+
+export default QuizPage;

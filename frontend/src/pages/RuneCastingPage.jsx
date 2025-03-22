@@ -1,153 +1,105 @@
-import React from "react";
+import { useState } from "react";
 import { useRuneCasting } from "../hooks/useRuneCasting";
-import { Container, Typography, Box, Button, Paper, Grid } from "@mui/material";
 import RuneCard from "../components/RuneCasting/RuneCard";
+import "./styles/RuneCastingPage.css";
 
-const RuneCastingPage = () => {
+export const RuneCastingPage = () => {
   const {
-    selectedSpread,
-    castRunes,
-    interpretation,
-    isReading,
-    selectSpread,
     castRunesForReading,
-    saveReading,
     resetReading,
+    castRunes: selectedRunes,
+    loading,
   } = useRuneCasting();
 
-  // Available spreads
-  const spreads = [
-    { id: "single-rune", name: "Single Rune Reading" },
-    { id: "three-rune", name: "Three Rune Spread" },
-    { id: "five-rune", name: "Five Rune Spread" },
-  ];
+  const [castingType, setCastingType] = useState("three");
+
+  const handleCastRunes = () => {
+    const count = castingType === "three" ? 3 : castingType === "five" ? 5 : 1;
+    castRunesForReading(count);
+  };
 
   return (
-    <Container maxWidth="lg">
-      <Typography
-        variant="h2"
-        component="h1"
-        align="center"
-        gutterBottom
-        sx={{ mt: 4 }}
-      >
-        Norse Rune Casting
-      </Typography>
+    <div className="rune-casting-test-page">
+      <h1>Rune Casting Test</h1>
 
-      {!isReading ? (
-        <Box sx={{ mt: 4 }}>
-          <Typography variant="h5" gutterBottom>
-            Select a Spread
-          </Typography>
-          <Grid container spacing={3}>
-            {spreads.map((spread) => (
-              <Grid item xs={12} sm={4} key={spread.id}>
-                <Paper
-                  elevation={3}
-                  sx={{
-                    p: 3,
-                    textAlign: "center",
-                    cursor: "pointer",
-                    "&:hover": {
-                      bgcolor: "primary.light",
-                      color: "white",
-                    },
-                  }}
-                  onClick={() => selectSpread(spread)}
-                >
-                  <Typography variant="h6">{spread.name}</Typography>
-                  <Typography variant="body2">
-                    {spread.id === "single-rune" &&
-                      "A quick reading for immediate guidance"}
-                    {spread.id === "three-rune" &&
-                      "Past, Present, and Future insights"}
-                    {spread.id === "five-rune" &&
-                      "A comprehensive reading for complex situations"}
-                  </Typography>
-                </Paper>
-              </Grid>
-            ))}
-          </Grid>
+      <div className="casting-controls">
+        <div className="casting-options">
+          <label>
+            <input
+              type="radio"
+              value="one"
+              checked={castingType === "one"}
+              onChange={() => setCastingType("one")}
+            />
+            Single Rune
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="three"
+              checked={castingType === "three"}
+              onChange={() => setCastingType("three")}
+            />
+            Three Rune Spread
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="five"
+              checked={castingType === "five"}
+              onChange={() => setCastingType("five")}
+            />
+            Five Rune Cross
+          </label>
+        </div>
 
-          {selectedSpread && (
-            <Box sx={{ mt: 4, textAlign: "center" }}>
-              <Typography variant="h6" gutterBottom>
-                Selected: {selectedSpread.name}
-              </Typography>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                onClick={castRunesForReading}
-              >
-                Cast the Runes
-              </Button>
-            </Box>
-          )}
-        </Box>
-      ) : (
-        <Box sx={{ mt: 4 }}>
-          <Typography variant="h5" gutterBottom>
-            {selectedSpread.name} - Your Reading
-          </Typography>
+        <div className="action-buttons">
+          <button
+            onClick={handleCastRunes}
+            disabled={loading}
+            className="cast-button"
+          >
+            {loading ? "Casting..." : "Cast Runes"}
+          </button>
 
-          <Grid container spacing={3} sx={{ mb: 4 }}>
-            {castRunes.map((rune, index) => (
-              <Grid
-                item
-                xs={6}
-                sm={4}
-                md={castRunes.length > 3 ? 2 : 4}
-                key={index}
-              >
+          <button
+            onClick={resetReading}
+            disabled={selectedRunes.length === 0 || loading}
+            className="reset-button"
+          >
+            Reset
+          </button>
+        </div>
+      </div>
+      {selectedRunes.length > 0 && (
+        <div className="casting-results">
+          <h2>Your Reading</h2>
+          <div className={`rune-spread spread-${castingType}`}>
+            {selectedRunes.map((rune, index) => (
+              <div key={index} className={`position-${index + 1}`}>
                 <RuneCard
                   rune={rune}
-                  position={
-                    selectedSpread.id === "three-rune"
-                      ? ["Past", "Present", "Future"][index]
-                      : `Position ${index + 1}`
-                  }
+                  position={index + 1}
+                  spreadType={castingType}
+                  allSelectedRunes={selectedRunes}
                 />
-              </Grid>
+              </div>
             ))}
-          </Grid>
-
-          {interpretation && (
-            <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
-              <Typography variant="h6" gutterBottom>
-                Interpretation
-              </Typography>
-              <Typography paragraph>{interpretation.overall}</Typography>
-
-              {interpretation.positions &&
-                interpretation.positions.map((pos, index) => (
-                  <Box key={index} sx={{ mb: 2 }}>
-                    <Typography variant="subtitle1" fontWeight="bold">
-                      {pos.title}
-                    </Typography>
-                    <Typography paragraph>{pos.meaning}</Typography>
-                  </Box>
-                ))}
-
-              <Typography variant="subtitle1" fontWeight="bold">
-                Advice
-              </Typography>
-              <Typography paragraph>{interpretation.advice}</Typography>
-            </Paper>
-          )}
-
-          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
-            <Button variant="outlined" color="secondary" onClick={resetReading}>
-              New Reading
-            </Button>
-
-            <Button variant="contained" color="primary" onClick={saveReading}>
-              Save This Reading
-            </Button>
-          </Box>
-        </Box>
+          </div>
+        </div>
       )}
-    </Container>
+      <div className="testing-notes">
+        <h3>Testing Notes</h3>
+        <ul>
+          <li>
+            Try different spread types and verify correct number of runes appear
+          </li>
+          <li>Check that runes are randomly selected from the database</li>
+          <li>Verify that the reset button clears the current reading</li>
+          <li>Test the responsive layout on different screen sizes</li>
+        </ul>
+      </div>
+    </div>
   );
 };
 

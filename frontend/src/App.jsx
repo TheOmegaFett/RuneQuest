@@ -8,7 +8,7 @@ import { Landing } from "./pages/Landing";
 import { Dashboard } from "./pages/Dashboard";
 import { Profile } from "./pages/Profile";
 import { RuneLearningPage } from "./pages/RuneLearningPage";
-import { RuneCastingTestPage } from "./pages/RuneCastingTestPage";
+import { RuneCastingPage } from "./pages/RuneCastingPage";
 import { RunePuzzlePage } from "./pages/RunePuzzlePage";
 import { QuizPage } from "./pages/QuizPage";
 
@@ -20,11 +20,8 @@ function App() {
   // If no userJwt, render landing page
   let [userJwt] = useUserJwt();
   if (!userJwt.accessToken) {
-    return (
-      <Landing />
-    );
-  }
-  else {
+    return <Landing />;
+  } else {
     // Conditional rendering based on the page parameter
     switch (page) {
       case "profile":
@@ -32,7 +29,7 @@ function App() {
       case "learning":
         return <RuneLearningPage />;
       case "casting":
-        return <RuneCastingTestPage />;
+        return <RuneCastingPage />;
       case "puzzles":
         return <RunePuzzlePage />;
       case "quiz":
@@ -41,5 +38,5 @@ function App() {
         return <Dashboard />;
     }
   }
-};
+}
 export default App;

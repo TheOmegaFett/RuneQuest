@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Header } from "../components/General/Header";
+// import { Header } from "../components/General/Header";
 import "./styles/RunePuzzlePage.css";
 
 export function RunePuzzlePage() {
@@ -151,7 +151,7 @@ export function RunePuzzlePage() {
   if (loading) {
     return (
       <div className="rune-puzzle-page">
-        <Header />
+        {/* <Header /> */}
         <div className="puzzle-container">
           <h2>Loading puzzles...</h2>
         </div>
@@ -161,7 +161,7 @@ export function RunePuzzlePage() {
 
   return (
     <div className="rune-puzzle-page">
-      <Header />
+      {/* <Header /> */}
       <div className="puzzle-container">
         <h1>Rune Translation Puzzle</h1>
 
