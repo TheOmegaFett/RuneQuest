@@ -7,10 +7,12 @@ import { useUserJwt } from "./hooks/useUserJwt";
 import { Landing } from "./pages/Landing";
 import { Dashboard } from "./pages/Dashboard";
 import { Profile } from "./pages/Profile";
+import { About } from "./pages/About";
 import { RuneLearningPage } from "./pages/RuneLearningPage";
 import { RuneCastingPage } from "./pages/RuneCastingPage";
 import { RunePuzzlePage } from "./pages/RunePuzzlePage";
 import { QuizPage } from "./pages/QuizPage";
+
 
 function App() {
   // Get the URL parameter
@@ -26,6 +28,8 @@ function App() {
     switch (page) {
       case "profile":
         return <Profile />;
+      case "about":
+        return <About />
       case "learning":
         return <RuneLearningPage />;
       case "casting":
