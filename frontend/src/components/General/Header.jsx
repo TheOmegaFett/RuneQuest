@@ -1,6 +1,6 @@
+import { Menu } from "./Menu";
 import "./Header.css";
 import profileIcon from "../../assets/profile.png";
-import menuIcon from "../../assets/menu.png";
 
 // Header component
 // If user is logged in, render menu button and profile link
@@ -18,10 +18,8 @@ export function Header({ notLoggedIn }) {
     );
   } else {
     return (
-      <header data-testid="header">
-        <button className="menu-button" id="header-comp">
-          <img src={menuIcon} alt="menu icon" />
-        </button>
+      <header className="header-card" data-testid="header">
+        <Menu />
         <a href="/">
           <h1>RuneQuest</h1>
         </a>
