@@ -17,7 +17,7 @@
 .menu-button div {
     height: 0.3em;
     width: 2.2em;
-    background-color: white;
+    background-color: whitesmoke;
 }
 
 #menu {
@@ -54,6 +54,7 @@
     border-radius: 0.5em;
     padding: 0.6em;
 
+    color: whitesmoke;
     background-color: #525252;
 }
 
