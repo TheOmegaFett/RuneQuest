@@ -16,28 +16,6 @@
   color: #ffffff;
 }
 
-.header-card .menu-button {
-  display: flex;
-  margin: 0.1em;
-  padding: 0.4em;
-  width: fit-content;
-  height: 3em;
-  background-color: #696969;
-  border: #000000 solid 1.5px;
-  border-radius: 0.5em;
-  
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0.5em;
-}
-
-.header-card .menu-button div {
-  height: 0.3em;
-  width: 2.2em;
-  background-color: white;
-}
-
 .header-card .profile-link img {
   width: 3.6em;
 }

@@ -1,4 +1,4 @@
-import { MenuCard } from "./MenuCard";
+import { Menu } from "./Menu";
 import "./Header.css";
 import profileIcon from "../../assets/profile.png";
 
@@ -19,12 +19,7 @@ export function Header({ notLoggedIn }) {
   } else {
     return (
       <header className="header-card" data-testid="header">
-        <nav>
-          <button className="menu-button" id="header-comp">
-            <div></div><div></div><div></div>
-          </button>
-          <MenuCard />
-        </nav>
+        <Menu />
         <a href="/">
           <h1>RuneQuest</h1>
         </a>
