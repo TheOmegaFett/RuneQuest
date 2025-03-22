@@ -1,4 +1,4 @@
-header {
+.header-card {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -10,27 +10,35 @@ header {
   background-color: #525252;
 }
 
-header h1 {
+.header-card h1 {
   margin: 0.3em 0.1em;
   padding: 0 0.2em;
   color: #ffffff;
 }
 
-header .menu-button {
+.header-card .menu-button {
   display: flex;
   margin: 0.1em;
   padding: 0.4em;
   width: fit-content;
+  height: 3em;
   background-color: #696969;
   border: #000000 solid 1.5px;
   border-radius: 0.5em;
+  
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5em;
 }
 
-header .menu-button img {
-  width: 2.4em;
-  height: 2.2em;
+.header-card .menu-button div {
+  height: 0.3em;
+  width: 2.2em;
+  background-color: white;
 }
 
-header .profile-link img {
+.header-card .profile-link img {
   width: 3.6em;
 }
+
