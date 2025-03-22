@@ -1,0 +1,45 @@
+.overview {
+    margin: 0 1em;
+    background-color: #777777;
+    color: black;
+    font-weight: 450;
+}
+
+.git-link a {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+
+    text-decoration: none;
+    color: whitesmoke;
+    background-color: #525252;
+    border: black solid 2px;
+    border-radius: 0.5em;
+    padding: 0.5em 0.8em;
+}
+
+.git-link img {
+    width: 3.8em;
+}
+
+.authors {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: black solid 2px;
+    border-radius: 0.5em;
+    padding: 0.5em 0.8em;
+    text-align: center;
+    font-weight: 500;
+    background-color: #525252;
+}
+
+@media (min-width: 1200px) {
+    .About section {
+        display: flex;
+        flex-direction: row;
+        gap: 1em;
+    }
+}

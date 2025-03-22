@@ -3,20 +3,36 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
-  width: 100%;
+  width: fit-content;
   min-height: fit-content;
   border: #000000 solid 1px;
   border-radius: 0.5em;
   background-color: #525252;
+  padding: 0.5em 1em;
 }
 
 .header-card h1 {
   margin: 0.3em 0.1em;
   padding: 0 0.2em;
-  color: #ffffff;
+  color: whitesmoke;
 }
 
-.header-card .profile-link img {
+header .menu-button {
+  display: flex;
+  margin: 0.1em;
+  padding: 0.4em;
+  width: fit-content;
+  background-color: #696969;
+  border: #000000 solid 1.5px;
+  border-radius: 0.5em;
+}
+
+header .profile-link img {
   width: 3.6em;
 }
 
+@media (max-width: 400px) {
+  .header-card {
+    font-size: small;
+  }
+}
