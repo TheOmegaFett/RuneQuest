@@ -212,6 +212,24 @@ async function updateLoginStreak(userId) {
   }
 }
 
+/** * Verifies a users token and retrieves id
+ * @async
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} JSON success response with token related user id
+ */
+
+exports.verifyToken = async (req, res) => {
+  res.status(200).json({
+    success: true,
+    data: {
+      id: req.userId,
+      isAdmin: req.isAdmin,
+    },
+  })
+}
+
 /** * Retrieves all user records from the database // MAY REMOVE LATER
  * @async
  * @function getAllUsers
