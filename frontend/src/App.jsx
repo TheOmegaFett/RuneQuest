@@ -16,19 +16,19 @@ import { QuizPage } from "./pages/QuizPage";
 // Import functions
 import { tokenVerified } from "./api/tokenVerified";
 
-
 function App() {
   // Get the URL parameter
   const urlParams = new URLSearchParams(window.location.search);
   const page = urlParams.get("page");
 
-  // If no userJwt, render landing page
+  // Produce token
   let [userJwt] = useUserJwt();
 
   if (!userJwt.accessToken) {
+    // If no userJwt, render landing page
     return <Landing />;
   } else {
-    // Verify the provided token
+    // Verify token
     tokenVerified(userJwt.accessToken)
     // Conditional rendering based on the page parameter
     switch (page) {
