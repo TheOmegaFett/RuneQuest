@@ -13,6 +13,9 @@ import { RuneCastingPage } from "./pages/RuneCastingPage";
 import { RunePuzzlePage } from "./pages/RunePuzzlePage";
 import { QuizPage } from "./pages/QuizPage";
 
+// Import functions
+import { tokenVerified } from "./api/tokenVerified";
+
 
 function App() {
   // Get the URL parameter
@@ -21,9 +24,12 @@ function App() {
 
   // If no userJwt, render landing page
   let [userJwt] = useUserJwt();
+
   if (!userJwt.accessToken) {
     return <Landing />;
   } else {
+    // Verify the provided token
+    tokenVerified(userJwt.accessToken)
     // Conditional rendering based on the page parameter
     switch (page) {
       case "profile":

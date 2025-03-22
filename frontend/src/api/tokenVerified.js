@@ -1,0 +1,24 @@
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+export const tokenVerified = async (token) => {
+  console.log("Checking jwt validity....");
+
+  let targetUrl = `${API_URL}/api/users/verify`;
+
+  let response = await fetch(targetUrl, {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer " + token,
+    },
+  });
+
+  let apiResponse = await response.json();
+  if (apiResponse.success) {
+    console.log("Token valid!")
+    return apiResponse.id
+  } else {
+    console.error("Token not valid, deleting and refreshing....");
+    sessionStorage.removeItem("jwt");
+    window.location.reload(false);
+  }
+}
