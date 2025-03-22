@@ -32,7 +32,7 @@ export function Menu() {
         <li>
           <button
             onClick={() => {
-              sessionStorage.removeItem("jwt");
+              sessionStorage.clear();
               window.location.reload(false);
             }}
           >
