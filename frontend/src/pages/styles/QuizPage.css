@@ -21,7 +21,7 @@
   transform: scale(1.05);
 }
 
-/* Quiz Options */
+/* Quiz Options - UPDATED FOR BETTER CONTRAST */
 .quiz-option {
   transition: all 0.2s ease;
   margin-bottom: 0.75rem;
@@ -32,6 +32,44 @@
 .quiz-option:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Direct targeting of button classes used in the component */
+.btn.btn-success {
+  color: white !important;
+  font-weight: 500;
+}
+
+.btn.btn-danger {
+  color: white !important;
+  font-weight: 500;
+}
+
+.btn.btn-primary {
+  color: white !important;
+  font-weight: 500;
+}
+
+.btn.btn-outline-primary {
+  color: #0d6efd;
+}
+
+.btn.btn-outline-primary:hover {
+  color: white !important;
+}
+
+/* Add this to target the answer option buttons specifically */
+.d-grid.gap-2 .btn {
+  color: white !important;
+  font-weight: 500;
+}
+
+.d-grid.gap-2 .btn-outline-primary {
+  color: #0d6efd !important;
+}
+
+.d-grid.gap-2 .btn-outline-primary:hover {
+  color: white !important;
 }
 
 /* Quiz Card */
@@ -61,7 +99,8 @@
 
 .badge-medium {
   background-color: #ffc107;
-  color: #212529;
+  color: #000 !important;
+  font-weight: 600 !important;
 }
 
 .badge-hard {
@@ -139,6 +178,84 @@
 .quiz-progress {
   height: 8px;
   border-radius: 4px;
+}
+
+/* Target all difficulty selection buttons with consistent styling */
+
+/* Easy button (green) */
+.btn.btn-success.mt-auto {
+  color: #ffffff !important; /* White text */
+  font-weight: 700 !important; /* Extra bold */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important; /* Text shadow for better contrast */
+  background-color: #28a745 !important; /* Standard success color */
+  border-color: #28a745 !important;
+}
+
+/* Hover state */
+.btn.btn-success.mt-auto:hover {
+  background-color: #218838 !important; /* Darker on hover */
+  border-color: #1e7e34 !important;
+  color: #ffffff !important;
+}
+
+/* Medium button (yellow) */
+.btn.btn-warning.mt-auto {
+  color: #000000 !important; /* Black text */
+  font-weight: 700 !important; /* Extra bold */
+  text-shadow: none !important; /* No text shadow */
+  background-color: #ffc107 !important; /* Standard warning color */
+  border-color: #ffc107 !important;
+}
+
+/* Hover state */
+.btn.btn-warning.mt-auto:hover {
+  background-color: #e0a800 !important; /* Darker on hover */
+  border-color: #e0a800 !important;
+  color: #000000 !important;
+}
+
+/* Hard button (red) */
+.btn.btn-danger.mt-auto {
+  color: #ffffff !important; /* White text */
+  font-weight: 700 !important; /* Extra bold */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important; /* Text shadow for better contrast */
+  background-color: #dc3545 !important; /* Standard danger color */
+  border-color: #dc3545 !important;
+}
+
+/* Hover state */
+.btn.btn-danger.mt-auto:hover {
+  background-color: #c82333 !important; /* Darker on hover */
+  border-color: #bd2130 !important;
+  color: #ffffff !important;
+}
+
+/* General styling for all quiz buttons to ensure consistency */
+.btn {
+  transition: all 0.2s ease-in-out !important;
+}
+
+.btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Quiz option buttons during the actual quiz */
+.d-grid.gap-2 .btn {
+  font-weight: 600 !important;
+}
+
+.d-grid.gap-2 .btn-outline-primary {
+  color: #0d6efd !important;
+}
+
+.d-grid.gap-2 .btn-outline-primary:hover {
+  color: #ffffff !important;
+}
+
+.d-grid.gap-2 .btn-success,
+.d-grid.gap-2 .btn-danger {
+  color: #ffffff !important;
 }
 
 /* Responsive adjustments */

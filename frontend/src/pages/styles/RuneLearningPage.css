@@ -3,11 +3,27 @@
   margin: 0 auto;
   padding: 20px;
   text-align: center;
+  margin-top: 0; /* Explicitly set top margin to 0 */
 }
 
 .rune-learning-page h1 {
   color: #333;
   margin-bottom: 20px;
+  margin-top: 10px; /* Reduce top margin of the heading */
+}
+
+/* If there's a navbar or header above the content, you might need this */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Target any potential parent containers */
+main,
+.content-container,
+.page-container {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .instructions {

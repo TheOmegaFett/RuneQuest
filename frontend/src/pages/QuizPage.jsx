@@ -7,13 +7,13 @@ import {
   checkAnswer,
   completeQuiz,
 } from "../services/quizService";
+import "./styles/QuizPage.css";
 
 export const QuizPage = () => {
-  // Get URL parameters
-  const urlParams = new URLSearchParams(window.location.search);
-  const difficulty = urlParams.get("difficulty");
-
   const [userJwt] = useUserJwt();
+
+  // Replace URL parameter with state
+  const [selectedDifficulty, setSelectedDifficulty] = useState(null);
 
   // Quiz state
   const [questions, setQuestions] = useState([]);
@@ -29,16 +29,16 @@ export const QuizPage = () => {
 
   // Load quiz questions when difficulty changes
   useEffect(() => {
-    if (difficulty) {
+    if (selectedDifficulty) {
       loadQuiz();
     }
-  }, [difficulty]);
+  }, [selectedDifficulty]);
 
   const loadQuiz = async () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetchQuizByDifficulty(difficulty);
+      const response = await fetchQuizByDifficulty(selectedDifficulty);
 
       if (response.success) {
         setQuestions(response.data);
@@ -69,7 +69,7 @@ export const QuizPage = () => {
         if (result.isCorrect) {
           // Calculate points based on difficulty
           const pointsMap = { easy: 1, medium: 2, hard: 3 };
-          const points = pointsMap[difficulty] || 1;
+          const points = pointsMap[selectedDifficulty] || 1;
 
           setScore((prevScore) => prevScore + points);
           setCorrectAnswers((prev) => prev + 1);
@@ -100,11 +100,11 @@ export const QuizPage = () => {
     try {
       const quizData = {
         userId: userJwt.userId,
-        quizId: `${difficulty}-${Date.now()}`, // Generate a unique ID
+        quizId: `${selectedDifficulty}-${Date.now()}`, // Generate a unique ID
         score,
         correctAnswers,
         totalQuestions: questions.length,
-        difficulty,
+        difficulty: selectedDifficulty,
       };
 
       const response = await completeQuiz(quizData);
@@ -121,19 +121,30 @@ export const QuizPage = () => {
   };
 
   const startNewQuiz = () => {
-    window.location.href = "?page=quiz";
+    // Reset all quiz state
+    setSelectedDifficulty(null);
+    setQuestions([]);
+    setCurrentQuestionIndex(0);
+    setSelectedAnswer(null);
+    setAnswerResult(null);
+    setScore(0);
+    setCorrectAnswers(0);
+    setQuizCompleted(false);
+    setAchievements([]);
   };
 
   const goToDashboard = () => {
-    window.location.href = "?page=dashboard";
+    // This would need to be handled by your app's router
+    // For now, we'll just reset the quiz
+    startNewQuiz();
   };
 
   const selectDifficulty = (level) => {
-    window.location.href = `?page=quiz&difficulty=${level}`;
+    setSelectedDifficulty(level);
   };
 
   // Quiz Selection Screen
-  if (!difficulty) {
+  if (!selectedDifficulty) {
     return (
       <>
         {/* <Header /> */}
@@ -306,7 +317,7 @@ export const QuizPage = () => {
                 Question {currentQuestionIndex + 1} of {questions.length}
               </span>
               <span className="badge bg-primary text-capitalize">
-                {difficulty}
+                {selectedDifficulty}
               </span>
             </div>
             <div className="progress mt-2">
