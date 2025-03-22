@@ -5,11 +5,11 @@ import { useSessionStorage } from "react-use";
 
 export function UserJwtProvider({children}){
   let [userJwt, setUserJwt] = useState(defaultUserJwt);
-  let [jwtsPersisted, setJwtsPersisted] = useSessionStorage('jwts', defaultUserJwt);
+  let [jwtsPersisted, setJwtsPersisted] = useSessionStorage('jwt', defaultUserJwt);
 
   useEffect(() => {
     setJwtsPersisted(userJwt);
-  }, [setJwtsPersisted, userJwt]);
+  }, [setJwtsPersisted, userJwt]); 
 
   useEffect(() => {
     setUserJwt(jwtsPersisted);
