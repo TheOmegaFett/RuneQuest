@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
-import QuizStats from "./QuizStats";
+import QuizStats from "../Dashboard/QuizStats";
 import { useUserJwt } from "../../hooks/useUserJwt";
 import axios from "axios";
 

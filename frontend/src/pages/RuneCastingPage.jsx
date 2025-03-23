@@ -20,7 +20,7 @@ export const RuneCastingPage = () => {
 
   return (
     <div className="rune-casting-test-page">
-      <h1>Rune Casting Test</h1>
+      <h1>Rune Casting</h1>
 
       <div className="casting-controls">
         <div className="casting-options">
@@ -88,17 +88,6 @@ export const RuneCastingPage = () => {
           </div>
         </div>
       )}
-      <div className="testing-notes">
-        <h3>Testing Notes</h3>
-        <ul>
-          <li>
-            Try different spread types and verify correct number of runes appear
-          </li>
-          <li>Check that runes are randomly selected from the database</li>
-          <li>Verify that the reset button clears the current reading</li>
-          <li>Test the responsive layout on different screen sizes</li>
-        </ul>
-      </div>
     </div>
   );
 };
