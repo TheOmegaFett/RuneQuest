@@ -25,7 +25,7 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 // Protected routes (authentication required)
-router.post("/verify", checkAuthority, verifyToken)
+router.get("/verify", checkAuthority, verifyToken)
 router.get("/", checkAuthority, getAllUsers);
 router.get("/one/:userId", checkAuthority, getOneUser);
 router.patch("/settings/:userId", checkAuthority, updateUserSettings);

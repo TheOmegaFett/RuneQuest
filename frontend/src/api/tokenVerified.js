@@ -7,7 +7,6 @@ export const tokenVerified = async (token) => {
     let targetUrl = `${API_URL}/api/users/verify`;
 
     let response = await fetch(targetUrl, {
-      method: "POST",
       headers: {
         "Authorization": "Bearer " + token,
       },
@@ -20,7 +19,7 @@ export const tokenVerified = async (token) => {
       console.log("User Id saved to global state.")
     } else {
       console.error("Token not valid, deleting and refreshing....");
-      sessionStorage.removeItem("jwt");
+      sessionStorage.clear();
       window.location.reload(false);
     }
   } catch (error) {
